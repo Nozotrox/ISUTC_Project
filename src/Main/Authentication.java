@@ -1,3 +1,7 @@
+package Main;
+
+import Screens.Sign_up;
+
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
@@ -8,7 +12,6 @@ import java.util.Vector;
 
 public class Authentication extends JFrame implements ActionListener {
 
-    private Vector<User> users = new Vector<>();
 
     JLabel username;
     JLabel password;
@@ -31,6 +34,7 @@ public class Authentication extends JFrame implements ActionListener {
 
 
     public Authentication(){
+        read();
         build_ui();
     }
 
@@ -131,17 +135,14 @@ public class Authentication extends JFrame implements ActionListener {
 
     }
 
-    private void log_in_ui(){
-        this.nome.setVisible(false);
-        this.nome_.setVisible(false);
-    }
+
 
     //::>> FUNCTIONALITY METHODS
     public boolean auth_log_in(String username, String password){
-        Iterator users_it = users.iterator();
+        Iterator users_it = UserUtility.users.iterator();
         User u = null;
 
-        for(int i = 0; i < users.size(); i++){
+        for(int i = 0; i < UserUtility.users.size(); i++){
 
             u = (User) users_it.next();
             if(compare_values(username, u.getUsername())){
@@ -168,10 +169,10 @@ public class Authentication extends JFrame implements ActionListener {
     public boolean auth_sign_up(String name, String username, String password){
 
         User new_user = new User(name, username, password);
-        Iterator users_it = users.iterator();
+        Iterator users_it = UserUtility.users.iterator();
         User temp_u = null;
 
-        for(int i = 0; i < users.size(); i++){
+        for(int i = 0; i < UserUtility.users.size(); i++){
             temp_u = (User) users_it.next();
 
             if(compare_values(temp_u.getName(), name)){
@@ -182,7 +183,7 @@ public class Authentication extends JFrame implements ActionListener {
                     return false;
                 }
                 else{
-                    users.add(new_user);
+                    UserUtility.users.add(new_user);
                     return true;
                 }
             }
@@ -195,7 +196,7 @@ public class Authentication extends JFrame implements ActionListener {
 
         FileOutputStream file_output = null;
         ObjectOutputStream o_output = null;
-
+        Vector users = (Vector) UserUtility.users.clone();
 
         try {
             file_output = new FileOutputStream("Credentials.dat");
@@ -204,6 +205,7 @@ public class Authentication extends JFrame implements ActionListener {
             o_output.writeObject(users);
         } catch (FileNotFoundException e) {
             e.printStackTrace();
+
         } catch (IOException e) {
             e.printStackTrace();
         } finally{
@@ -223,18 +225,25 @@ public class Authentication extends JFrame implements ActionListener {
         FileInputStream file_input = null;
         ObjectInputStream o_input = null;
 
+
         try {
             file_input = new FileInputStream("Credentials.dat");
             o_input = new ObjectInputStream(file_input);
+            UserUtility.users = (Vector) o_input.readObject();
+
         } catch (FileNotFoundException e) {
             e.printStackTrace();
         } catch (IOException e) {
+            e.printStackTrace();
+        } catch (ClassNotFoundException e) {
             e.printStackTrace();
         } finally{
             try {
                 o_input.close();
                 file_input.close();
             } catch (IOException e) {
+                e.printStackTrace();
+            } catch(NullPointerException e){
                 e.printStackTrace();
             }
 
@@ -249,53 +258,29 @@ public class Authentication extends JFrame implements ActionListener {
     @Override
     public void actionPerformed(ActionEvent e) {
 
+        String nome;
+        String username;
+        String password;
+
         if(e.getSource() == this.sign_up){
 
-            sign_up_ui();
+            new Sign_up();
         }
-
-        if(e.getSource() == this.confirmar || e.getSource() == this.cancel){
-            String nome;
-            String username;
-            String password;
-
-            nome = this.nome_.getText();
-            username = this.username_.getText();
-            password = this.password_.getText();
-
-            if(username.isEmpty()){
-                username = nome;
-            }
-
-            if(UserUtility.isRegistred(nome, username, this.users)){
-                JOptionPane.showMessageDialog(null, "Usuario ja Registrado!");
-
-            }
-            else{
-                User novoUsuario = new User(nome, username, password);
-                this.users.add(novoUsuario);
-                JOptionPane.showMessageDialog(null, "Registrado com Sucesso!");
-
-            }
-
-            if(insideReg){
-                this.username_.setText("");
-                this.password_.setText("");
-                this.nome_.setText("");
-                jf.dispose();
-            }
-
-
-
-            this.insideReg = false;
-        }
-
-        if(e.getSource() == this.cancel){
+        else if(e.getSource() == this.cancel){
+            write();
             System.exit(0);
         }
 
-        if(e.getSource() == this.cancel2){
-            this.dispose();
+        else if(e.getSource() == this.log_in){
+            username = this.username_.getText();
+            password = this.password_.getText();
+
+            if(UserUtility.isValid(username, password, UserUtility.users)){
+                JOptionPane.showMessageDialog(null, "Sucesso");
+            }else{
+                JOptionPane.showMessageDialog(null, "Username ou Password Incorrectos");
+            }
+
         }
     }
 }
