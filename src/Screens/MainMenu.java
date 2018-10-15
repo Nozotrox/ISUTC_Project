@@ -93,6 +93,7 @@ public class MainMenu extends JFrame implements ActionListener {
 
 
         menuBar=new JMenuBar();
+
         item1=new JMenu("Sair");
         item2=new JMenu("HELP");
         menuBar.add(item1);
@@ -101,6 +102,7 @@ public class MainMenu extends JFrame implements ActionListener {
         JPanel panel2 = new JPanel(new BorderLayout());
 
         panel.setBackground(Color.WHITE);
+
 
         icon = new ImageIcon("D:/Kelvin/Documents/Java/ISUTC_Project/src/img/sl.png");
         button1 = new JButton(icon);
@@ -123,13 +125,16 @@ public class MainMenu extends JFrame implements ActionListener {
         button4.addActionListener(this);
 
 
+
         panel.add(button1);
         panel.add(button2);
         panel.add(button3);
         panel.add(button4);
 
         saleFrame = new JInternalFrame("Menu de Venda", true, true, true, true);
+
         buyFrame = new JInternalFrame("Menu de Compra", true, true, true, true);
+
         searchFrame = new JInternalFrame("Menu de Procura", true, true, true, true);
 
         /**
@@ -167,6 +172,7 @@ public class MainMenu extends JFrame implements ActionListener {
         add("North", new JLabel(""));
         add("Center", panel2);
         add(BorderLayout.WEST, panel);
+
 
         setExtendedState(JFrame.MAXIMIZED_BOTH);
         //setUndecorated(true);

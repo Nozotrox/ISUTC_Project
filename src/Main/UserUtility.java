@@ -1,5 +1,7 @@
 package Main;
 
+import Main_Classes.User;
+
 import java.util.Iterator;
 import java.util.Vector;
 
