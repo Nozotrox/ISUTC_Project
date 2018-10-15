@@ -27,7 +27,9 @@ public class MainMenu extends JFrame implements ActionListener {
     private JDesktopPane desktopPane;
     private JMenuBar menuBar;
     private JMenu item1,item2;
-    private JInternalFrame saleFrame, searchFrame;
+    private JInternalFrame saleFrame, searchFrame, buyFrame;
+
+    private ImageIcon icon;
 
     // SALE MENU
     private JTable selectItem;
@@ -38,8 +40,8 @@ public class MainMenu extends JFrame implements ActionListener {
     private JLabel name, id;
     private JTextField name_, id_;
 
-    public MainMenu() {
-        build_ui();
+    public MainMenu(String user) {
+        build_ui(user);
     }
 
     @Override
@@ -47,35 +49,52 @@ public class MainMenu extends JFrame implements ActionListener {
         if (arg0.getSource().equals(button1)) {
             buildProductSale();
         } else if (arg0.getSource().equals(button2)) {
-
+            buildProductBuy();
         } else if (arg0.getSource().equals(button3)) {
 
         }else if(arg0.getSource().equals(button4)){
-
+            buildProductSearch();
         }
     }
 
     private void buildProductSale() {
         saleFrame.setLayout(new BorderLayout());
-        saleFrame.add("Center", new JLabel("FUCCCCCCCKKKKKK UUUUU"));
-        saleFrame.setSize(600, 600);
-        saleFrame.setLocation(500, 400);
+        saleFrame.add("Center", new JLabel("VENDA"));
+        saleFrame.setSize(600, 400);
+        saleFrame.setLocation(0,0);
         saleFrame.toFront();
         saleFrame.setVisible(true);
         saleFrame.setDefaultCloseOperation(HIDE_ON_CLOSE);
     }
 
-    private void buildProductSearch() {
-
+    private void buildProductBuy() {
+        buyFrame.setLayout(new BorderLayout());
+        buyFrame.add("Center", new JLabel("Compra"));
+        buyFrame.setSize(600, 400);
+        buyFrame.setLocation(0,0);
+        buyFrame.toFront();
+        buyFrame.setVisible(true);
+        buyFrame.setDefaultCloseOperation(HIDE_ON_CLOSE);
     }
 
-    private void build_ui() {
+    private void buildProductSearch() {
+        searchFrame.setLayout(new BorderLayout());
+        searchFrame.add("Center", new JLabel("PESQUISA"));
+        searchFrame.setSize(600, 400);
+        searchFrame.setLocation(0, 0);
+        searchFrame.toFront();
+        searchFrame.setVisible(true);
+        searchFrame.setDefaultCloseOperation(HIDE_ON_CLOSE);
+    }
+
+    private void build_ui(String user) {
         setLayout(new BorderLayout());
         setDefaultLookAndFeelDecorated(true);
 
 
         menuBar=new JMenuBar();
-        item1=new JMenu("MENU");
+
+        item1=new JMenu("Sair");
         item2=new JMenu("HELP");
         menuBar.add(item1);
         menuBar.add(item2);
@@ -84,16 +103,27 @@ public class MainMenu extends JFrame implements ActionListener {
 
         panel.setBackground(Color.WHITE);
 
-        button1 = new JButton("PRECISA DE ICON  //VENDA");
+
+        icon = new ImageIcon("D:/Kelvin/Documents/Java/ISUTC_Project/src/img/sl.png");
+        button1 = new JButton(icon);
         button1.setBackground(Color.WHITE);
         button1.addActionListener(this);
 
-        button2 = new JButton("PRECISA DE ICON    //FILTRO");
+        icon = new ImageIcon("D:/Kelvin/Documents/Java/ISUTC_Project/src/img/buy.png");
+        button2 = new JButton(icon.getImage()+ " COMPRA");
         button2.setBackground(Color.WHITE);
-        button3 = new JButton("PRECISA DE ICON    //COMPRA");
+        button2.addActionListener(this);
+
+        //icon = new ImageIcon("D:/Kelvin/Documents/Java/ISUTC_Project/src/img/sale.png");
+        button3 = new JButton(" FORNECEDORES");
         button3.setBackground(Color.WHITE);
-        button4=new JButton("PRECISA DE ICON?     //FORNECEDORES");
+        button3.addActionListener(this);
+
+        icon = new ImageIcon("ISUTC_Project/img/search.png");
+        button4=new JButton(icon.getImage()+ "FILTRO");
         button4.setBackground(Color.WHITE);
+        button4.addActionListener(this);
+
 
 
         panel.add(button1);
@@ -102,6 +132,9 @@ public class MainMenu extends JFrame implements ActionListener {
         panel.add(button4);
 
         saleFrame = new JInternalFrame("Menu de Venda", true, true, true, true);
+
+        buyFrame = new JInternalFrame("Menu de Compra", true, true, true, true);
+
         searchFrame = new JInternalFrame("Menu de Procura", true, true, true, true);
 
         /**
@@ -128,6 +161,10 @@ public class MainMenu extends JFrame implements ActionListener {
         desktopPane.setVisible(true);
         desktopPane.add(saleFrame);
         desktopPane.add(searchFrame);
+        desktopPane.add(buyFrame);
+
+        icon = new ImageIcon("ISUTC_Project/img/bg.jpg");
+        desktopPane.add(new JLabel(icon));
 
         panel2.add("North", new JLabel("        "));
         panel2.add("Center", desktopPane);
@@ -136,14 +173,20 @@ public class MainMenu extends JFrame implements ActionListener {
         add("Center", panel2);
         add(BorderLayout.WEST, panel);
 
-        setSize(1036, 795);
+
+        setExtendedState(JFrame.MAXIMIZED_BOTH);
+        //setUndecorated(true);
+
         setJMenuBar(menuBar);
+        setSize(1000, 600);
         setLocationRelativeTo(null);
         setDefaultCloseOperation(EXIT_ON_CLOSE);
+        setVisible(true);
+        setTitle(user);
     }
 
     public static void main(String[] args) {
-        new MainMenu().setVisible(true);
+        new MainMenu("");
     }
 
 }
