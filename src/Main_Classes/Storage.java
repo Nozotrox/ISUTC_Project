@@ -70,4 +70,18 @@ public class Storage implements DataList{
         String[] data_list = {this.id, this.tipo, String.valueOf(this.produtos.size())};
         return data_list;
     }
+
+    public String[][] getAllProducts(){
+        int param_products = 6;
+        int rows = this.produtos.size();
+        String[][] allProdutcs = new String[rows][param_products];
+        int count = 0;
+
+        for(Product pro: this.produtos){
+            allProdutcs[count] = pro.return_collection();
+            count++;
+        }
+
+        return allProdutcs;
+    }
 }
