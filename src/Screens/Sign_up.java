@@ -1,6 +1,7 @@
 
 package Screens;
 
+import javax.naming.AuthenticationException;
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
@@ -112,6 +113,7 @@ public class Sign_up extends JFrame implements ActionListener {
         Authentication au = new Authentication();
 
         if(e.getSource() == cancel){
+            Authentication.write();
             this.dispose();
             au.setVisible(true);
         }
@@ -135,6 +137,7 @@ public class Sign_up extends JFrame implements ActionListener {
                     UserUtility.users.add(novoUsuario);
                     JOptionPane.showMessageDialog(null, "Usuário "+username+" registrado com sucesso!");
                     au.setVisible(true);
+                    Authentication.write();
                     this.dispose();
                 }
             }

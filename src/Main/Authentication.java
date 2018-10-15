@@ -26,7 +26,7 @@ public class Authentication extends JFrame implements ActionListener {
 
 
     public Authentication(){
-        read();
+        Authentication.read();
         build_ui();
     }
 
@@ -123,7 +123,7 @@ public class Authentication extends JFrame implements ActionListener {
 
     //::>> FUNCTIONALITY METHODS
 
-    public void write(){
+    public static void write(){
 
         FileOutputStream file_output = null;
         ObjectOutputStream o_output = null;
@@ -151,7 +151,7 @@ public class Authentication extends JFrame implements ActionListener {
         }
     }
 
-    public void read(){
+    public static void read(){
 
         FileInputStream file_input = null;
         ObjectInputStream o_input = null;
@@ -198,7 +198,7 @@ public class Authentication extends JFrame implements ActionListener {
             new Sign_up();
         }
         else if(e.getSource() == this.buttonCancel){
-            write();
+            Authentication.write();
             System.exit(0);
         }
 
