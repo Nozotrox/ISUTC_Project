@@ -1,5 +1,6 @@
 package Main;
 
+import Main_Classes.User;
 import Screens.Sign_up;
 
 import javax.swing.*;
@@ -192,7 +193,7 @@ public class Authentication extends JFrame implements ActionListener {
         return false;
     }
 
-    public void write(){
+    public static void write(){
 
         FileOutputStream file_output = null;
         ObjectOutputStream o_output = null;
@@ -220,7 +221,7 @@ public class Authentication extends JFrame implements ActionListener {
         }
     }
 
-    public void read(){
+    public static void read(){
 
         FileInputStream file_input = null;
         ObjectInputStream o_input = null;

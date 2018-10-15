@@ -4,9 +4,9 @@ import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.util.Vector;
 
 import Main.*;
+import Main_Classes.User;
 
 public class Sign_up extends JFrame implements ActionListener {
 
@@ -103,7 +103,6 @@ public class Sign_up extends JFrame implements ActionListener {
 
                 if(UserUtility.isRegistred(nome, username, UserUtility.users)){
                     JOptionPane.showMessageDialog(null, "Usuario ja Registrado!");
-
                 }
                 else{
                     User novoUsuario = new User(nome, username, password);
@@ -112,6 +111,7 @@ public class Sign_up extends JFrame implements ActionListener {
                     this.username_.setText("");
                     this.password_.setText("");
                     this.nome_.setText("");
+
                     this.dispose();
 
                 }
