@@ -1,6 +1,7 @@
 package Main_Classes;
 
 import java.io.Serializable;
+import java.util.Iterator;
 import java.util.Vector;
 
 public class User implements Serializable {
@@ -74,6 +75,35 @@ public class User implements Serializable {
                 this.armazens.remove(stor);
             }
         }
+    }
+
+    public String[][] getAllProviders(){
+        int parm_fornecedor = 3;
+        int rows = this.fornecedores.size();
+        String[][] allProviders = new String[rows][parm_fornecedor];
+
+        int count = 0;
+
+        for(Provider prv: this.fornecedores){
+            allProviders[count] = prv.return_collection();
+            count++;
+        }
+        return allProviders;
+    }
+
+    public String[][] getAllStorages(){
+        int parm_storage = 3;
+        String[][] allStorage = new String[this.armazens.size()][parm_storage];
+        int count = 0;
+
+        for(Storage stor: this.armazens){
+
+            allStorage[count] = stor.return_collection();
+            count++;
+        }
+
+        return allStorage;
+
     }
 
     //::>> CLOSURE
