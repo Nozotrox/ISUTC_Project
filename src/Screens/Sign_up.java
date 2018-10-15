@@ -18,6 +18,8 @@ public class Sign_up extends JFrame implements ActionListener {
     JButton cancel;
     JButton sign_up;
 
+    //String user;
+
     private ImageIcon icon;
 
     public Sign_up(){
@@ -37,7 +39,7 @@ public class Sign_up extends JFrame implements ActionListener {
         JPanel pcenter = new JPanel();
         pcenter.setBackground(Color.white);
         pcenter.setLayout(new FlowLayout(FlowLayout.CENTER, 30, 70));
-        icon = new ImageIcon("D:/Kelvin/Documents/Java/ISUTC_Project/src/img/addUser.png");
+        icon = new ImageIcon("ISUTC_Project/img/addUser.png");
             JLabel title = new JLabel(icon);
             title.setFont(new Font("AriaL", Font.BOLD, 25));
         pcenter.add(title);

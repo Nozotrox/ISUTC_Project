@@ -37,7 +37,7 @@ public class Authentication extends JFrame implements ActionListener {
         this.setLocationRelativeTo(null);
         setUndecorated(true);
         this.setResizable(false);
-        icon = new ImageIcon("D:/Kelvin/Documents/Java/ISUTC_Project/src/img/icon.jpg");
+        icon = new ImageIcon("ISUTC_Project/img/icon.jpg");
         this.setIconImage(icon.getImage());
         //Layout
         this.setLayout(new GridLayout(1, 2));
@@ -45,7 +45,7 @@ public class Authentication extends JFrame implements ActionListener {
         //Panel Left
         panelLeft = new JPanel();
         panelLeft.setLayout(new FlowLayout(FlowLayout.CENTER, 0, 0));
-        icon = new ImageIcon("D:/Kelvin/Documents/Java/ISUTC_Project/src/img/LeftImgLogin.jpg");
+        icon = new ImageIcon("ISUTC_Project/img/LeftImgLogin.jpg");
         panelLeft.add(new JLabel(icon));
         panelLeft.setBackground(Color.white);
         this.add(panelLeft);
@@ -209,7 +209,7 @@ public class Authentication extends JFrame implements ActionListener {
             if(UserUtility.isValid(username, password, UserUtility.users)){
                 JOptionPane.showMessageDialog(null, "Bem-vindo "+username);
                 this.setVisible(false);
-                new MainMenu();
+                new MainMenu(username);
             }else{
                 JOptionPane.showMessageDialog(null, "Username ou Password Incorrectos");
             }

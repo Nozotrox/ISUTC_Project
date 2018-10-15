@@ -40,8 +40,8 @@ public class MainMenu extends JFrame implements ActionListener {
     private JLabel name, id;
     private JTextField name_, id_;
 
-    public MainMenu() {
-        build_ui();
+    public MainMenu(String user) {
+        build_ui(user);
     }
 
     @Override
@@ -87,7 +87,7 @@ public class MainMenu extends JFrame implements ActionListener {
         searchFrame.setDefaultCloseOperation(HIDE_ON_CLOSE);
     }
 
-    private void build_ui() {
+    private void build_ui(String user) {
         setLayout(new BorderLayout());
         setDefaultLookAndFeelDecorated(true);
 
@@ -119,7 +119,7 @@ public class MainMenu extends JFrame implements ActionListener {
         button3.setBackground(Color.WHITE);
         button3.addActionListener(this);
 
-        icon = new ImageIcon("D:/Kelvin/Documents/Java/ISUTC_Project/src/img/search.png");
+        icon = new ImageIcon("ISUTC_Project/img/search.png");
         button4=new JButton(icon.getImage()+ "FILTRO");
         button4.setBackground(Color.WHITE);
         button4.addActionListener(this);
@@ -163,7 +163,7 @@ public class MainMenu extends JFrame implements ActionListener {
         desktopPane.add(searchFrame);
         desktopPane.add(buyFrame);
 
-        icon = new ImageIcon("D:/Kelvin/Documents/Java/ISUTC_Project/src/img/bg.jpg");
+        icon = new ImageIcon("ISUTC_Project/img/bg.jpg");
         desktopPane.add(new JLabel(icon));
 
         panel2.add("North", new JLabel("        "));
@@ -182,10 +182,11 @@ public class MainMenu extends JFrame implements ActionListener {
         setLocationRelativeTo(null);
         setDefaultCloseOperation(EXIT_ON_CLOSE);
         setVisible(true);
+        setTitle(user);
     }
 
     public static void main(String[] args) {
-        new MainMenu();
+        new MainMenu("");
     }
 
 }
