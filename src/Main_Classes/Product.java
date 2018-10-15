@@ -76,10 +76,7 @@ public class Product implements DataList{
     public boolean setQuantidade(int quantidade) {
         this.quantidade = quantidade;
 
-        if(this.quantidade > this.stock_minimo){
-            return true;
-        }
-        return false;
+        return this.quantidade > this.stock_minimo;
     }
 
 

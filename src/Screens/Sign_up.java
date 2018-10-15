@@ -40,7 +40,7 @@ public class Sign_up extends JFrame implements ActionListener {
         JPanel pcenter = new JPanel();
         pcenter.setBackground(Color.white);
         pcenter.setLayout(new FlowLayout(FlowLayout.CENTER, 30, 70));
-        icon = new ImageIcon("ISUTC_Project/img/addUser.png");
+        icon = new ImageIcon("img/addUser.png");
             JLabel title = new JLabel(icon);
             title.setFont(new Font("AriaL", Font.BOLD, 25));
         pcenter.add(title);

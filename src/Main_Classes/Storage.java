@@ -60,10 +60,7 @@ public class Storage implements DataList{
     }
 
     public boolean verifcar_produtos(){
-        if(this.produtos.isEmpty()){
-            return true;
-        }
-        return false;
+        return this.produtos.isEmpty();
     }
 
 
