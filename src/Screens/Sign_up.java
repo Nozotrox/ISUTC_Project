@@ -6,6 +6,7 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
 import Main.*;
+import Main_Classes.User;
 
 public class Sign_up extends JFrame implements ActionListener {
 
