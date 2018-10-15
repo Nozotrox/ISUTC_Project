@@ -1,6 +1,6 @@
 package Main;
 
-import Main_Classes.User;
+import Screens.MainMenu;
 import Screens.Sign_up;
 
 import javax.swing.*;
@@ -8,30 +8,20 @@ import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.io.*;
-import java.util.Iterator;
 import java.util.Vector;
+
 
 public class Authentication extends JFrame implements ActionListener {
 
 
-    JLabel username;
-    JLabel password;
-    JLabel nome;
-
-    JTextField username_;
-    JPasswordField password_;
-    JTextField nome_;
-
-    JButton log_in;
-    JButton cancel;
-    JButton cancel2;
-    JButton sign_up;
-
-    JButton confirmar;
-
-    JFrame jf;
-
-    boolean insideReg;
+    private JPanel panelLeft, panelRight,
+    //Panel Right Components
+    pRTotal,
+            pLeft, pRight, pbtn, pBotton;
+    private ImageIcon icon;
+    private JTextField username_;
+    private JPasswordField password_;
+    private JButton buttonOK, buttonRegisto, buttonCancel;
 
 
     public Authentication(){
@@ -41,159 +31,98 @@ public class Authentication extends JFrame implements ActionListener {
 
     //::>> UI METHODS
     private void build_ui(){
+        this.setTitle("ifk > Login");
+        this.setSize(500,350);
+        this.setLocationRelativeTo(null);
+        setUndecorated(true);
+        this.setResizable(false);
+        icon = new ImageIcon("D:/Kelvin/Documents/Java/ISUTC_Project/src/img/icon.jpg");
+        this.setIconImage(icon.getImage());
+        //Layout
+        this.setLayout(new GridLayout(1, 2));
 
-        this.setPreferredSize(new Dimension(400, 250));
-        this.setSize(380,200);
-        this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-        this.setLayout(new BorderLayout());
+        //Panel Left
+        panelLeft = new JPanel();
+        panelLeft.setLayout(new FlowLayout(FlowLayout.CENTER, 0, 0));
+        icon = new ImageIcon("D:/Kelvin/Documents/Java/ISUTC_Project/src/img/LeftImgLogin.jpg");
+        panelLeft.add(new JLabel(icon));
+        panelLeft.setBackground(Color.white);
+        this.add(panelLeft);
 
-        JPanel cred_layout = new JPanel(new FlowLayout(FlowLayout.CENTER, 20, 30));
-        JPanel flowLayout = new JPanel(new FlowLayout(FlowLayout.CENTER));
+        //Panel Right
+        panelRight = new JPanel();
+        panelRight.setBackground(Color.white);
+        panelRight.setLayout(new FlowLayout(FlowLayout.CENTER, 1366, 45));
+        JLabel title = new JLabel("Login");
+        title.setFont(new Font("AriaL", Font.BOLD, 25));
+        panelRight.add(title);
+        // Left Side
+        pLeft = new JPanel();
+        pLeft.setBackground(Color.white);
+        pLeft.setLayout(new GridLayout(3,1));
 
-        username = new JLabel("Username: ");
-        password = new JLabel("Password: ");
-        nome = new JLabel("     Nome: ");
+        pLeft.add(new JLabel("Username: "));
+        pLeft.add(new JLabel("Password: "));
+        pLeft.add(new JLabel(""));
 
-        username_ = new JTextField(20);
-        password_ = new JPasswordField(20);
-        nome_ = new JTextField(20);
+        // Right Side
+        pRight = new JPanel();
+        pRight.setBackground(Color.white);
+        pRight.setLayout(new GridLayout(3, 1));
+        username_ = new JTextField(12);
+        username_.setBorder(BorderFactory.createMatteBorder(0, 0, 1, 0, Color.GRAY));
+        password_ = new JPasswordField(12);
+        password_.setBorder(BorderFactory.createMatteBorder(0, 0, 1, 0, Color.GRAY));
 
-        log_in = new JButton("Log In");
-        cancel = new JButton("Cancelar");
-        sign_up = new JButton("Registrar");
+        pbtn = new JPanel();
+        pbtn.setBackground(Color.white);
+        pbtn.setLayout(new FlowLayout(5));
+        //Button OK
+        buttonOK = new JButton("OK");
+        buttonOK.setBorder(null);
+        buttonOK.setBackground(Color.LIGHT_GRAY);
+        buttonOK.setBorder(BorderFactory.createMatteBorder(5, 20, 5, 20, Color.LIGHT_GRAY));
+        //Button Cancel
+        buttonCancel = new JButton("Cancel");
+        buttonCancel.setBackground(Color.GRAY);
+        buttonCancel.setBorder(BorderFactory.createMatteBorder(5, 10, 5, 10, Color.GRAY));
 
-        log_in.addActionListener(this);
-        sign_up.addActionListener(this);
-        cancel.addActionListener(this);
+        pbtn.add(buttonOK); pbtn.add(buttonCancel);
 
+        pRight.add(username_);
+        pRight.add(password_);
 
-        cred_layout.add(nome);
-        cred_layout.add(nome_);
+        pRight.add(pbtn);
 
-        cred_layout.add(username);
-        cred_layout.add(username_);
+        // Botton
+        pBotton = new JPanel();
+        pBotton.setBackground(Color.white);
+        pBotton.setLayout(new FlowLayout(FlowLayout.CENTER, 0, 50));
+        //Button Registo
+        buttonRegisto = new JButton("Registo");
+        buttonRegisto.setBorder(null);
+        buttonRegisto.setBackground(Color.WHITE);
+        //buttonRegisto.setBorder(BorderFactory.createMatteBorder(1, 1, 1, 1, Color.black));
+        pBotton.add(buttonRegisto);
 
-        cred_layout.add(password);
-        cred_layout.add(password_);
+        pRTotal = new JPanel();
+        pRTotal.setBackground(Color.white);
+        pRTotal.setLayout(new BorderLayout());
+        pRTotal.add("West", pLeft); pRTotal.add("Center", pRight); pRTotal.add("South", pBotton);
 
+        panelRight.add(pRTotal);
+        this.add(panelRight);
 
-        flowLayout.add(log_in);
-        flowLayout.add(sign_up);
-        flowLayout.add(cancel);
-        flowLayout.add(new JLabel("  "));
+        buttonOK.addActionListener(this);
+        buttonRegisto.addActionListener(this);
+        buttonCancel.addActionListener(this);
 
-        this.add("Center",cred_layout);
-        this.add("South", flowLayout);
-        this.add("East", new JLabel("      "));
-        this.add("West", new JLabel("      "));
-        this.pack();
         this.setVisible(true);
-
-        nome.setVisible(false);
-        nome_.setVisible(false);
     }
-
-    private void sign_up_ui(){
-
-        this.insideReg = true;
-
-        jf = new JFrame();
-        jf.setPreferredSize(new Dimension(400, 250));
-        jf.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
-
-
-        JPanel cred_layout = new JPanel(new FlowLayout(FlowLayout.CENTER, 20, 30));
-        JPanel flowLayout = new JPanel(new FlowLayout(FlowLayout.CENTER));
-
-        cred_layout.add(nome);
-        cred_layout.add(nome_);
-
-        cred_layout.add(username);
-        cred_layout.add(username_);
-
-        cred_layout.add(password);
-        cred_layout.add(password_);
-
-        confirmar = new JButton("Confirmar");
-        cancel2 = new JButton("Cancelar");
-        cancel2.addActionListener(this);
-
-        confirmar.addActionListener(this);
-
-        flowLayout.add(confirmar);
-        flowLayout.add(cancel2);
-        flowLayout.add(new JLabel("  "));
-
-        jf.add("Center",cred_layout);
-        jf.add("South", flowLayout);
-        jf.add("East", new JLabel("      "));
-        jf.add("West", new JLabel("      "));
-        jf.pack();
-        jf.setVisible(true);
-
-        nome.setVisible(true);
-        nome_.setVisible(true);
-
-    }
-
-
 
     //::>> FUNCTIONALITY METHODS
-    public boolean auth_log_in(String username, String password){
-        Iterator users_it = UserUtility.users.iterator();
-        User u = null;
 
-        for(int i = 0; i < UserUtility.users.size(); i++){
-
-            u = (User) users_it.next();
-            if(compare_values(username, u.getUsername())){
-                if(compare_values(password, u.getPassword())){
-                    return true;
-                }
-                else{
-                    return false;
-                }
-            }else{
-                return false;
-            }
-        }
-        return false;
-    }
-
-    public boolean compare_values(String first, String second){
-        if(first.equals(second)){
-            return true;
-        }
-        return false;
-    }
-
-    public boolean auth_sign_up(String name, String username, String password){
-
-        User new_user = new User(name, username, password);
-        Iterator users_it = UserUtility.users.iterator();
-        User temp_u = null;
-
-        for(int i = 0; i < UserUtility.users.size(); i++){
-            temp_u = (User) users_it.next();
-
-            if(compare_values(temp_u.getName(), name)){
-                return false;
-            }
-            else{
-                if(compare_values(temp_u.getUsername(), username)){
-                    return false;
-                }
-                else{
-                    UserUtility.users.add(new_user);
-                    return true;
-                }
-            }
-        }
-
-        return false;
-    }
-
-    public static void write(){
+    public void write(){
 
         FileOutputStream file_output = null;
         ObjectOutputStream o_output = null;
@@ -221,7 +150,7 @@ public class Authentication extends JFrame implements ActionListener {
         }
     }
 
-    public static void read(){
+    public void read(){
 
         FileInputStream file_input = null;
         ObjectInputStream o_input = null;
@@ -263,21 +192,23 @@ public class Authentication extends JFrame implements ActionListener {
         String username;
         String password;
 
-        if(e.getSource() == this.sign_up){
-
+        if(e.getSource() == this.buttonRegisto){
+            this.setVisible(false);
             new Sign_up();
         }
-        else if(e.getSource() == this.cancel){
+        else if(e.getSource() == this.buttonCancel){
             write();
             System.exit(0);
         }
 
-        else if(e.getSource() == this.log_in){
+        else if(e.getSource() == this.buttonOK){
             username = this.username_.getText();
             password = this.password_.getText();
 
             if(UserUtility.isValid(username, password, UserUtility.users)){
-                JOptionPane.showMessageDialog(null, "Sucesso");
+                JOptionPane.showMessageDialog(null, "Bem-vindo "+username);
+                this.setVisible(false);
+                new MainMenu();
             }else{
                 JOptionPane.showMessageDialog(null, "Username ou Password Incorrectos");
             }
