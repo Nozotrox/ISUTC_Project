@@ -2,7 +2,7 @@ package Main_Classes;
 
 import Main.ID_Gen;
 
-public class Provider {
+public class Provider implements DataList{
 
     private String id = ID_Gen.generate_id();
     private String nome;
@@ -35,5 +35,11 @@ public class Provider {
 
     public void setNuit(String nuit) {
         this.nuit = nuit;
+    }
+
+    //::>> Segue a sequencia {id, nome, nuit}
+    public String[] return_collection(){
+        String[] object_data = {this.id, this.nome, this.nuit};
+        return object_data;
     }
 }

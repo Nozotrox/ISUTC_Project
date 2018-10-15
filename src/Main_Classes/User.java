@@ -75,5 +75,6 @@ public class User implements Serializable {
             }
         }
     }
+
     //::>> CLOSURE
 }

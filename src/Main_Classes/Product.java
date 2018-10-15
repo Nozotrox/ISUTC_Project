@@ -2,7 +2,7 @@ package Main_Classes;
 
 import Main.ID_Gen;
 
-public class Product {
+public class Product implements DataList{
 
     private String id = ID_Gen.generate_id();
     private int stock_minimo;
@@ -80,5 +80,13 @@ public class Product {
             return true;
         }
         return false;
+    }
+
+
+    //::>> Returns in this sequence ::> {id, nome, nome_fornecedor, tipo_armazem, quantidade, stock_minimo}
+    @Override
+    public String[] return_collection() {
+        String[] data_list = {this.id, this.nome, this.fornecedor.getNome(), this.armazem.getTipo(), String.valueOf(this.quantidade), String.valueOf(this.stock_minimo)};
+        return data_list;
     }
 }

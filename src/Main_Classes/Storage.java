@@ -4,7 +4,7 @@ import Main.ID_Gen;
 
 import java.util.Vector;
 
-public class Storage {
+public class Storage implements DataList{
 
     //::>> Classe gera ID's automaticamente
 
@@ -64,5 +64,13 @@ public class Storage {
             return true;
         }
         return false;
+    }
+
+
+    //::>> Returns in this sequence {id, tipo, quantidade de produtos}
+    @Override
+    public String[] return_collection() {
+        String[] data_list = {this.id, this.tipo, String.valueOf(this.produtos.size())};
+        return data_list;
     }
 }
