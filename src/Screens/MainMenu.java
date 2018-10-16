@@ -1,4 +1,7 @@
 package Screens;
+import Main_Classes.Provider;
+import org.omg.PortableInterceptor.SYSTEM_EXCEPTION;
+
 import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.Dimension;
@@ -23,11 +26,12 @@ import javax.swing.*;
 public class MainMenu extends JFrame implements ActionListener {
 
     // MAIN MENU
-    private JButton button1, button2, button3,button4;
+    private JButton button1, button2, button3,button4,button5;
     private JDesktopPane desktopPane;
     private JMenuBar menuBar;
     private JMenu item1,item2;
-    private JInternalFrame saleFrame, searchFrame, buyFrame;
+    private JMenuItem menuItem1,menuItem2;
+    private JInternalFrame saleFrame, searchFrame, buyFrame,storageFrame,providerFrame;
 
     private ImageIcon icon;
 
@@ -51,9 +55,12 @@ public class MainMenu extends JFrame implements ActionListener {
         } else if (arg0.getSource().equals(button2)) {
             buildProductBuy();
         } else if (arg0.getSource().equals(button3)) {
-
+            buildProvider();
         }else if(arg0.getSource().equals(button4)){
             buildProductSearch();
+        }else if(arg0.getSource().equals(menuItem1)){
+            JOptionPane.showMessageDialog(null,"SAINDO","SAIR",JOptionPane.ERROR_MESSAGE);
+            System.exit(1);
         }
     }
 
@@ -87,6 +94,22 @@ public class MainMenu extends JFrame implements ActionListener {
         searchFrame.setDefaultCloseOperation(HIDE_ON_CLOSE);
     }
 
+    private void buildProvider(){
+
+        providerFrame=new ProviderFrame();
+        providerFrame.setResizable(true);
+        providerFrame.setMaximizable(true);
+        providerFrame.setIconifiable(true);
+        providerFrame.setClosable(true);
+        providerFrame.setLocation(220,220);
+
+        desktopPane.add(providerFrame);
+
+        providerFrame.setVisible(true);
+        providerFrame.toFront();
+        providerFrame.setDefaultCloseOperation(HIDE_ON_CLOSE);
+    }
+
     private void build_ui(String user) {
         setLayout(new BorderLayout());
         setDefaultLookAndFeelDecorated(true);
@@ -95,47 +118,64 @@ public class MainMenu extends JFrame implements ActionListener {
         menuBar=new JMenuBar();
 
         item1=new JMenu("Sair");
+        menuItem1=new JMenuItem("EXIT");
+        menuItem1.addActionListener(this);
+        item1.add(menuItem1);
         item2=new JMenu("HELP");
+        item2.addActionListener(this);
         menuBar.add(item1);
         menuBar.add(item2);
-        JPanel panel = new JPanel(new GridLayout(4, 1));
+        JPanel panel = new JPanel(new GridLayout(5, 1));
         JPanel panel2 = new JPanel(new BorderLayout());
 
         panel.setBackground(Color.WHITE);
 
 
-        icon = new ImageIcon("D:/Kelvin/Documents/Java/ISUTC_Project/src/img/sl.png");
+        icon = new ImageIcon("img/sl.png");
         button1 = new JButton(icon);
         button1.setBackground(Color.WHITE);
         button1.addActionListener(this);
 
-        icon = new ImageIcon("D:/Kelvin/Documents/Java/ISUTC_Project/src/img/buy.png");
-        button2 = new JButton(icon.getImage()+ " COMPRA");
+        icon = new ImageIcon("img/buy.png");
+        button2 = new JButton("COMPRA");
+        button2.setIcon(icon);
         button2.setBackground(Color.WHITE);
         button2.addActionListener(this);
 
+
+        icon=new ImageIcon("img/sale.png");
         //icon = new ImageIcon("D:/Kelvin/Documents/Java/ISUTC_Project/src/img/sale.png");
         button3 = new JButton(" FORNECEDORES");
+        button3.setIcon(icon);
         button3.setBackground(Color.WHITE);
         button3.addActionListener(this);
 
-        icon = new ImageIcon("ISUTC_Project/img/search.png");
-        button4=new JButton(icon.getImage()+ "FILTRO");
+        icon = new ImageIcon("img/search.png");
+        button4=new JButton("Search");
+        button4.setIcon(icon);
         button4.setBackground(Color.WHITE);
         button4.addActionListener(this);
 
-
+        //icon=new ImageIcon("");
+        button5=new JButton("Armazem");
+        //button5.setIcon(icon);
+        button5.setBackground(Color.WHITE);
+        button5.addActionListener(this);
 
         panel.add(button1);
         panel.add(button2);
         panel.add(button3);
         panel.add(button4);
+        panel.add(button5);
 
         saleFrame = new JInternalFrame("Menu de Venda", true, true, true, true);
 
         buyFrame = new JInternalFrame("Menu de Compra", true, true, true, true);
 
         searchFrame = new JInternalFrame("Menu de Procura", true, true, true, true);
+
+        providerFrame=new JInternalFrame("Menu de Fornecedores",true, true, true, true);
+
 
         /**
          *
@@ -162,8 +202,9 @@ public class MainMenu extends JFrame implements ActionListener {
         desktopPane.add(saleFrame);
         desktopPane.add(searchFrame);
         desktopPane.add(buyFrame);
+        desktopPane.add(providerFrame);
 
-        icon = new ImageIcon("ISUTC_Project/img/bg.jpg");
+        icon = new ImageIcon("img/bg.jpg");
         desktopPane.add(new JLabel(icon));
 
         panel2.add("North", new JLabel("        "));
@@ -181,8 +222,9 @@ public class MainMenu extends JFrame implements ActionListener {
         setSize(1000, 600);
         setLocationRelativeTo(null);
         setDefaultCloseOperation(EXIT_ON_CLOSE);
-        setVisible(true);
         setTitle(user);
+        setVisible(true);
+
     }
 
     public static void main(String[] args) {
