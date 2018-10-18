@@ -27,6 +27,7 @@ import javax.swing.table.DefaultTableModel;
 
 /**
  * Created by MSI on 16-Oct-18.
+ *
  */
 public class ProviderFrame extends JInternalFrame implements ActionListener {
 
@@ -74,6 +75,8 @@ public class ProviderFrame extends JInternalFrame implements ActionListener {
         table = new JTable(model);
         JPanel table_layout = new JPanel(new BorderLayout());
         JScrollPane scroll = new JScrollPane(table);
+
+
 
         table_layout.add("North", table.getTableHeader());
         table_layout.add("Center", scroll);
@@ -177,6 +180,8 @@ public class ProviderFrame extends JInternalFrame implements ActionListener {
 
         add("North", north);
         add("Center", pnCenter);
+        read();
+
     }
 
     @Override
@@ -206,10 +211,10 @@ public class ProviderFrame extends JInternalFrame implements ActionListener {
                         model.addRow(new String[]{"" + vector.get(0), "" + vector.get(1), "" + vector.get(2)});
                     }
                 }
-            } else {
-                read();
                 getTxtNome.setText("");
                 getTxtNr.setText("");
+            } else {
+                read();
             }
         } else if (e.getSource().equals(save)) {
 

@@ -1,6 +1,4 @@
 package Screens;
-import Main_Classes.Provider;
-import org.omg.PortableInterceptor.SYSTEM_EXCEPTION;
 
 import java.awt.BorderLayout;
 import java.awt.Color;
@@ -10,7 +8,18 @@ import java.awt.GridLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
-import javax.swing.*;
+import javax.swing.BorderFactory;
+import javax.swing.ImageIcon;
+import javax.swing.JButton;
+import javax.swing.JDesktopPane;
+import javax.swing.JFrame;
+import javax.swing.JInternalFrame;
+import javax.swing.JLabel;
+import javax.swing.JMenu;
+import javax.swing.JMenuBar;
+import javax.swing.JMenuItem;
+import javax.swing.JOptionPane;
+import javax.swing.JPanel;
 
 /**
  * @author MSI
@@ -19,30 +28,24 @@ import javax.swing.*;
 
 /**
  *
- *LEMBRETE URGENTE SENAO BUG LEMBREM-SE DE ADICIONAR UM BACKGROUND
+ * LEMBRETE URGENTE SENAO BUG LEMBREM-SE DE ADICIONAR UM BACKGROUND
  *
  */
 
 public class MainMenu extends JFrame implements ActionListener {
 
     // MAIN MENU
-    private JButton button1, button2, button3,button4,button5;
+
+    private JButton  buyButton;
     private JDesktopPane desktopPane;
+    private JMenu item1, item2;
+    private JMenuItem menuItem1;
+    private JInternalFrame  providerFrame;
+
+    private JButton btnArmazem, btnProdutos, btnFornecedores;
     private JMenuBar menuBar;
-    private JMenu item1,item2;
-    private JMenuItem menuItem1,menuItem2;
-    private JInternalFrame saleFrame, searchFrame, buyFrame,storageFrame,providerFrame;
-
+    private JInternalFrame  searchFrame, buyFrame, armazemFrame;
     private ImageIcon icon;
-
-    // SALE MENU
-    private JTable selectItem;
-    private JLabel label1;
-
-    // SEARCH MENU
-    private JTable searchItems;
-    private JLabel name, id;
-    private JTextField name_, id_;
 
     public MainMenu(String user) {
         build_ui(user);
@@ -50,58 +53,42 @@ public class MainMenu extends JFrame implements ActionListener {
 
     @Override
     public void actionPerformed(ActionEvent arg0) {
-        if (arg0.getSource().equals(button1)) {
+        if (arg0.getSource().equals(btnProdutos)) {
             buildProductSale();
-        } else if (arg0.getSource().equals(button2)) {
+        } else if (arg0.getSource().equals(buyButton)) {
             buildProductBuy();
-        } else if (arg0.getSource().equals(button3)) {
+        } else if (arg0.getSource().equals(btnFornecedores)) {
             buildProvider();
-        }else if(arg0.getSource().equals(button4)){
-            buildProductSearch();
-        }else if(arg0.getSource().equals(menuItem1)){
-            JOptionPane.showMessageDialog(null,"SAINDO","SAIR",JOptionPane.ERROR_MESSAGE);
+        } else if (arg0.getSource().equals(menuItem1)) {
+            JOptionPane.showMessageDialog(null, "SAINDO", "SAIR", JOptionPane.ERROR_MESSAGE);
             System.exit(1);
+        }
+        if (arg0.getSource().equals(btnArmazem)) {
+            buildProductArmazem();
         }
     }
 
+    private void buildProductArmazem() {
+        // UI_Methods.buildArmazemFrame(armazemFrame);
+
+    }
+
     private void buildProductSale() {
-        saleFrame.setLayout(new BorderLayout());
-        saleFrame.add("Center", new JLabel("VENDA"));
-        saleFrame.setSize(600, 400);
-        saleFrame.setLocation(0,0);
-        saleFrame.toFront();
-        saleFrame.setVisible(true);
-        saleFrame.setDefaultCloseOperation(HIDE_ON_CLOSE);
+
     }
 
     private void buildProductBuy() {
-        buyFrame.setLayout(new BorderLayout());
-        buyFrame.add("Center", new JLabel("Compra"));
-        buyFrame.setSize(600, 400);
-        buyFrame.setLocation(0,0);
-        buyFrame.toFront();
-        buyFrame.setVisible(true);
-        buyFrame.setDefaultCloseOperation(HIDE_ON_CLOSE);
+
     }
 
-    private void buildProductSearch() {
-        searchFrame.setLayout(new BorderLayout());
-        searchFrame.add("Center", new JLabel("PESQUISA"));
-        searchFrame.setSize(600, 400);
-        searchFrame.setLocation(0, 0);
-        searchFrame.toFront();
-        searchFrame.setVisible(true);
-        searchFrame.setDefaultCloseOperation(HIDE_ON_CLOSE);
-    }
+    private void buildProvider() {
 
-    private void buildProvider(){
-
-        providerFrame=new ProviderFrame();
+        providerFrame = new ProviderFrame();
         providerFrame.setResizable(true);
         providerFrame.setMaximizable(true);
         providerFrame.setIconifiable(true);
         providerFrame.setClosable(true);
-        providerFrame.setLocation(220,220);
+        providerFrame.setLocation(220, 220);
 
         desktopPane.add(providerFrame);
 
@@ -114,98 +101,100 @@ public class MainMenu extends JFrame implements ActionListener {
         setLayout(new BorderLayout());
         setDefaultLookAndFeelDecorated(true);
 
+        menuBar = new JMenuBar();
 
-        menuBar=new JMenuBar();
-
-        item1=new JMenu("Sair");
-        menuItem1=new JMenuItem("EXIT");
+        item1 = new JMenu("Sair");
+        menuItem1 = new JMenuItem("EXIT");
         menuItem1.addActionListener(this);
         item1.add(menuItem1);
-        item2=new JMenu("HELP");
+        item2 = new JMenu("HELP");
         item2.addActionListener(this);
         menuBar.add(item1);
         menuBar.add(item2);
-        JPanel panel = new JPanel(new GridLayout(5, 1));
+
+        JPanel panel = new JPanel(new GridLayout(8, 1));
+
         JPanel panel2 = new JPanel(new BorderLayout());
 
         panel.setBackground(Color.WHITE);
 
-
-        icon = new ImageIcon("img/sl.png");
-        button1 = new JButton(icon);
-        button1.setBackground(Color.WHITE);
-        button1.addActionListener(this);
-
         icon = new ImageIcon("img/buy.png");
-        button2 = new JButton("COMPRA");
-        button2.setIcon(icon);
-        button2.setBackground(Color.WHITE);
-        button2.addActionListener(this);
+        buyButton = new JButton("COMPRA");
+
+        buyButton.addActionListener(this);
 
 
-        icon=new ImageIcon("img/sale.png");
-        //icon = new ImageIcon("D:/Kelvin/Documents/Java/ISUTC_Project/src/img/sale.png");
-        button3 = new JButton(" FORNECEDORES");
-        button3.setIcon(icon);
-        button3.setBackground(Color.WHITE);
-        button3.addActionListener(this);
 
-        icon = new ImageIcon("img/search.png");
-        button4=new JButton("Search");
-        button4.setIcon(icon);
-        button4.setBackground(Color.WHITE);
-        button4.addActionListener(this);
+        // icon = new
+        // ImageIcon("D:/Kelvin/Documents/Java/ISUTC_Project/src/img/sl.png");
+        btnArmazem = new JButton("Armazem");
+        btnArmazem.setBackground(Color.WHITE);
+        btnArmazem.addActionListener(this);
+        btnArmazem.setBorder(BorderFactory.createMatteBorder(0, 0, 0, 1, Color.GRAY));
 
-        //icon=new ImageIcon("");
-        button5=new JButton("Armazem");
-        //button5.setIcon(icon);
-        button5.setBackground(Color.WHITE);
-        button5.addActionListener(this);
+        // icon = new
+        // ImageIcon("D:/Kelvin/Documents/Java/ISUTC_Project/src/img/buy.png");
+        btnProdutos = new JButton("Produtos");
+        btnProdutos.setBackground(Color.WHITE);
+        btnProdutos.addActionListener(this);
+        btnProdutos.setBorder(BorderFactory.createMatteBorder(0, 0, 0, 1, Color.GRAY));
 
-        panel.add(button1);
-        panel.add(button2);
-        panel.add(button3);
-        panel.add(button4);
-        panel.add(button5);
+        // icon = new
+        // ImageIcon("D:/Kelvin/Documents/Java/ISUTC_Project/src/img/sale.png");
+        btnFornecedores = new JButton(" Fornecedores");
+        btnFornecedores.setBackground(Color.WHITE);
+        btnFornecedores.addActionListener(this);
+        btnFornecedores.setBorder(BorderFactory.createMatteBorder(0, 0, 1, 1, Color.GRAY));
 
-        saleFrame = new JInternalFrame("Menu de Venda", true, true, true, true);
+        panel.add(btnArmazem);
+        panel.add(btnProdutos);
+        panel.add(btnFornecedores);
+        panel.add(new JLabel(""));
+        panel.add(new JLabel(""));
+        panel.add(new JLabel(""));
+        panel.add(new JLabel(""));
+        panel.add(new JLabel(""));
+
+        armazemFrame = new JInternalFrame("Armazem", true, true, true, true);
 
         buyFrame = new JInternalFrame("Menu de Compra", true, true, true, true);
 
         searchFrame = new JInternalFrame("Menu de Procura", true, true, true, true);
 
-        providerFrame=new JInternalFrame("Menu de Fornecedores",true, true, true, true);
-
+        providerFrame = new JInternalFrame("Menu de Fornecedores", true, true, true, true);
 
         /**
          *
-         *LEMBRETE URGENTE SENAO BUG LEMBREM-SE DE ADICIONAR UM BACKGROUND
+         * LEMBRETE URGENTE SENAO BUG LEMBREM-SE DE ADICIONAR UM BACKGROUND
          *
          */
         desktopPane = new JDesktopPane() {
             @Override
             protected void paintComponent(Graphics grphcs) {
                 super.paintComponent(grphcs);
-                //BACKGROUND
+                // BACKGROUND
                 grphcs.drawImage(new ImageIcon("").getImage(), 0, 0, null);
             }
 
             @Override
             public Dimension getPreferredSize() {
-                //BACKGROUND 2 VEZES
-                return new Dimension(new ImageIcon("").getIconWidth(),
-                        new ImageIcon("").getIconHeight());
+                // BACKGROUND 2 VEZES
+                return new Dimension(new ImageIcon("").getIconWidth(), new ImageIcon("").getIconHeight());
             }
         };
 
         desktopPane.setVisible(true);
-        desktopPane.add(saleFrame);
-        desktopPane.add(searchFrame);
-        desktopPane.add(buyFrame);
-        desktopPane.add(providerFrame);
+
+        desktopPane.setBackground(Color.LIGHT_GRAY);
+
+        desktopPane.add(armazemFrame);
+        // desktopPane.add(searchFrame);
+        // desktopPane.add(buyFrame);
 
         icon = new ImageIcon("img/bg.jpg");
         desktopPane.add(new JLabel(icon));
+
+        desktopPane.setVisible(true);
 
         panel2.add("North", new JLabel("        "));
         panel2.add("Center", desktopPane);
@@ -214,9 +203,8 @@ public class MainMenu extends JFrame implements ActionListener {
         add("Center", panel2);
         add(BorderLayout.WEST, panel);
 
-
         setExtendedState(JFrame.MAXIMIZED_BOTH);
-        //setUndecorated(true);
+        // setUndecorated(true);
 
         setJMenuBar(menuBar);
         setSize(1000, 600);
