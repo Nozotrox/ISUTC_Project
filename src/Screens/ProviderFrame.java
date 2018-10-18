@@ -1,5 +1,7 @@
 package Screens;
 
+import Main.UserUtility;
+
 import javax.swing.*;
 import java.awt.BorderLayout;
 import java.awt.Color;
@@ -8,6 +10,7 @@ import java.awt.Font;
 import java.awt.GridLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.io.*;
 import java.util.Vector;
 
 import javax.swing.BorderFactory;
@@ -37,6 +40,7 @@ public class ProviderFrame extends JInternalFrame implements ActionListener {
 
      JButton cancel;
      JButton save;
+    String[] columnNames;
 
 
     static DefaultTableModel model;
@@ -47,10 +51,10 @@ public class ProviderFrame extends JInternalFrame implements ActionListener {
        setLayout(new BorderLayout());
 
         // Data to be displayed in the JTable
-        String[][] data = { { "Anand Jha", "6013", "IT" }, { "Anand Jha", "6014", "IT" }, { "Ana", "6014", "IT" } };
+        String[][] data = null;
 
         // Column Names
-        String[] columnNames = { "Codigo", "Nome", "Nuit" };
+        columnNames = new String[]{ "Codigo", "Nome", "Nuit" };
 
         // Layout //
 
@@ -179,7 +183,7 @@ public class ProviderFrame extends JInternalFrame implements ActionListener {
     public void actionPerformed(ActionEvent e) {
         if (e.getSource() == btnPesquisar) {
             Vector vasd = new Vector<>();
-            if (!model.getDataVector().isEmpty()) {
+            if (!model.getDataVector().isEmpty() && !getTxtNome.getText().equals("")) {
                 if (getTxtNome.getText() != null) {
                     for (Object object : model.getDataVector()) {
                         Vector vector = (Vector) object;
@@ -199,19 +203,84 @@ public class ProviderFrame extends JInternalFrame implements ActionListener {
 
                     for (Object vd : vasd) {
                         Vector vector = (Vector) vd;
-                        model.addRow(new String[] { "" + vector.get(0), "" + vector.get(1), "" + vector.get(2) });
+                        model.addRow(new String[]{"" + vector.get(0), "" + vector.get(1), "" + vector.get(2)});
                     }
                 }
-                // model.addRow(v);
             } else {
-                JOptionPane.showMessageDialog(null, "A tabela esta vazia", "Warning", JOptionPane.WARNING_MESSAGE);
+                read();
+                getTxtNome.setText("");
+                getTxtNr.setText("");
             }
         } else if (e.getSource().equals(save)) {
 
             String[] a = { "" + codigo_.getText(), "" + nome_.getText(), "" + nuit_.getText() };
             model.addRow(a);
+            write();
         } else if (e.getSource().equals(cancel)) {
             model.removeRow(model.getDataVector().size() - 1);
         }
     }
+
+    public void write(){
+        FileOutputStream file_output = null;
+        ObjectOutputStream o_output = null;
+
+        try {
+            file_output = new FileOutputStream("Providers.dat");
+            o_output = new ObjectOutputStream(file_output);
+
+            o_output.writeObject(model.getDataVector());
+        } catch (FileNotFoundException e) {
+            e.printStackTrace();
+
+        } catch (IOException e) {
+            e.printStackTrace();
+        } finally{
+
+            try {
+                o_output.close();
+                file_output.close();
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+
+        }
+    }
+
+    private void read() {
+        FileInputStream file_input = null;
+        ObjectInputStream o_input = null;
+        model.setDataVector(null,columnNames);
+        try {
+            file_input = new FileInputStream("Providers.dat");
+            o_input = new ObjectInputStream(file_input);
+            for(Object object:(Vector) o_input.readObject()){
+                Vector ok= (Vector) object;
+                String[] args=new String[]{""+ok.get(0),""+ok.get(1),""+ok.get(2)};
+                model.addRow(args);
+
+            }
+
+
+        } catch (FileNotFoundException e) {
+            e.printStackTrace();
+        } catch (IOException e) {
+            e.printStackTrace();
+        } catch (ClassNotFoundException e) {
+            e.printStackTrace();
+        } finally{
+            try {
+                o_input.close();
+                file_input.close();
+            } catch (IOException e) {
+                e.printStackTrace();
+            } catch(NullPointerException e){
+                e.printStackTrace();
+            }
+
+        }
+
+    }
+
+
 }
