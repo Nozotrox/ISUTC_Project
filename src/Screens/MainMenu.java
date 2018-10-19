@@ -36,58 +36,49 @@ public class MainMenu extends JFrame implements ActionListener {
 
     // MAIN MENU
 
-    private JButton  buyButton;
+    private JButton button1, buyButton, button3, button4, button5;
     private JDesktopPane desktopPane;
     private JMenu item1, item2;
-    private JMenuItem menuItem1;
-    private JInternalFrame  providerFrame;
+    private JMenuItem menuItem1, menuItem2;
+    private JInternalFrame saleFrame, providerFrame;
 
     private JButton btnArmazem, btnProdutos, btnFornecedores;
     private JMenuBar menuBar;
-    private JInternalFrame  searchFrame, buyFrame, armazemFrame,productFrame;
+    private JInternalFrame storageFrame, productFrame, buyFrame, armazemFrame;
     private ImageIcon icon;
 
     public MainMenu(String user) {
         build_ui(user);
     }
+    private void buildStorage() {
+        storageFrame = new StorageFrame();
+        storageFrame.setResizable(true);
+        storageFrame.setMaximizable(true);
+        storageFrame.setIconifiable(true);
+        storageFrame.setClosable(true);
+        storageFrame.setLocation(220, 220);
 
-    @Override
-    public void actionPerformed(ActionEvent arg0) {
-        if (arg0.getSource().equals(btnProdutos)) {
-            buildProductSale();
-        } else if (arg0.getSource().equals(buyButton)) {
-            buildProductBuy();
-        } else if (arg0.getSource().equals(btnFornecedores)) {
-            buildProvider();
-        } else if (arg0.getSource().equals(menuItem1)) {
-            JOptionPane.showMessageDialog(null, "SAINDO", "SAIR", JOptionPane.ERROR_MESSAGE);
-            System.exit(1);
-        } else if (arg0.getSource().equals(btnArmazem)) {
-            buildProductArmazem();
-        }
-    }
+        desktopPane.add(storageFrame);
 
-    private void buildProductArmazem() {
-        // UI_Methods.buildArmazemFrame(armazemFrame);
+        storageFrame.setVisible(true);
+        storageFrame.toFront();
+        storageFrame.setDefaultCloseOperation(HIDE_ON_CLOSE);
 
     }
 
-    private void buildProductSale() {
-        productFrame=new ProductFrame();
+    private void buildProduct() {
+        productFrame = new ProductFrame();
         productFrame.setResizable(true);
         productFrame.setMaximizable(true);
         productFrame.setIconifiable(true);
         productFrame.setClosable(true);
-        productFrame.setLocation(0, 0);
+        productFrame.setLocation(220, 220);
 
         desktopPane.add(productFrame);
-        desktopPane.getDesktopManager().activateFrame(productFrame);
+
         productFrame.setVisible(true);
         productFrame.toFront();
-
-        productFrame.setResizable(false);
         productFrame.setDefaultCloseOperation(HIDE_ON_CLOSE);
-
     }
 
     private void buildProductBuy() {
@@ -131,13 +122,6 @@ public class MainMenu extends JFrame implements ActionListener {
 
         panel.setBackground(Color.WHITE);
 
-        icon = new ImageIcon("img/buy.png");
-        buyButton = new JButton("COMPRA");
-
-        buyButton.addActionListener(this);
-
-
-
         // icon = new
         // ImageIcon("D:/Kelvin/Documents/Java/ISUTC_Project/src/img/sl.png");
         btnArmazem = new JButton("Armazem");
@@ -172,11 +156,9 @@ public class MainMenu extends JFrame implements ActionListener {
 
         buyFrame = new JInternalFrame("Menu de Compra", true, true, true, true);
 
-        searchFrame = new JInternalFrame("Menu de Procura", true, true, true, true);
+        productFrame = new JInternalFrame("Menu de Procura", true, true, true, true);
 
         providerFrame = new JInternalFrame("Menu de Fornecedores", true, true, true, true);
-
-        productFrame=new JInternalFrame("Menu de Produtos",true, true, true, true);
 
         /**
          *
@@ -188,13 +170,13 @@ public class MainMenu extends JFrame implements ActionListener {
             protected void paintComponent(Graphics grphcs) {
                 super.paintComponent(grphcs);
                 // BACKGROUND
-                grphcs.drawImage(new ImageIcon("").getImage(), 0, 0, null);
+                grphcs.drawImage(new ImageIcon("img/bg.jpg").getImage(), 0, 0, null);
             }
 
             @Override
             public Dimension getPreferredSize() {
                 // BACKGROUND 2 VEZES
-                return new Dimension(new ImageIcon("").getIconWidth(), new ImageIcon("").getIconHeight());
+                return new Dimension(new ImageIcon("img/bg.jpg").getIconWidth(), new ImageIcon("img/bg.jpg").getIconHeight());
             }
         };
 
@@ -203,7 +185,6 @@ public class MainMenu extends JFrame implements ActionListener {
         desktopPane.setBackground(Color.LIGHT_GRAY);
 
         desktopPane.add(armazemFrame);
-        desktopPane.add(productFrame);
         // desktopPane.add(searchFrame);
         // desktopPane.add(buyFrame);
 
@@ -228,11 +209,27 @@ public class MainMenu extends JFrame implements ActionListener {
         setDefaultCloseOperation(EXIT_ON_CLOSE);
         setTitle(user);
         setVisible(true);
+    }
 
+    @Override
+    public void actionPerformed(ActionEvent arg0) {
+        if (arg0.getSource().equals(btnProdutos)) {
+            buildProduct();
+        } else if (arg0.getSource().equals(buyButton)) {
+            buildProductBuy();
+        } else if (arg0.getSource().equals(btnFornecedores)) {
+            buildProvider();
+        } else if (arg0.getSource().equals(menuItem1)) {
+            JOptionPane.showMessageDialog(null, "SAINDO", "SAIR", JOptionPane.ERROR_MESSAGE);
+            System.exit(1);
+        }
+        if (arg0.getSource().equals(btnArmazem)) {
+            buildStorage();
+        }
     }
 
     public static void main(String[] args) {
-        new MainMenu("");
+        new MainMenu("ifk");
     }
 
 }
