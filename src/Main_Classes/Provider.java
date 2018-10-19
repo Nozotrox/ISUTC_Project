@@ -11,6 +11,8 @@ public class Provider implements DataList, Serializable {
     private String nuit;
 
 
+    //::>>#TODO: Fazer metodo para encotrar fornecedor
+
     public Provider(String nome, String nuit){
         this.nome = nome;
         this.nuit = nuit;

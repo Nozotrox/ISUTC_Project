@@ -1,6 +1,7 @@
 package Screens;
 
 import Main.Authentication;
+import Main_Classes.ClockTimer;
 
 import java.awt.*;
 import java.awt.event.ActionEvent;
@@ -38,84 +39,11 @@ import java.time.Clock;
 
 public class MainMenu extends JFrame implements ActionListener {
 
-<<<<<<< HEAD
-    // MAIN MENU
-
-    private JButton  buyButton;
-    private JDesktopPane desktopPane;
-    private JMenu item1, item2;
-    private JMenuItem menuItem1;
-    private JInternalFrame  providerFrame;
-
-    private JButton btnArmazem, btnProdutos, btnFornecedores;
-    private JMenuBar menuBar;
-    private JInternalFrame  searchFrame, buyFrame, armazemFrame,productFrame;
-    private ImageIcon icon;
-
-    public MainMenu(String user) {
-        build_ui(user);
-    }
-
-    @Override
-    public void actionPerformed(ActionEvent arg0) {
-        if (arg0.getSource().equals(btnProdutos)) {
-            buildProductSale();
-        } else if (arg0.getSource().equals(buyButton)) {
-            buildProductBuy();
-        } else if (arg0.getSource().equals(btnFornecedores)) {
-            buildProvider();
-        } else if (arg0.getSource().equals(menuItem1)) {
-            JOptionPane.showMessageDialog(null, "SAINDO", "SAIR", JOptionPane.ERROR_MESSAGE);
-            System.exit(1);
-        } else if (arg0.getSource().equals(btnArmazem)) {
-            buildProductArmazem();
-        }
-    }
-
-    private void buildProductArmazem() {
-        // UI_Methods.buildArmazemFrame(armazemFrame);
-
-    }
-
-    private void buildProductSale() {
-     /*   productFrame=new ProductFrame();
-        productFrame.setResizable(true);
-        productFrame.setMaximizable(true);
-        productFrame.setIconifiable(true);
-        productFrame.setClosable(true);
-        productFrame.setLocation(0, 0);
-
-        desktopPane.add(productFrame);
-        desktopPane.getDesktopManager().activateFrame(productFrame);
-        productFrame.setVisible(true);
-        productFrame.toFront();
-
-        productFrame.setResizable(false);
-        productFrame.setDefaultCloseOperation(HIDE_ON_CLOSE);*/
-
-    }
-
-    private void buildProductBuy() {
-
-    }
-
-    private void buildProvider() {
-        System.out.print("Jsut Cuomo");
-        providerFrame = new ProviderFrame();
-        providerFrame.setResizable(true);
-        providerFrame.setMaximizable(true);
-        providerFrame.setIconifiable(true);
-        providerFrame.setClosable(true);
-        providerFrame.setLocation(220, 220);
-
-        desktopPane.add(providerFrame);
-=======
 	// MAIN MENU
 	private JDesktopPane desktopPane;
 	private JMenu isistema, isair, ihelp;
 	private JMenuItem isairLogout, isairExit, isistemaVenda, isistemaCompra;
 	private JInternalFrame saleFrame, providerFrame;
->>>>>>> 7a88402e062f8541b2b9e5295c9a47fe2b9c30c5
 
 	private JButton btnArmazem, btnProdutos, btnFornecedores;
 	private JMenuBar menuBar;
@@ -212,19 +140,19 @@ public class MainMenu extends JFrame implements ActionListener {
 
 		panel.setBackground(menuColor);
 
-		icon = new ImageIcon("ISUTC_Project\\img\\icon\\sotage.png");
+		icon = new ImageIcon("img\\icon\\sotage.png");
 		btnArmazem = new JButton(icon);
 		btnArmazem.setBackground(menuColor);
 		btnArmazem.addActionListener(this);
 		btnArmazem.setBorder(BorderFactory.createMatteBorder(7, 7, 7, 7, menuColor));
 
-		icon = new ImageIcon("ISUTC_Project\\img\\icon\\product.png");
+		icon = new ImageIcon("img\\icon\\product.png");
 		btnProdutos = new JButton(icon);
 		btnProdutos.setBackground(menuColor);
 		btnProdutos.addActionListener(this);
 		btnProdutos.setBorder(BorderFactory.createMatteBorder(7, 7, 7, 7, menuColor));
 
-		icon = new ImageIcon("ISUTC_Project\\img\\icon\\provider.png");
+		icon = new ImageIcon("img\\icon\\provider.png");
 		btnFornecedores = new JButton(icon);
 		btnFornecedores.setBackground(menuColor);
 		btnFornecedores.addActionListener(this);
@@ -235,12 +163,17 @@ public class MainMenu extends JFrame implements ActionListener {
 		panel.add(btnFornecedores);
 		panel.add(new JLabel(""));
 
-		Calendar cal = Calendar.getInstance();
-		SimpleDateFormat sdf = new SimpleDateFormat("HH:mm:ss");
+//		Calendar cal = Calendar.getInstance();
+//		SimpleDateFormat sdf = new SimpleDateFormat("HH:mm:ss");
 
         JLabel hour;
 
-		hour = new JLabel(sdf.format(cal.getTime()));
+		hour = new JLabel();
+
+		ClockTimer clock = new ClockTimer(hour);
+		clock.start();
+
+
 		hour.setBorder(BorderFactory.createMatteBorder(5, 5, 5, 5, menuColor));
 		hour.setFont(new Font("Century Gothic", Font.BOLD, 25));
 		hour.setForeground(Color.WHITE);
@@ -266,12 +199,12 @@ public class MainMenu extends JFrame implements ActionListener {
 			protected void paintComponent(Graphics grphcs) {
 				super.paintComponent(grphcs);
 				// BACKGROUND
-				grphcs.drawImage(new ImageIcon("ISUTC_Project\\img\\bg.jpg").getImage(), 0, 0, null);
+				grphcs.drawImage(new ImageIcon("img\\bg.jpg").getImage(), 0, 0, null);
 			}
 
 			public Dimension getPreferredSize() {
 				// BACKGROUND 2 VEZES
-				return new Dimension(new ImageIcon("ISUTC_Project\\img\\bg.jpg").getIconWidth(), new ImageIcon("ISUTC_Project\\img\\bg.jpg").getIconHeight());
+				return new Dimension(new ImageIcon("img\\bg.jpg").getIconWidth(), new ImageIcon("ISUTC_Project\\img\\bg.jpg").getIconHeight());
 			}
 		};
 
@@ -299,7 +232,7 @@ public class MainMenu extends JFrame implements ActionListener {
 		setExtendedState(JFrame.MAXIMIZED_BOTH);
 		// setUndecorated(true);
 
-		ImageIcon icon = new ImageIcon("ISUTC_Project\\img\\icon.jpg");
+		ImageIcon icon = new ImageIcon("img\\icon.jpg");
 		setIconImage(icon.getImage());
 		setJMenuBar(menuBar);
 		setSize(1000, 600);
