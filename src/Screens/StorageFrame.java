@@ -28,6 +28,7 @@ public class StorageFrame extends JInternalFrame implements ActionListener {
 
     public StorageFrame(){
         setTitle("Armazem");
+        System.out.println("FUCK");
         setSize(600,400);
         setLocation(220,220);
         setLayout(new BorderLayout());
