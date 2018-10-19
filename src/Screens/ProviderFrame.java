@@ -1,6 +1,9 @@
 package Screens;
 
+import Main.Authentication;
+import Main.ID_Gen;
 import Main.UserUtility;
+import Main_Classes.Provider;
 
 import javax.swing.*;
 import java.awt.BorderLayout;
@@ -27,6 +30,7 @@ import javax.swing.table.DefaultTableModel;
 
 /**
  * Created by MSI on 16-Oct-18.
+ *
  */
 public class ProviderFrame extends JInternalFrame implements ActionListener {
 
@@ -46,7 +50,7 @@ public class ProviderFrame extends JInternalFrame implements ActionListener {
     static DefaultTableModel model;
 
     public ProviderFrame(){
-       setTitle("Armazem");
+       setTitle("Fornecedores");
        setSize(600, 400);
        setLayout(new BorderLayout());
 
@@ -74,6 +78,8 @@ public class ProviderFrame extends JInternalFrame implements ActionListener {
         table = new JTable(model);
         JPanel table_layout = new JPanel(new BorderLayout());
         JScrollPane scroll = new JScrollPane(table);
+
+
 
         table_layout.add("North", table.getTableHeader());
         table_layout.add("Center", scroll);
@@ -114,6 +120,8 @@ public class ProviderFrame extends JInternalFrame implements ActionListener {
         // nome_.setBorder(BorderFactory.createMatteBorder(0, 0, 1, 0, Color.GRAY));
 
         codigo_ = new JTextField(5);
+        codigo_.setText(ID_Gen.nextId());
+        codigo_.setEnabled(false);
 
         JPanel aux = new JPanel(new FlowLayout());
         pRight.add(codigo_);
@@ -177,14 +185,18 @@ public class ProviderFrame extends JInternalFrame implements ActionListener {
 
         add("North", north);
         add("Center", pnCenter);
+        read();
+
     }
 
     @Override
     public void actionPerformed(ActionEvent e) {
         if (e.getSource() == btnPesquisar) {
             Vector vasd = new Vector<>();
-            if (!model.getDataVector().isEmpty() && !getTxtNome.getText().equals("")) {
-                if (getTxtNome.getText() != null) {
+
+            //::>> Pesquisa
+            if ((!model.getDataVector().isEmpty() && !getTxtNome.getText().equals("")) || (!model.getDataVector().isEmpty() && !codigo_.getText().equals(""))) {
+                if ((getTxtNome.getText() != null) && (!getTxtNome.getText().equals(""))) {
                     for (Object object : model.getDataVector()) {
                         Vector vector = (Vector) object;
                         if (vector.get(1).equals(getTxtNome.getText())) {
@@ -206,15 +218,45 @@ public class ProviderFrame extends JInternalFrame implements ActionListener {
                         model.addRow(new String[]{"" + vector.get(0), "" + vector.get(1), "" + vector.get(2)});
                     }
                 }
-            } else {
-                read();
+                else if ((getTxtNr.getText() != null) || (!codigo_.getText().equals(""))){
+                    for (Object object : model.getDataVector()) {
+                        Vector vector = (Vector) object;
+                        if (vector.get(0).equals(getTxtNr.getText())) {
+                            vasd.add(vector);
+                        }
+                    }
+                    int a = model.getDataVector().size();
+                    for (int i = 0; i <= a; i++) {
+                        try {
+                            model.removeRow(i);
+                            i--;
+                        } catch (Exception d) {
+
+                        }
+                    }
+
+                    for (Object vd : vasd) {
+                        Vector vector = (Vector) vd;
+                        model.addRow(new String[]{"" + vector.get(0), "" + vector.get(1), "" + vector.get(2)});
+                    }
+                    getTxtNome.setText("");
+                    getTxtNr.setText("");
+
+                }
                 getTxtNome.setText("");
                 getTxtNr.setText("");
             }
-        } else if (e.getSource().equals(save)) {
+            else {
+                read();
+            }
+        }
+        else if (e.getSource().equals(save)) {
 
             String[] a = { "" + codigo_.getText(), "" + nome_.getText(), "" + nuit_.getText() };
             model.addRow(a);
+            Provider fornecedor = new Provider(nome_.getText(), nuit_.getText());
+            UserUtility.active_user.adicionar_fornecedor(fornecedor);
+            codigo_.setText(ID_Gen.nextId());
             write();
         } else if (e.getSource().equals(cancel)) {
             model.removeRow(model.getDataVector().size() - 1);
@@ -222,7 +264,9 @@ public class ProviderFrame extends JInternalFrame implements ActionListener {
     }
 
     public void write(){
-        FileOutputStream file_output = null;
+        Authentication.write();
+
+        /*FileOutputStream file_output = null;
         ObjectOutputStream o_output = null;
 
         try {
@@ -244,16 +288,27 @@ public class ProviderFrame extends JInternalFrame implements ActionListener {
                 e.printStackTrace();
             }
 
-        }
+        }*/
     }
 
     private void read() {
         FileInputStream file_input = null;
         ObjectInputStream o_input = null;
         model.setDataVector(null,columnNames);
-        try {
+
+        if(UserUtility.active_user.getAllProviders() != null) {
+            String[][] fornecedores = UserUtility.active_user.getAllProviders();
+            for (String[] data : fornecedores) {
+                model.addRow(data);
+            }
+        }
+
+        /*try {
             file_input = new FileInputStream("Providers.dat");
             o_input = new ObjectInputStream(file_input);
+
+
+
             for(Object object:(Vector) o_input.readObject()){
                 Vector ok= (Vector) object;
                 String[] args=new String[]{""+ok.get(0),""+ok.get(1),""+ok.get(2)};
@@ -261,7 +316,31 @@ public class ProviderFrame extends JInternalFrame implements ActionListener {
 
             }
 
+        } catch (FileNotFoundException e) {
+            e.printStackTrace();
+        } catch (IOException e) {
+            e.printStackTrace();
+        } finally{
+            try {
+                o_input.close();
+                file_input.close();
+            } catch (IOException e) {
+                e.printStackTrace();
+            } catch(NullPointerException e){
+                e.printStackTrace();
+            }
 
+        }*/
+
+    }
+
+    public static Vector reader(){
+        FileInputStream file_input = null;
+        ObjectInputStream o_input = null;
+        try {
+            file_input = new FileInputStream("Providers.dat");
+            o_input = new ObjectInputStream(file_input);
+            return (Vector) o_input.readObject();
         } catch (FileNotFoundException e) {
             e.printStackTrace();
         } catch (IOException e) {
@@ -277,9 +356,9 @@ public class ProviderFrame extends JInternalFrame implements ActionListener {
             } catch(NullPointerException e){
                 e.printStackTrace();
             }
-
+            Vector v=new Vector();
+            return v;
         }
-
     }
 
 
