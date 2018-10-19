@@ -1,4 +1,5 @@
 package Screens;
+import Main.UserUtility;
 import Main_Classes.Provider;
 
 import java.awt.BorderLayout;
@@ -12,6 +13,8 @@ import javax.swing.*;
 import javax.swing.event.ListSelectionEvent;
 import javax.swing.event.ListSelectionListener;
 import javax.swing.table.DefaultTableModel;
+
+import static Main.UserUtility.active_user;
 
 /**
  *
@@ -117,12 +120,18 @@ public class ProductFrame extends JFrame implements ActionListener {
     }
 
     public void fillComboBox(){
-        if(!ProviderFrame.reader().isEmpty()){
+        String[][] fornecedores = UserUtility.active_user.getAllProviders();
+        for(String[] data: fornecedores){
+            String nome = data[1];
+            combo.addItem(nome);
+        }
+
+        /*if(!ProviderFrame.reader().isEmpty()){
             for (Object o : ProviderFrame.reader()) {
                 Vector o1 = (Vector) o;
                 combo.addItem(o1.get(1).toString());
             }
-        }
+        }*/
 
 
     }

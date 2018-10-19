@@ -73,7 +73,7 @@ public class MainMenu extends JFrame implements ActionListener {
     }
 
     private void buildProductSale() {
-        productFrame=new ProductFrame();
+     /*   productFrame=new ProductFrame();
         productFrame.setResizable(true);
         productFrame.setMaximizable(true);
         productFrame.setIconifiable(true);
@@ -86,7 +86,7 @@ public class MainMenu extends JFrame implements ActionListener {
         productFrame.toFront();
 
         productFrame.setResizable(false);
-        productFrame.setDefaultCloseOperation(HIDE_ON_CLOSE);
+        productFrame.setDefaultCloseOperation(HIDE_ON_CLOSE);*/
 
     }
 
