@@ -17,7 +17,11 @@ import javax.swing.JMenuItem;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import java.text.SimpleDateFormat;
+import java.time.LocalDate;
 import java.util.Calendar;
+
+import java.lang.Object;
+import java.time.Clock;
 
 /**
  * @author MSI
@@ -42,6 +46,7 @@ public class MainMenu extends JFrame implements ActionListener {
 	private JMenuBar menuBar;
 	private JInternalFrame storageFrame, productFrame, buyFrame, armazemFrame;
 	private ImageIcon icon;
+    private Clock clock;
 
 	public MainMenu(String user) {
 		build_ui(user);
@@ -159,9 +164,14 @@ public class MainMenu extends JFrame implements ActionListener {
 
 		Calendar cal = Calendar.getInstance();
 		SimpleDateFormat sdf = new SimpleDateFormat("HH:mm:ss");
-		JLabel hour = new JLabel(sdf.format(cal.getTime()));
-		hour.setFont(new Font("Century Gothic", Font.BOLD, 15));
-		hour.setBorder(BorderFactory.createMatteBorder(5, 5, 5, 5, Color.lightGray));
+
+        JLabel hour;
+        hour.setFont(new Font("Century Gothic", Font.BOLD, 15));
+        hour.setBorder(BorderFactory.createMatteBorder(5, 5, 5, 5, Color.lightGray));
+
+        if (eventDate.isBefore(LocalDate.now(clock)){
+            hour = new JLabel(sdf.format(cal.getTime()));
+        }
 
 		panel.add(hour);
 
