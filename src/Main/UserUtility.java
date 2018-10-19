@@ -8,6 +8,7 @@ import java.util.Vector;
 public class UserUtility {
 
     public static Vector users = new Vector();
+    public static User active_user = null;
 
 
     private  static void add_User(User user){
@@ -33,7 +34,7 @@ public class UserUtility {
         return false;
     }
 
-    public static boolean isValid(String username, String password, Vector elements){
+    public static User isValid(String username, String password, Vector elements){
 
         Iterator it = elements.iterator();
 
@@ -42,12 +43,12 @@ public class UserUtility {
 
             if(next_user.getUsername().equals(username)){
                 if(next_user.getPassword().equals(password)){
-                    return true;
+                    return  next_user;
                 }
             }
 
 
         }
-        return false;
+        return null;
     }
 }

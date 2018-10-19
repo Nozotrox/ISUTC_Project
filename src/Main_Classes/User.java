@@ -9,6 +9,7 @@ public class User implements Serializable {
     private String name;
     private String password;
     private String username;
+    private int id_gen = 0;
 
     private Vector<Provider> fornecedores = new Vector();
     private Vector<Storage> armazens = new Vector();
@@ -27,6 +28,16 @@ public class User implements Serializable {
     }
 
     //::>> GETTERS AND SETTERS
+
+
+    public void setId_gen(int id_gen) {
+        this.id_gen = id_gen;
+    }
+
+    public int getId_gen() {
+        return id_gen;
+    }
+
     public String getName() {
         return name;
     }

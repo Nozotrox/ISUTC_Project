@@ -1,6 +1,7 @@
 
 package Main;
 
+import Main_Classes.User;
 import Screens.MainMenu;
 import Screens.Sign_up;
 
@@ -193,6 +194,7 @@ public class Authentication extends JFrame implements ActionListener {
         String username;
         String password;
 
+
         if(e.getSource() == this.buttonRegisto){
             this.setVisible(false);
             new Sign_up();
@@ -206,8 +208,11 @@ public class Authentication extends JFrame implements ActionListener {
             username = this.username_.getText();
             password = this.password_.getText();
 
-            if(UserUtility.isValid(username, password, UserUtility.users)){
+            User active_user = UserUtility.isValid(username, password, UserUtility.users);
+
+            if(active_user != null){
                 JOptionPane.showMessageDialog(null, "Bem-vindo "+username);
+                UserUtility.active_user = active_user;
                 this.setVisible(false);
                 new MainMenu(username);
             }else{
