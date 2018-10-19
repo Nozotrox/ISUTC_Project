@@ -47,7 +47,7 @@ public class ProviderFrame extends JInternalFrame implements ActionListener {
     static DefaultTableModel model;
 
     public ProviderFrame(){
-       setTitle("Armazem");
+       setTitle("Fornecedores");
        setSize(600, 400);
        setLayout(new BorderLayout());
 
@@ -285,6 +285,33 @@ public class ProviderFrame extends JInternalFrame implements ActionListener {
 
         }
 
+    }
+
+    public static Vector reader(){
+        FileInputStream file_input = null;
+        ObjectInputStream o_input = null;
+        try {
+            file_input = new FileInputStream("Providers.dat");
+            o_input = new ObjectInputStream(file_input);
+            return (Vector) o_input.readObject();
+        } catch (FileNotFoundException e) {
+            e.printStackTrace();
+        } catch (IOException e) {
+            e.printStackTrace();
+        } catch (ClassNotFoundException e) {
+            e.printStackTrace();
+        } finally{
+            try {
+                o_input.close();
+                file_input.close();
+            } catch (IOException e) {
+                e.printStackTrace();
+            } catch(NullPointerException e){
+                e.printStackTrace();
+            }
+            Vector v=new Vector();
+            return v;
+        }
     }
 
 
