@@ -1,5 +1,7 @@
 package Screens;
 
+import Main.Authentication;
+
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -46,13 +48,16 @@ public class MainMenu extends JFrame implements ActionListener {
 	private JMenuBar menuBar;
 	private JInternalFrame storageFrame, productFrame, buyFrame, armazemFrame;
 	private ImageIcon icon;
+
     private Clock clock;
+
+	private static Color menuColor = new Color(5,15,25);
 
 	public MainMenu(String user) {
 		build_ui(user);
 	}
 	private void buildStorage() {
-		storageFrame = new StorageFrame();
+		//storageFrame = new StorageFrame();
 		storageFrame.setResizable(true);
 		storageFrame.setMaximizable(true);
 		storageFrame.setIconifiable(true);
@@ -81,10 +86,6 @@ public class MainMenu extends JFrame implements ActionListener {
 		productFrame.setDefaultCloseOperation(HIDE_ON_CLOSE);
 	}
 
-	private void buildProductBuy() {
-
-	}
-
 	private void buildProvider() {
 
 		providerFrame = new ProviderFrame();
@@ -108,12 +109,14 @@ public class MainMenu extends JFrame implements ActionListener {
 		menuBar = new JMenuBar();
 
 		isistema = new JMenu("Sistema");
+		    isistema.setFont(new Font("Century Gothic", Font.PLAIN, 15));
 		isistemaVenda = new JMenuItem("Venda");
 		isistemaCompra = new JMenuItem("Compra");
 		isistema.add(isistemaVenda);
 		isistema.add(isistemaCompra);
 
 		isair = new JMenu("Sair");
+		    isair.setFont(new Font("Century Gothic", Font.PLAIN, 15));
 		isairLogout = new JMenuItem("Log Out");
 		isairExit = new JMenuItem("Fechar");
 		isairExit.addActionListener(this);
@@ -121,6 +124,7 @@ public class MainMenu extends JFrame implements ActionListener {
 		isair.add(isairExit);
 
 		ihelp = new JMenu("HELP");
+		    ihelp.setFont(new Font("Century Gothic", Font.PLAIN, 15));
 		ihelp.addActionListener(this);
 
 		menuBar.add(isistema);
@@ -129,53 +133,46 @@ public class MainMenu extends JFrame implements ActionListener {
 
 		menuBar.setBackground(Color.white);
 
-		JPanel panel = new JPanel(new GridLayout(8, 1));
+		JPanel panel = new JPanel(new GridLayout(6, 1));
 
 		JPanel panel2 = new JPanel(new BorderLayout());
 
-		panel.setBackground(Color.WHITE);
+		panel.setBackground(menuColor);
 
-		// icon = new
-		// ImageIcon("D:/Kelvin/Documents/Java/ISUTC_Project/src/img/sl.png");
-		btnArmazem = new JButton("Armazem");
-		btnArmazem.setBackground(Color.WHITE);
+		icon = new ImageIcon("ISUTC_Project\\img\\icon\\sotage.png");
+		btnArmazem = new JButton(icon);
+		btnArmazem.setBackground(menuColor);
 		btnArmazem.addActionListener(this);
-		btnArmazem.setBorder(BorderFactory.createMatteBorder(0, 5, 0, 5, Color.white));
+		btnArmazem.setBorder(BorderFactory.createMatteBorder(7, 7, 7, 7, menuColor));
 
-		// icon = new
-		// ImageIcon("D:/Kelvin/Documents/Java/ISUTC_Project/src/img/buy.png");
-		btnProdutos = new JButton("Produtos");
-		btnProdutos.setBackground(Color.WHITE);
+		icon = new ImageIcon("ISUTC_Project\\img\\icon\\product.png");
+		btnProdutos = new JButton(icon);
+		btnProdutos.setBackground(menuColor);
 		btnProdutos.addActionListener(this);
-		btnProdutos.setBorder(BorderFactory.createMatteBorder(0, 5, 0, 5, Color.white));
-		// icon = new
-		// ImageIcon("D:/Kelvin/Documents/Java/ISUTC_Project/src/img/sale.png");
-		btnFornecedores = new JButton(" Fornecedores");
-		btnFornecedores.setBackground(Color.WHITE);
+		btnProdutos.setBorder(BorderFactory.createMatteBorder(7, 7, 7, 7, menuColor));
+
+		icon = new ImageIcon("ISUTC_Project\\img\\icon\\provider.png");
+		btnFornecedores = new JButton(icon);
+		btnFornecedores.setBackground(menuColor);
 		btnFornecedores.addActionListener(this);
-		btnFornecedores.setBorder(BorderFactory.createMatteBorder(0, 5, 0, 5, Color.white));
+		btnFornecedores.setBorder(BorderFactory.createMatteBorder(7, 7, 7, 7, menuColor));
 
 		panel.add(btnArmazem);
 		panel.add(btnProdutos);
 		panel.add(btnFornecedores);
-		panel.add(new JLabel(""));
-		panel.add(new JLabel(""));
 		panel.add(new JLabel(""));
 
 		Calendar cal = Calendar.getInstance();
 		SimpleDateFormat sdf = new SimpleDateFormat("HH:mm:ss");
 
         JLabel hour;
-        hour.setFont(new Font("Century Gothic", Font.BOLD, 15));
-        hour.setBorder(BorderFactory.createMatteBorder(5, 5, 5, 5, Color.lightGray));
 
-        if (eventDate.isBefore(LocalDate.now(clock)){
-            hour = new JLabel(sdf.format(cal.getTime()));
-        }
+		hour = new JLabel(sdf.format(cal.getTime()));
+		hour.setBorder(BorderFactory.createMatteBorder(5, 5, 5, 5, menuColor));
+		hour.setFont(new Font("Century Gothic", Font.BOLD, 25));
+		hour.setForeground(Color.WHITE);
 
 		panel.add(hour);
-
-
 
 		panel.add(new JLabel(""));
 
@@ -193,14 +190,12 @@ public class MainMenu extends JFrame implements ActionListener {
 		 *
 		 */
 		desktopPane = new JDesktopPane() {
-			@Override
 			protected void paintComponent(Graphics grphcs) {
 				super.paintComponent(grphcs);
 				// BACKGROUND
 				grphcs.drawImage(new ImageIcon("ISUTC_Project\\img\\bg.jpg").getImage(), 0, 0, null);
 			}
 
-			@Override
 			public Dimension getPreferredSize() {
 				// BACKGROUND 2 VEZES
 				return new Dimension(new ImageIcon("ISUTC_Project\\img\\bg.jpg").getIconWidth(), new ImageIcon("ISUTC_Project\\img\\bg.jpg").getIconHeight());
@@ -212,7 +207,8 @@ public class MainMenu extends JFrame implements ActionListener {
 		desktopPane.setBackground(Color.LIGHT_GRAY);
 
 		desktopPane.add(armazemFrame);
-		// desktopPane.add(searchFrame);
+		desktopPane.add(providerFrame);
+		desktopPane.add(productFrame);
 		// desktopPane.add(buyFrame);
 
 		icon = new ImageIcon("img/bg.jpg");
@@ -251,8 +247,11 @@ public class MainMenu extends JFrame implements ActionListener {
 			System.exit(1);
 		}
 		if (arg0.getSource().equals(btnArmazem)) {
-			buildStorage();
+			//buildStorage();
 		}
+        if (arg0.getSource().equals(isairLogout)) {
+            new Authentication();
+        }
 	}
 
 	public static void main(String[] args) {
