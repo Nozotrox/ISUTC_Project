@@ -95,7 +95,7 @@ public class MainMenu extends JFrame implements ActionListener {
     }
 
     private void buildProvider() {
-
+        System.out.print("Jsut Cuomo");
         providerFrame = new ProviderFrame();
         providerFrame.setResizable(true);
         providerFrame.setMaximizable(true);
