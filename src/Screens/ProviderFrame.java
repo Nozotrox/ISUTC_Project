@@ -195,8 +195,8 @@ public class ProviderFrame extends JInternalFrame implements ActionListener {
             Vector vasd = new Vector<>();
 
             //::>> Pesquisa
-            if (!model.getDataVector().isEmpty() && !getTxtNome.getText().equals("")) {
-                if (getTxtNome.getText() != null) {
+            if ((!model.getDataVector().isEmpty() && !getTxtNome.getText().equals("")) || (!model.getDataVector().isEmpty() && !codigo_.getText().equals(""))) {
+                if ((getTxtNome.getText() != null) && (!getTxtNome.getText().equals(""))) {
                     for (Object object : model.getDataVector()) {
                         Vector vector = (Vector) object;
                         if (vector.get(1).equals(getTxtNome.getText())) {
@@ -218,12 +218,39 @@ public class ProviderFrame extends JInternalFrame implements ActionListener {
                         model.addRow(new String[]{"" + vector.get(0), "" + vector.get(1), "" + vector.get(2)});
                     }
                 }
+                else if ((getTxtNr.getText() != null) || (!codigo_.getText().equals(""))){
+                    for (Object object : model.getDataVector()) {
+                        Vector vector = (Vector) object;
+                        if (vector.get(0).equals(getTxtNr.getText())) {
+                            vasd.add(vector);
+                        }
+                    }
+                    int a = model.getDataVector().size();
+                    for (int i = 0; i <= a; i++) {
+                        try {
+                            model.removeRow(i);
+                            i--;
+                        } catch (Exception d) {
+
+                        }
+                    }
+
+                    for (Object vd : vasd) {
+                        Vector vector = (Vector) vd;
+                        model.addRow(new String[]{"" + vector.get(0), "" + vector.get(1), "" + vector.get(2)});
+                    }
+                    getTxtNome.setText("");
+                    getTxtNr.setText("");
+
+                }
                 getTxtNome.setText("");
                 getTxtNr.setText("");
-            } else {
+            }
+            else {
                 read();
             }
-        } else if (e.getSource().equals(save)) {
+        }
+        else if (e.getSource().equals(save)) {
 
             String[] a = { "" + codigo_.getText(), "" + nome_.getText(), "" + nuit_.getText() };
             model.addRow(a);
