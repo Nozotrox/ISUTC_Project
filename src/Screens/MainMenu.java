@@ -85,6 +85,7 @@ public class MainMenu extends JFrame implements ActionListener {
         productFrame.setVisible(true);
         productFrame.toFront();
 
+        productFrame.setResizable(false);
         productFrame.setDefaultCloseOperation(HIDE_ON_CLOSE);
 
     }
