@@ -27,8 +27,9 @@ public class StorageFrame extends JInternalFrame implements ActionListener {
     private ImageIcon icon;
 
     public StorageFrame(){
+
         setTitle("Armazem");
-        System.out.println("FUCK");
+        System.out.println("SHITK");
         setSize(600,400);
         setLocation(220,220);
         setLayout(new BorderLayout());
