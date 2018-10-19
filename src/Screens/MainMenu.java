@@ -44,7 +44,7 @@ public class MainMenu extends JFrame implements ActionListener {
 
     private JButton btnArmazem, btnProdutos, btnFornecedores;
     private JMenuBar menuBar;
-    private JInternalFrame  searchFrame, buyFrame, armazemFrame;
+    private JInternalFrame  searchFrame, buyFrame, armazemFrame,productFrame;
     private ImageIcon icon;
 
     public MainMenu(String user) {
@@ -62,8 +62,7 @@ public class MainMenu extends JFrame implements ActionListener {
         } else if (arg0.getSource().equals(menuItem1)) {
             JOptionPane.showMessageDialog(null, "SAINDO", "SAIR", JOptionPane.ERROR_MESSAGE);
             System.exit(1);
-        }
-        if (arg0.getSource().equals(btnArmazem)) {
+        } else if (arg0.getSource().equals(btnArmazem)) {
             buildProductArmazem();
         }
     }
@@ -74,6 +73,19 @@ public class MainMenu extends JFrame implements ActionListener {
     }
 
     private void buildProductSale() {
+        productFrame=new ProductFrame();
+        productFrame.setResizable(true);
+        productFrame.setMaximizable(true);
+        productFrame.setIconifiable(true);
+        productFrame.setClosable(true);
+        productFrame.setLocation(0, 0);
+
+        desktopPane.add(productFrame);
+        desktopPane.getDesktopManager().activateFrame(productFrame);
+        productFrame.setVisible(true);
+        productFrame.toFront();
+
+        productFrame.setDefaultCloseOperation(HIDE_ON_CLOSE);
 
     }
 
@@ -163,6 +175,8 @@ public class MainMenu extends JFrame implements ActionListener {
 
         providerFrame = new JInternalFrame("Menu de Fornecedores", true, true, true, true);
 
+        productFrame=new JInternalFrame("Menu de Produtos",true, true, true, true);
+
         /**
          *
          * LEMBRETE URGENTE SENAO BUG LEMBREM-SE DE ADICIONAR UM BACKGROUND
@@ -188,6 +202,7 @@ public class MainMenu extends JFrame implements ActionListener {
         desktopPane.setBackground(Color.LIGHT_GRAY);
 
         desktopPane.add(armazemFrame);
+        desktopPane.add(productFrame);
         // desktopPane.add(searchFrame);
         // desktopPane.add(buyFrame);
 
