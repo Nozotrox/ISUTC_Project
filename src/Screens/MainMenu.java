@@ -1,16 +1,23 @@
 package Screens;
-import Main_Classes.Provider;
-import org.omg.PortableInterceptor.SYSTEM_EXCEPTION;
 
-import java.awt.BorderLayout;
-import java.awt.Color;
-import java.awt.Dimension;
-import java.awt.Graphics;
-import java.awt.GridLayout;
+import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
-import javax.swing.*;
+import javax.swing.BorderFactory;
+import javax.swing.ImageIcon;
+import javax.swing.JButton;
+import javax.swing.JDesktopPane;
+import javax.swing.JFrame;
+import javax.swing.JInternalFrame;
+import javax.swing.JLabel;
+import javax.swing.JMenu;
+import javax.swing.JMenuBar;
+import javax.swing.JMenuItem;
+import javax.swing.JOptionPane;
+import javax.swing.JPanel;
+import java.text.SimpleDateFormat;
+import java.util.Calendar;
 
 /**
  * @author MSI
@@ -19,216 +26,227 @@ import javax.swing.*;
 
 /**
  *
- *LEMBRETE URGENTE SENAO BUG LEMBREM-SE DE ADICIONAR UM BACKGROUND
+ * LEMBRETE URGENTE SENAO BUG LEMBREM-SE DE ADICIONAR UM BACKGROUND
  *
  */
 
 public class MainMenu extends JFrame implements ActionListener {
 
-    // MAIN MENU
-    private JButton button1, button2, button3,button4,button5;
-    private JDesktopPane desktopPane;
-    private JMenuBar menuBar;
-    private JMenu item1,item2;
-    private JMenuItem menuItem1,menuItem2;
-    private JInternalFrame saleFrame, searchFrame, buyFrame,storageFrame,providerFrame;
+	// MAIN MENU
+	private JDesktopPane desktopPane;
+	private JMenu isistema, isair, ihelp;
+	private JMenuItem isairLogout, isairExit, isistemaVenda, isistemaCompra;
+	private JInternalFrame saleFrame, providerFrame;
 
-    private ImageIcon icon;
+	private JButton btnArmazem, btnProdutos, btnFornecedores;
+	private JMenuBar menuBar;
+	private JInternalFrame storageFrame, productFrame, buyFrame, armazemFrame;
+	private ImageIcon icon;
 
-    // SALE MENU
-    private JTable selectItem;
-    private JLabel label1;
+	public MainMenu(String user) {
+		build_ui(user);
+	}
+	private void buildStorage() {
+		storageFrame = new StorageFrame();
+		storageFrame.setResizable(true);
+		storageFrame.setMaximizable(true);
+		storageFrame.setIconifiable(true);
+		storageFrame.setClosable(true);
+		storageFrame.setLocation(220, 220);
 
-    // SEARCH MENU
-    private JTable searchItems;
-    private JLabel name, id;
-    private JTextField name_, id_;
+		desktopPane.add(storageFrame);
 
-    public MainMenu(String user) {
-        build_ui(user);
-    }
+		storageFrame.setVisible(true);
+		storageFrame.toFront();
+		storageFrame.setDefaultCloseOperation(HIDE_ON_CLOSE);
+	}
 
-    @Override
-    public void actionPerformed(ActionEvent arg0) {
-        if (arg0.getSource().equals(button1)) {
-            buildProductSale();
-        } else if (arg0.getSource().equals(button2)) {
-            buildProductBuy();
-        } else if (arg0.getSource().equals(button3)) {
-            buildProvider();
-        }else if(arg0.getSource().equals(button4)){
-            buildProductSearch();
-        }else if(arg0.getSource().equals(menuItem1)){
-            JOptionPane.showMessageDialog(null,"SAINDO","SAIR",JOptionPane.ERROR_MESSAGE);
-            System.exit(1);
-        }
-    }
+	private void buildProduct() {
+		productFrame = new ProductFrame();
+		productFrame.setResizable(true);
+		productFrame.setMaximizable(true);
+		productFrame.setIconifiable(true);
+		productFrame.setClosable(true);
+		productFrame.setLocation(220, 220);
 
-    private void buildProductSale() {
-        saleFrame.setLayout(new BorderLayout());
-        saleFrame.add("Center", new JLabel("VENDA"));
-        saleFrame.setSize(600, 400);
-        saleFrame.setLocation(0,0);
-        saleFrame.toFront();
-        saleFrame.setVisible(true);
-        saleFrame.setDefaultCloseOperation(HIDE_ON_CLOSE);
-    }
+		desktopPane.add(productFrame);
 
-    private void buildProductBuy() {
-        buyFrame.setLayout(new BorderLayout());
-        buyFrame.add("Center", new JLabel("Compra"));
-        buyFrame.setSize(600, 400);
-        buyFrame.setLocation(0,0);
-        buyFrame.toFront();
-        buyFrame.setVisible(true);
-        buyFrame.setDefaultCloseOperation(HIDE_ON_CLOSE);
-    }
+		productFrame.setVisible(true);
+		productFrame.toFront();
+		productFrame.setDefaultCloseOperation(HIDE_ON_CLOSE);
+	}
 
-    private void buildProductSearch() {
-        searchFrame.setLayout(new BorderLayout());
-        searchFrame.add("Center", new JLabel("PESQUISA"));
-        searchFrame.setSize(600, 400);
-        searchFrame.setLocation(0, 0);
-        searchFrame.toFront();
-        searchFrame.setVisible(true);
-        searchFrame.setDefaultCloseOperation(HIDE_ON_CLOSE);
-    }
+	private void buildProductBuy() {
 
-    private void buildProvider(){
+	}
 
-        providerFrame=new ProviderFrame();
-        providerFrame.setResizable(true);
-        providerFrame.setMaximizable(true);
-        providerFrame.setIconifiable(true);
-        providerFrame.setClosable(true);
-        providerFrame.setLocation(220,220);
+	private void buildProvider() {
 
-        desktopPane.add(providerFrame);
+		providerFrame = new ProviderFrame();
+		providerFrame.setResizable(true);
+		providerFrame.setMaximizable(true);
+		providerFrame.setIconifiable(true);
+		providerFrame.setClosable(true);
+		providerFrame.setLocation(220, 220);
 
-        providerFrame.setVisible(true);
-        providerFrame.toFront();
-        providerFrame.setDefaultCloseOperation(HIDE_ON_CLOSE);
-    }
+		desktopPane.add(providerFrame);
 
-    private void build_ui(String user) {
-        setLayout(new BorderLayout());
-        setDefaultLookAndFeelDecorated(true);
+		providerFrame.setVisible(true);
+		providerFrame.toFront();
+		providerFrame.setDefaultCloseOperation(HIDE_ON_CLOSE);
+	}
 
+	private void build_ui(String user) {
+		setLayout(new BorderLayout());
+		setDefaultLookAndFeelDecorated(true);
 
-        menuBar=new JMenuBar();
+		menuBar = new JMenuBar();
 
-        item1=new JMenu("Sair");
-        menuItem1=new JMenuItem("EXIT");
-        menuItem1.addActionListener(this);
-        item1.add(menuItem1);
-        item2=new JMenu("HELP");
-        item2.addActionListener(this);
-        menuBar.add(item1);
-        menuBar.add(item2);
-        JPanel panel = new JPanel(new GridLayout(5, 1));
-        JPanel panel2 = new JPanel(new BorderLayout());
+		isistema = new JMenu("Sistema");
+		isistemaVenda = new JMenuItem("Venda");
+		isistemaCompra = new JMenuItem("Compra");
+		isistema.add(isistemaVenda);
+		isistema.add(isistemaCompra);
 
-        panel.setBackground(Color.WHITE);
+		isair = new JMenu("Sair");
+		isairLogout = new JMenuItem("Log Out");
+		isairExit = new JMenuItem("Fechar");
+		isairExit.addActionListener(this);
+		isair.add(isairLogout);
+		isair.add(isairExit);
 
+		ihelp = new JMenu("HELP");
+		ihelp.addActionListener(this);
 
-        icon = new ImageIcon("img/sl.png");
-        button1 = new JButton(icon);
-        button1.setBackground(Color.WHITE);
-        button1.addActionListener(this);
+		menuBar.add(isistema);
+		menuBar.add(ihelp);
+		menuBar.add(isair);
 
-        icon = new ImageIcon("img/buy.png");
-        button2 = new JButton("COMPRA");
-        button2.setIcon(icon);
-        button2.setBackground(Color.WHITE);
-        button2.addActionListener(this);
+		menuBar.setBackground(Color.white);
 
+		JPanel panel = new JPanel(new GridLayout(8, 1));
 
-        icon=new ImageIcon("img/sale.png");
-        //icon = new ImageIcon("D:/Kelvin/Documents/Java/ISUTC_Project/src/img/sale.png");
-        button3 = new JButton(" FORNECEDORES");
-        button3.setIcon(icon);
-        button3.setBackground(Color.WHITE);
-        button3.addActionListener(this);
+		JPanel panel2 = new JPanel(new BorderLayout());
 
-        icon = new ImageIcon("img/search.png");
-        button4=new JButton("Search");
-        button4.setIcon(icon);
-        button4.setBackground(Color.WHITE);
-        button4.addActionListener(this);
+		panel.setBackground(Color.WHITE);
 
-        //icon=new ImageIcon("");
-        button5=new JButton("Armazem");
-        //button5.setIcon(icon);
-        button5.setBackground(Color.WHITE);
-        button5.addActionListener(this);
+		// icon = new
+		// ImageIcon("D:/Kelvin/Documents/Java/ISUTC_Project/src/img/sl.png");
+		btnArmazem = new JButton("Armazem");
+		btnArmazem.setBackground(Color.WHITE);
+		btnArmazem.addActionListener(this);
+		btnArmazem.setBorder(BorderFactory.createMatteBorder(0, 5, 0, 5, Color.white));
 
-        panel.add(button1);
-        panel.add(button2);
-        panel.add(button3);
-        panel.add(button4);
-        panel.add(button5);
+		// icon = new
+		// ImageIcon("D:/Kelvin/Documents/Java/ISUTC_Project/src/img/buy.png");
+		btnProdutos = new JButton("Produtos");
+		btnProdutos.setBackground(Color.WHITE);
+		btnProdutos.addActionListener(this);
+		btnProdutos.setBorder(BorderFactory.createMatteBorder(0, 5, 0, 5, Color.white));
+		// icon = new
+		// ImageIcon("D:/Kelvin/Documents/Java/ISUTC_Project/src/img/sale.png");
+		btnFornecedores = new JButton(" Fornecedores");
+		btnFornecedores.setBackground(Color.WHITE);
+		btnFornecedores.addActionListener(this);
+		btnFornecedores.setBorder(BorderFactory.createMatteBorder(0, 5, 0, 5, Color.white));
 
-        saleFrame = new JInternalFrame("Menu de Venda", true, true, true, true);
+		panel.add(btnArmazem);
+		panel.add(btnProdutos);
+		panel.add(btnFornecedores);
+		panel.add(new JLabel(""));
+		panel.add(new JLabel(""));
+		panel.add(new JLabel(""));
 
-        buyFrame = new JInternalFrame("Menu de Compra", true, true, true, true);
+		Calendar cal = Calendar.getInstance();
+		SimpleDateFormat sdf = new SimpleDateFormat("HH:mm:ss");
+		JLabel hour = new JLabel(sdf.format(cal.getTime()));
+		hour.setFont(new Font("Century Gothic", Font.BOLD, 15));
+		hour.setBorder(BorderFactory.createMatteBorder(5, 5, 5, 5, Color.lightGray));
 
-        searchFrame = new JInternalFrame("Menu de Procura", true, true, true, true);
-
-        providerFrame=new JInternalFrame("Menu de Fornecedores",true, true, true, true);
+		panel.add(hour);
 
 
-        /**
-         *
-         *LEMBRETE URGENTE SENAO BUG LEMBREM-SE DE ADICIONAR UM BACKGROUND
-         *
-         */
-        desktopPane = new JDesktopPane() {
-            @Override
-            protected void paintComponent(Graphics grphcs) {
-                super.paintComponent(grphcs);
-                //BACKGROUND
-                grphcs.drawImage(new ImageIcon("").getImage(), 0, 0, null);
-            }
 
-            @Override
-            public Dimension getPreferredSize() {
-                //BACKGROUND 2 VEZES
-                return new Dimension(new ImageIcon("").getIconWidth(),
-                        new ImageIcon("").getIconHeight());
-            }
-        };
+		panel.add(new JLabel(""));
 
-        desktopPane.setVisible(true);
-        desktopPane.add(saleFrame);
-        desktopPane.add(searchFrame);
-        desktopPane.add(buyFrame);
-        desktopPane.add(providerFrame);
+		armazemFrame = new JInternalFrame("Armazem", true, true, true, true);
 
-        icon = new ImageIcon("img/bg.jpg");
-        desktopPane.add(new JLabel(icon));
+		buyFrame = new JInternalFrame("Menu de Compra", true, true, true, true);
 
-        panel2.add("North", new JLabel("        "));
-        panel2.add("Center", desktopPane);
+		productFrame = new JInternalFrame("Menu de Procura", true, true, true, true);
 
-        add("North", new JLabel(""));
-        add("Center", panel2);
-        add(BorderLayout.WEST, panel);
+		providerFrame = new JInternalFrame("Menu de Fornecedores", true, true, true, true);
 
+		/**
+		 *
+		 * LEMBRETE URGENTE SENAO BUG LEMBREM-SE DE ADICIONAR UM BACKGROUND
+		 *
+		 */
+		desktopPane = new JDesktopPane() {
+			@Override
+			protected void paintComponent(Graphics grphcs) {
+				super.paintComponent(grphcs);
+				// BACKGROUND
+				grphcs.drawImage(new ImageIcon("ISUTC_Project\\img\\bg.jpg").getImage(), 0, 0, null);
+			}
 
-        setExtendedState(JFrame.MAXIMIZED_BOTH);
-        //setUndecorated(true);
+			@Override
+			public Dimension getPreferredSize() {
+				// BACKGROUND 2 VEZES
+				return new Dimension(new ImageIcon("ISUTC_Project\\img\\bg.jpg").getIconWidth(), new ImageIcon("ISUTC_Project\\img\\bg.jpg").getIconHeight());
+			}
+		};
 
-        setJMenuBar(menuBar);
-        setSize(1000, 600);
-        setLocationRelativeTo(null);
-        setDefaultCloseOperation(EXIT_ON_CLOSE);
-        setTitle(user);
-        setVisible(true);
+		desktopPane.setVisible(true);
 
-    }
+		desktopPane.setBackground(Color.LIGHT_GRAY);
 
-    public static void main(String[] args) {
-        new MainMenu("");
-    }
+		desktopPane.add(armazemFrame);
+		// desktopPane.add(searchFrame);
+		// desktopPane.add(buyFrame);
+
+		icon = new ImageIcon("img/bg.jpg");
+		desktopPane.add(new JLabel(icon));
+
+		desktopPane.setVisible(true);
+
+		//panel2.add("North", new JLabel("        "));
+		panel2.add("Center", desktopPane);
+
+		add("North", new JLabel(""));
+		add("Center", panel2);
+		add(BorderLayout.WEST, panel);
+
+		setExtendedState(JFrame.MAXIMIZED_BOTH);
+		// setUndecorated(true);
+
+		ImageIcon icon = new ImageIcon("ISUTC_Project\\img\\icon.jpg");
+		setIconImage(icon.getImage());
+		setJMenuBar(menuBar);
+		setSize(1000, 600);
+		setLocationRelativeTo(null);
+		setDefaultCloseOperation(EXIT_ON_CLOSE);
+		setTitle(user);
+		setVisible(true);
+	}
+
+	@Override
+	public void actionPerformed(ActionEvent arg0) {
+		if (arg0.getSource().equals(btnProdutos)) {
+			buildProduct();
+		} else if (arg0.getSource().equals(btnFornecedores)) {
+			buildProvider();
+		} else if (arg0.getSource().equals(isairExit)) {
+			JOptionPane.showMessageDialog(null, "SAINDO", "SAIR", JOptionPane.ERROR_MESSAGE);
+			System.exit(1);
+		}
+		if (arg0.getSource().equals(btnArmazem)) {
+			buildStorage();
+		}
+	}
+
+	public static void main(String[] args) {
+		new MainMenu("ifk");
+	}
 
 }
