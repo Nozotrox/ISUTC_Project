@@ -6,7 +6,7 @@ import java.io.Serializable;
 
 public class Provider implements DataList, Serializable {
 
-    private String id = ID_Gen.generate_id();
+    private String id = ID_Gen.generate_provider_id();
     private String nome;
     private String nuit;
 

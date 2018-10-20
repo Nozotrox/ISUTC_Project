@@ -58,7 +58,7 @@ public class MainMenu extends JFrame implements ActionListener {
 		build_ui(user);
 	}
 	private void buildStorage() {
-		//storageFrame = new StorageFrame();
+		storageFrame = new StorageFrame();
 		storageFrame.setResizable(true);
 		storageFrame.setMaximizable(true);
 		storageFrame.setIconifiable(true);
@@ -122,6 +122,12 @@ public class MainMenu extends JFrame implements ActionListener {
 		isairExit = new JMenuItem("Fechar");
 		isairExit.addActionListener(this);
 		isair.add(isairLogout);
+
+
+		isairLogout.addActionListener(this);
+		isairExit.addActionListener(this);
+
+
 		isair.add(isairExit);
 
 		ihelp = new JMenu("HELP");
@@ -168,7 +174,8 @@ public class MainMenu extends JFrame implements ActionListener {
 
         JLabel hour;
 
-		hour = new JLabel();
+		hour = new JLabel("00:00:00");
+
 
 		ClockTimer clock = new ClockTimer(hour);
 		clock.start();
@@ -244,6 +251,7 @@ public class MainMenu extends JFrame implements ActionListener {
 
 	@Override
 	public void actionPerformed(ActionEvent arg0) {
+
 		if (arg0.getSource().equals(btnProdutos)) {
 			buildProduct();
 		} else if (arg0.getSource().equals(btnFornecedores)) {
@@ -253,11 +261,13 @@ public class MainMenu extends JFrame implements ActionListener {
 			System.exit(1);
 		}
 		if (arg0.getSource().equals(btnArmazem)) {
-			//buildStorage();
+			buildStorage();
 		}
         if (arg0.getSource().equals(isairLogout)) {
+			this.dispose();
             new Authentication();
         }
+
 	}
 
 	public static void main(String[] args) {

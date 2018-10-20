@@ -2,7 +2,9 @@ package Main_Classes;
 
 import Main.ID_Gen;
 
-public class Product implements DataList{
+import java.io.Serializable;
+
+public class Product implements DataList, Serializable {
 
     private String id = ID_Gen.generate_id();
     private int stock_minimo;

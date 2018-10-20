@@ -9,7 +9,7 @@ public class Storage implements DataList, Serializable {
 
 	// ::>> Classe gera ID's automaticamente
 
-	private String id = ID_Gen.generate_id();
+	private String id = ID_Gen.generate_storage_id();
 	private String tipo;
 	private Vector<Product> produtos = new Vector();
 
@@ -68,6 +68,7 @@ public class Storage implements DataList, Serializable {
 		String[] data_list = { this.id, this.tipo, String.valueOf(this.produtos.size()) };
 		return data_list;
 	}
+
 
 	public String[][] getAllProducts() {
 		int param_products = 6;

@@ -10,6 +10,8 @@ public class User implements Serializable {
     private String password;
     private String username;
     private int id_gen = 0;
+    private int storage_id_gen = 0;
+    private int provider_id_gen = 0;
 
     private Vector<Provider> fornecedores = new Vector();
     private Vector<Storage> armazens = new Vector();
@@ -29,6 +31,22 @@ public class User implements Serializable {
 
     //::>> GETTERS AND SETTERS
 
+
+    public void setProvider_id_gen(int provider_id_gen) {
+        this.provider_id_gen = provider_id_gen;
+    }
+
+    public void setStorage_id_gen(int storage_id_gen) {
+        this.storage_id_gen = storage_id_gen;
+    }
+
+    public int getStorage_id_gen() {
+        return storage_id_gen;
+    }
+
+    public int getProvider_id_gen() {
+        return provider_id_gen;
+    }
 
     public void setId_gen(int id_gen) {
         this.id_gen = id_gen;
@@ -88,6 +106,10 @@ public class User implements Serializable {
         }
     }
 
+    public Vector getStorage(){
+        return this.armazens;
+    }
+
     public String[][] getAllProviders(){
         int parm_fornecedor = 3;
         int rows = this.fornecedores.size();
@@ -100,6 +122,15 @@ public class User implements Serializable {
             count++;
         }
         return allProviders;
+    }
+
+    public Storage findStorage(String tipo){
+        for(Storage store: armazens){
+            if(store.getTipo().equals(tipo)){
+                return store;
+            }
+        }
+        return null;
     }
 
     public String[][] getAllStorages(){

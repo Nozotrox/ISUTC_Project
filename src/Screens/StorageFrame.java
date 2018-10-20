@@ -1,292 +1,250 @@
 package Screens;
 
-import java.awt.BorderLayout;
-import java.awt.Color;
-import java.awt.FlowLayout;
-import java.awt.GridLayout;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
-import java.io.FileInputStream;
-import java.io.ObjectInputStream;
-import java.util.Vector;
-
-import javax.swing.BorderFactory;
-import javax.swing.ImageIcon;
-import javax.swing.JButton;
-import javax.swing.JInternalFrame;
-import javax.swing.JLabel;
-import javax.swing.JPanel;
-import javax.swing.JScrollPane;
-import javax.swing.JTable;
-import javax.swing.JTextField;
-import javax.swing.table.DefaultTableModel;
-
-import Main.Authentication;
 import Main.ID_Gen;
 import Main.UserUtility;
 import Main_Classes.Storage;
+
+import javax.swing.*;
+import javax.swing.table.DefaultTableModel;
+import java.awt.*;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+
+import static Screens.ProviderFrame.model;
 
 /**
  * Created by MSI on 20-Oct-18.
  */
 public class StorageFrame extends JInternalFrame implements ActionListener {
 
-	JTable table;
+    JTable table;
 
-	// FILTER TExtField
-	JTextField getTxtNome, getTxtNr;
+    JTextField getTxtNome, getTxtNr;
 
-	JButton btnPesquisar, btnActualizar, btnGravar;
+    JButton btnPesquisar,  btnActualizar,  btnGravar;
 
-	// Own TextField
-	JTextField codigo_, nome_;
 
-	JButton cancel;
-	JButton save;
-	private ImageIcon icon;
-	DefaultTableModel model;
-	String[] columnNames;
+    DefaultTableModel model;
 
-	public StorageFrame() {
+    JTextField codigo_;
+    JTextField tipo;
+    JTextField nome_;
 
-		setTitle("Armazem");
-		setSize(600, 400);
-		setLocation(220, 220);
-		setLayout(new BorderLayout());
+    JButton update_;
+    JButton save_;
+    private ImageIcon icon;
 
-		// Data to be displayed in the JTable
-		String[][] data = null;
-		// Column Names
-		columnNames = new String[] { "Codigo", "Nome" };
+    public StorageFrame(){
 
-		// Layout //
+        setTitle("Armazem");
+        System.out.println("SHITK");
+        setSize(600,400);
+        setLocation(220,220);
+        setLayout(new BorderLayout());
 
-		model = new DefaultTableModel(data, columnNames) {
-			@Override
-			public boolean isCellEditable(int row, int column) {
-				// TODO Auto-generated method stub
-				return false;
-			}
-		};
+        // Data to be displayed in the JTable
+        String[][] data = null;
 
-		JPanel north = new JPanel(new FlowLayout(FlowLayout.CENTER));
-		north.add(new JLabel("Tela de Registo de Armazem"));
+        // Column Names
+        String[] columnNames = null;
+        // Column Names
+        columnNames = new String[] { "Codigo", "Nome", "Nuit" };
 
-		table = new JTable(model);
-		JPanel table_layout = new JPanel(new BorderLayout());
-		JScrollPane scroll = new JScrollPane(table);
+        // Layout //
 
-		table_layout.add("North", table.getTableHeader());
-		table_layout.add("Center", scroll);
+        JPanel north = new JPanel(new FlowLayout(FlowLayout.CENTER));
+        JLabel label = new JLabel("Tela de Registo de Armazem");
+        label.setFont(new Font("Century Gothic", Font.BOLD, 14));
+        north.add(label);
 
-		JPanel pnCenter = new JPanel(new GridLayout(2, 1));
+        model = new DefaultTableModel(data, columnNames) {
+            @Override
+            public boolean isCellEditable(int row, int column) {
+                // TODO Auto-generated method stub
+                return false;
+            }
+        };
 
-		JPanel pnUpSide = new JPanel(new GridLayout(1, 2));
+        populate_table();
 
-		JPanel pn = new JPanel(new BorderLayout());
 
-		///// /////
+        //   Layout    //
 
-		JPanel pcenter = new JPanel();
-		pcenter.setLayout(new FlowLayout(FlowLayout.CENTER, 30, 70));
+/*        JPanel north = new JPanel(new FlowLayout(FlowLayout.CENTER));
+        north.add(new JLabel("Tela de Registo de Armazem"));*/
 
-		// Left Side
-		JPanel pLeft = new JPanel();
-		pLeft.setLayout(new GridLayout(4, 1));
 
-		pLeft.add(new JLabel("Nome: "));
-		pLeft.add(new JLabel(""));
-		pLeft.add(new JLabel("Codigo: "));
-		pLeft.add(new JLabel(""));
+        table = new JTable(model);
+        JPanel table_layout = new JPanel(new BorderLayout());
+        JScrollPane scroll = new JScrollPane(table);
 
-		// Right Side
-		JPanel pRight = new JPanel();
-		pRight.setLayout(new GridLayout(4, 1));
-		codigo_ = new JTextField(12);
-		codigo_.setText(ID_Gen.nextId());
-		codigo_.setEnabled(false);
-		// username_.setBorder(BorderFactory.createMatteBorder(0, 0, 1, 0, Color.GRAY));
+        table_layout.add("North", table.getTableHeader());
+        table_layout.add("Center", scroll);
 
-		// password_.setBorder(BorderFactory.createMatteBorder(0, 0, 1, 0, Color.GRAY));
-		nome_ = new JTextField(12);
-		// nome_.setBorder(BorderFactory.createMatteBorder(0, 0, 1, 0, Color.GRAY));
+        JPanel pnCenter = new JPanel(new GridLayout(2,1));
 
-		pRight.add(nome_);
-		pRight.add(new JLabel(""));
-		pRight.add(codigo_);
-		pRight.add(new JLabel(""));
+        JPanel pnUpSide = new JPanel(new GridLayout(1,2));
 
-		JPanel pbtn = new JPanel();
-		pbtn.setLayout(new FlowLayout(FlowLayout.RIGHT));
+        JPanel pn = new JPanel(new BorderLayout());
 
-		// Button OK
-		save = new JButton("OK");
-		save.setBorder(null);
-		save.setBackground(Color.LIGHT_GRAY);
-		save.setBorder(BorderFactory.createMatteBorder(5, 20, 5, 20, Color.LIGHT_GRAY));
-		save.addActionListener(this);
+        /////         /////
 
-		// Button Cancel
-		cancel = new JButton("Cancel");
-		cancel.setBackground(Color.GRAY);
-		cancel.setBorder(BorderFactory.createMatteBorder(5, 10, 5, 10, Color.GRAY));
-		cancel.addActionListener(this);
+        JPanel pcenter = new JPanel();
+        pcenter.setLayout(new FlowLayout(FlowLayout.CENTER, 30, 70));
 
-		pbtn.add(save);
-		pbtn.add(cancel);
+        // Left Side
+        JPanel pLeft = new JPanel();
+        pLeft.setLayout(new GridLayout(5,1));
 
-		pcenter.add(pLeft);
-		pcenter.add(pRight);
+        pLeft.add(new JLabel("Codigo: "));
+        pLeft.add(new JLabel(""));
+        pLeft.add(new JLabel("Tipo: "));
+        pLeft.add(new JLabel(""));
+        pLeft.add(new JLabel("Password: "));
 
-		///// /////
+        // Right Side
+        JPanel pRight = new JPanel();
+        pRight.setLayout(new GridLayout(5, 1));
+        codigo_ = new JTextField(12);
+        codigo_.setEnabled(false);
+        codigo_.setText(ID_Gen.nextStorageId());
 
-		pn.add("Center", pcenter);
-		pn.add("South", pbtn);
 
-		pnUpSide.add(pn);
+        //codigo_.setBorder(BorderFactory.createMatteBorder(0, 0, 1, 0, Color.GRAY));
+        tipo = new JTextField(12);
+        //tipo.setBorder(BorderFactory.createMatteBorder(0, 0, 1, 0, Color.GRAY));
+        nome_ = new JTextField(12);
+        //nome_.setBorder(BorderFactory.createMatteBorder(0, 0, 1, 0, Color.GRAY));
 
-		pnUpSide.add(new JLabel(""));
 
-		JPanel pnBottonSide = new JPanel(new BorderLayout());
+        pRight.add(codigo_);
+        pRight.add(new JLabel(""));
+        pRight.add(nome_);
+        pRight.add(new JLabel(""));
+        pRight.add(tipo);
 
-		JPanel banner = new JPanel(new FlowLayout(FlowLayout.LEFT, 15, 25));
+        JPanel pbtn = new JPanel();
+        pbtn.setLayout(new FlowLayout(FlowLayout.RIGHT));
 
-		getTxtNome = new JTextField(15);
-		getTxtNr = new JTextField(15);
-		btnPesquisar = new JButton("Procurar");
-		btnPesquisar.addActionListener(this);
+        //Button OK
+         save_= new JButton("OK"); save_.setBorder(null); save_.setBackground(Color.LIGHT_GRAY); save_.setBorder(BorderFactory.createMatteBorder(5, 20, 5, 20, Color.LIGHT_GRAY)); save_.addActionListener(this);
+         save_.addActionListener(this);
 
-		banner.add(new JLabel("Nr:"));
-		banner.add(getTxtNr);
-		banner.add(new JLabel("Nome:"));
-		banner.add(getTxtNome);
-		banner.add(btnPesquisar);
+        //Button Cancel
+        update_ = new JButton("Actualizar");
+        update_.setBackground(Color.GRAY);
+        update_.setBorder(BorderFactory.createMatteBorder(5, 10, 5, 10, Color.GRAY));
+        update_.addActionListener(this);
 
-		pnBottonSide.add("North", banner);
-		pnBottonSide.add("Center", table_layout);
+        pbtn.add(save_); pbtn.add(update_);
 
-		pnCenter.add(pnUpSide);
-		pnCenter.add(pnBottonSide);
+        pcenter.add(pLeft); pcenter.add(pRight);
 
-		add("North", north);
-		add("Center", pnCenter);
+        /////         /////
 
-		setVisible(true);
-		read();
-	}
+        pn.add("Center", pcenter);
+        pn.add("South", pbtn);
 
-	public static void main(String[] args) {
-		new StorageFrame();
-	}
+        pnUpSide.add(pn);
 
-	@Override
-	public void actionPerformed(ActionEvent e) {
-		if (e.getSource() == btnPesquisar) {
-			Vector vasd = new Vector<>();
+        pnUpSide.add(new JLabel(""));
 
-			// ::>> Pesquisa
-			if ((!model.getDataVector().isEmpty() && !getTxtNome.getText().equals(""))) {
-				if ((getTxtNome.getText() != null) && (!getTxtNome.getText().equals(""))) {
-					for (Object object : model.getDataVector()) {
-						Vector vector = (Vector) object;
-						if (vector.get(1).equals(getTxtNome.getText())) {
-							vasd.add(vector);
-						}
-					}
-					int a = model.getDataVector().size();
-					for (int i = 0; i <= a; i++) {
-						try {
-							model.removeRow(i);
-							i--;
-						} catch (Exception d) {
 
-						}
-					}
+        JPanel pnBottonSide = new JPanel(new BorderLayout());
 
-					for (Object vd : vasd) {
-						Vector vector = (Vector) vd;
-						model.addRow(new String[] { "" + vector.get(0), "" + vector.get(1) });
-					}
-				}
-				getTxtNome.setText("");
-				getTxtNr.setText("");
-			} else {
-				read();
-			}
-		} else if (e.getSource().equals(save)) {
+        JPanel banner = new JPanel(new FlowLayout(FlowLayout.LEFT, 15, 25));
 
-			String[] a = new String[] { "" + codigo_.getText(), "" + nome_.getText() };
-			model.addRow(a);
-			Storage storage = new Storage(nome_.getText());
-			UserUtility.active_user.adicionar_armazem(storage);
-			/*
-			 * 
-			 * 
-			 * 
-			 * 
-			 */
-			write();
-			codigo_.setText(ID_Gen.nextId());
-			// Provider fornecedor = new Provider(nome_.getText(), nuit_.getText());
-			// UserUtility.active_user.adicionar_fornecedor(fornecedor);
-			// write();
-		} else if (e.getSource().equals(cancel)) {
-			model.removeRow(model.getDataVector().size() - 1);
-		}
-	}
+        getTxtNome = new JTextField(15);  getTxtNr = new JTextField(15);
+        btnPesquisar = new JButton("Procurar");
 
-	public void write() {
-		Authentication.write();
+        banner.add(new JLabel("Nr:"));
+        banner.add(getTxtNome);
+        banner.add(new JLabel("Nome:"));
+        banner.add(getTxtNr);
+        banner.add(btnPesquisar);
 
-		/*
-		 * FileOutputStream file_output = null; ObjectOutputStream o_output = null;
-		 * 
-		 * try { file_output = new FileOutputStream("Providers.dat"); o_output = new
-		 * ObjectOutputStream(file_output);
-		 * 
-		 * o_output.writeObject(model.getDataVector()); } catch (FileNotFoundException
-		 * e) { e.printStackTrace();
-		 * 
-		 * } catch (IOException e) { e.printStackTrace(); } finally{
-		 * 
-		 * try { o_output.close(); file_output.close(); } catch (IOException e) {
-		 * e.printStackTrace(); }
-		 * 
-		 * }
-		 */
-	}
+        pnBottonSide.add("North", banner);
+        pnBottonSide.add("Center", table_layout);
 
-	private void read() {
-		FileInputStream file_input = null;
-		ObjectInputStream o_input = null;
-		model.setDataVector(null, columnNames);
+        pnCenter.add(pnUpSide);
+        pnCenter.add(pnBottonSide);
 
-		if (UserUtility.active_user.getAllStorages() != null) {
-			String[][] armazens = UserUtility.active_user.getAllStorages();
-			for (String[] data : armazens) {
-				model.addRow(data);
-			}
-		}
+        add("North",north );
+        add("Center", pnCenter);
 
-		/*
-		 * try { file_input = new FileInputStream("Providers.dat"); o_input = new
-		 * ObjectInputStream(file_input);
-		 * 
-		 * 
-		 * 
-		 * for(Object object:(Vector) o_input.readObject()){ Vector ok= (Vector) object;
-		 * String[] args=new String[]{""+ok.get(0),""+ok.get(1),""+ok.get(2)};
-		 * model.addRow(args);
-		 * 
-		 * }
-		 * 
-		 * } catch (FileNotFoundException e) { e.printStackTrace(); } catch (IOException
-		 * e) { e.printStackTrace(); } finally{ try { o_input.close();
-		 * file_input.close(); } catch (IOException e) { e.printStackTrace(); }
-		 * catch(NullPointerException e){ e.printStackTrace(); }
-		 * 
-		 * }
-		 */
+        setVisible(true);
+    }
 
-	}
+//    public static void main(String [] args){
+//        new StorageFrame();
+//    }
+
+    @Override
+    public void actionPerformed(ActionEvent e) {
+
+
+        if(e.getSource()==save_){
+
+            if(validation()){
+
+                String nome = nome_.getText();
+                Storage store = new Storage(nome);
+                UserUtility.active_user.adicionar_armazem(store);
+                addToTable(store);
+                codigo_.setText(ID_Gen.nextStorageId());
+                clearAll();
+            }
+        }
+
+        if(e.getSource() == update_){
+            update();
+        }
+    }
+
+
+    public void update(){
+        clearTable();
+        populate_table();
+    }
+    public void addToTable(Storage store){
+
+        String[] additionable = {store.getId(), store.getTipo(), String.valueOf(store.getAllProducts().length)};
+        this.model.addRow(additionable);
+    }
+
+    public void clearTable(){
+        int rowCount = model.getRowCount();
+
+        for(int i = 0; i < rowCount; i++){
+            model.removeRow(i);
+        }
+
+    }
+
+    public void clearAll(){
+        nome_.setText("");
+        getTxtNome.setText("");
+        getTxtNr.setText("");
+    }
+
+    public boolean validation(){
+        String nome = nome_.getText();
+
+        if(nome.equals("") || nome.isEmpty()){
+            return false;
+        }
+
+        return true;
+
+    }
+
+    public void populate_table(){
+
+        String[][] allStorage = UserUtility.active_user.getAllStorages();
+
+        for(String[] data: allStorage){
+
+            this.model.addRow(data);
+        }
+    }
 }

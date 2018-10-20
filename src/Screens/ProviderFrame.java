@@ -42,7 +42,7 @@ public class ProviderFrame extends JInternalFrame implements ActionListener {
 
 	JTextField nuit_, nome_, codigo_;
 
-	JButton cancel;
+	JButton update_;
 	JButton save;
 	String[] columnNames;
 
@@ -139,13 +139,13 @@ public class ProviderFrame extends JInternalFrame implements ActionListener {
 		save.addActionListener(this);
 
 		// Button Cancel
-		cancel = new JButton("Cancel");
-		cancel.setBackground(Color.GRAY);
-		cancel.setBorder(BorderFactory.createMatteBorder(5, 10, 5, 10, Color.GRAY));
-		cancel.addActionListener(this);
+		update_ = new JButton("Actualizar");
+		update_.setBackground(Color.GRAY);
+		update_.setBorder(BorderFactory.createMatteBorder(5, 10, 5, 10, Color.GRAY));
+		update_.addActionListener(this);
 
 		pbtn.add(save);
-		pbtn.add(cancel);
+		pbtn.add(update_);
 
 		pcenter.add(pLeft);
 		pcenter.add(pRight);
@@ -253,30 +253,17 @@ public class ProviderFrame extends JInternalFrame implements ActionListener {
 			UserUtility.active_user.adicionar_fornecedor(fornecedor);
 			codigo_.setText(ID_Gen.nextId());
 			write();
-		} else if (e.getSource().equals(cancel)) {
-			model.removeRow(model.getDataVector().size() - 1);
+		} else if (e.getSource().equals(update_)) {
+//			model.removeRow(model.getDataVector().size() - 1);
+			update();
+		}
+		else if(e.getSource().equals(btnActualizar)){
+			update();
 		}
 	}
 
 	public void write() {
 		Authentication.write();
-
-		/*
-		 * FileOutputStream file_output = null; ObjectOutputStream o_output = null;
-		 * 
-		 * try { file_output = new FileOutputStream("Providers.dat"); o_output = new
-		 * ObjectOutputStream(file_output);
-		 * 
-		 * o_output.writeObject(model.getDataVector()); } catch (FileNotFoundException
-		 * e) { e.printStackTrace();
-		 * 
-		 * } catch (IOException e) { e.printStackTrace(); } finally{
-		 * 
-		 * try { o_output.close(); file_output.close(); } catch (IOException e) {
-		 * e.printStackTrace(); }
-		 * 
-		 * }
-		 */
 	}
 
 	private void read() {
@@ -290,26 +277,14 @@ public class ProviderFrame extends JInternalFrame implements ActionListener {
 				model.addRow(data);
 			}
 		}
+	}
 
-		/*
-		 * try { file_input = new FileInputStream("Providers.dat"); o_input = new
-		 * ObjectInputStream(file_input);
-		 * 
-		 * 
-		 * 
-		 * for(Object object:(Vector) o_input.readObject()){ Vector ok= (Vector) object;
-		 * String[] args=new String[]{""+ok.get(0),""+ok.get(1),""+ok.get(2)};
-		 * model.addRow(args);
-		 * 
-		 * }
-		 * 
-		 * } catch (FileNotFoundException e) { e.printStackTrace(); } catch (IOException
-		 * e) { e.printStackTrace(); } finally{ try { o_input.close();
-		 * file_input.close(); } catch (IOException e) { e.printStackTrace(); }
-		 * catch(NullPointerException e){ e.printStackTrace(); }
-		 * 
-		 * }
-		 */
+	public void clearTable(){
+		int rowCount = model.getRowCount();
+
+		for(int i = 0; i < rowCount; i++){
+			model.removeRow(i);
+		}
 
 	}
 
@@ -338,6 +313,19 @@ public class ProviderFrame extends JInternalFrame implements ActionListener {
 			Vector v = new Vector();
 			return v;
 		}
+	}
+
+	public void update(){
+//		clearTable();
+		int rowCount = model.getRowCount();
+
+		Vector vector = model.getDataVector();
+
+
+		for(int i = 0; i < rowCount; i++){
+			model.removeRow(i);
+		}
+		read();
 	}
 
 }

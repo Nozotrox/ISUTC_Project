@@ -1,4 +1,5 @@
 package Screens;
+import Main.Authentication;
 import Main.ID_Gen;
 import Main.UserUtility;
 import Main_Classes.Product;
@@ -61,6 +62,7 @@ public class ProductFrame extends JInternalFrame implements ActionListener {
         table = new JTable(model);
         table.setFillsViewportHeight(true);
         table.sizeColumnsToFit(1);
+        populate_table();
 
         sp = new JScrollPane(table);
 
@@ -69,7 +71,6 @@ public class ProductFrame extends JInternalFrame implements ActionListener {
 
         combo = new JComboBox<>();
         combo.addItem("Escolha uma Opcao               ");
-        fillComboBox();
 
         JPanel upper = new JPanel();
 
@@ -112,7 +113,7 @@ public class ProductFrame extends JInternalFrame implements ActionListener {
 
 
         //::>> Setup Armazem
-        armazem_ = new JComboBox(new String[]{"Escolha um Fornecedor"});
+        armazem_ = new JComboBox(new String[]{"Escolha o Armazem"});
         JPanel storage = new JPanel(new FlowLayout(FlowLayout.LEFT));
         storage.add(new JLabel("Armazem             "));
         storage.add(armazem_);
@@ -143,6 +144,7 @@ public class ProductFrame extends JInternalFrame implements ActionListener {
         provider.add(new JLabel("Fornecedor:         "));
         provider.add(combo);
 
+        fillComboBox();
         //::>> Setup Space
         JPanel space = new JPanel();
         space.add(new JLabel(" "));
@@ -186,7 +188,14 @@ public class ProductFrame extends JInternalFrame implements ActionListener {
                 int stockMin = Integer.parseInt(stockMinimo_.getText());
                 int quantidade = Integer.parseInt(qtd_.getText());
 
+
                 if (stockMin <= 0 || quantidade <= 0){
+                    toSave = false;
+                }
+                else if(armazem_.getSelectedIndex() == 0){
+                    toSave = false;
+                }
+                else if(combo.getSelectedIndex() == 0){
                     toSave = false;
                 }
                 else{
@@ -204,7 +213,7 @@ public class ProductFrame extends JInternalFrame implements ActionListener {
 
 
         } else if (arg0.getSource().equals(update)) {
-
+            update();
         }
 
     }
@@ -214,6 +223,11 @@ public class ProductFrame extends JInternalFrame implements ActionListener {
         for(String[] data: fornecedores){
             String nome = data[1];
             combo.addItem(nome);
+        }
+
+        String[][] armazens = UserUtility.active_user.getAllStorages();
+        for(String[] armazem: armazens){
+            armazem_.addItem(armazem[1]);
         }
 
         /*if(!ProviderFrame.reader().isEmpty()){
@@ -226,6 +240,19 @@ public class ProductFrame extends JInternalFrame implements ActionListener {
 
     }
 
+    public void populate_table(){
+
+        Vector<Storage> storages = UserUtility.active_user.getStorage();
+        for(Storage storage: storages){
+
+            String[][] data = storage.getAllProducts();
+
+            for(String[] dt: data){
+                model.addRow(dt);
+            }
+
+        }
+    }
 
     public void save(){
 
@@ -233,14 +260,19 @@ public class ProductFrame extends JInternalFrame implements ActionListener {
         Provider fornecedor = new Provider("lsjf", "lsdkjfl");
         int qtd = Integer.parseInt(qtd_.getText());
         int stk = Integer.parseInt(stockMinimo_.getText());
-        Storage armazem = new Storage("lsjkfs");
+        Storage armazem = UserUtility.active_user.findStorage(armazem_.getSelectedItem().toString());
 
 
         Product produto  = new Product(nome, fornecedor, armazem, qtd, stk);
 
+        armazem.adicionar_produtos(produto);
+
         model.addRow(new String[] { "" + codigo_.getText(), "" + armazem_.getSelectedItem().toString() , "" + stockMinimo_.getText(),
                 "" + qtd_.getText(), "" + nome_.getText(), "" + combo.getSelectedItem().toString() });
 
+        codigo_.setText(ID_Gen.nextId());
+
+        Authentication.write();
         clearAll();
 
     }
@@ -253,4 +285,25 @@ public class ProductFrame extends JInternalFrame implements ActionListener {
         armazem_.setSelectedIndex(0);
     }
 
+    public void clearComboBox(){
+        combo.removeAllItems();
+        armazem_.removeAllItems();
+    }
+
+    public void clearTable(){
+        int rowCount = model.getRowCount();
+
+        for(int i = 0; i < rowCount; i++){
+            model.removeRow(i);
+        }
+
+    }
+
+
+    public void update(){
+        clearComboBox();
+        clearTable();
+        fillComboBox();
+        populate_table();
+    }
 }
