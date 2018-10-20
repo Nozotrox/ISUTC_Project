@@ -1,6 +1,7 @@
 package Screens;
 
 import Main.Authentication;
+import Main_Classes.ClockTimer;
 
 import java.awt.*;
 import java.awt.event.ActionEvent;
@@ -139,19 +140,19 @@ public class MainMenu extends JFrame implements ActionListener {
 
 		panel.setBackground(menuColor);
 
-		icon = new ImageIcon("ISUTC_Project\\img\\icon\\sotage.png");
+		icon = new ImageIcon("img\\icon\\sotage.png");
 		btnArmazem = new JButton(icon);
 		btnArmazem.setBackground(menuColor);
 		btnArmazem.addActionListener(this);
 		btnArmazem.setBorder(BorderFactory.createMatteBorder(7, 7, 7, 7, menuColor));
 
-		icon = new ImageIcon("ISUTC_Project\\img\\icon\\product.png");
+		icon = new ImageIcon("img\\icon\\product.png");
 		btnProdutos = new JButton(icon);
 		btnProdutos.setBackground(menuColor);
 		btnProdutos.addActionListener(this);
 		btnProdutos.setBorder(BorderFactory.createMatteBorder(7, 7, 7, 7, menuColor));
 
-		icon = new ImageIcon("ISUTC_Project\\img\\icon\\provider.png");
+		icon = new ImageIcon("img\\icon\\provider.png");
 		btnFornecedores = new JButton(icon);
 		btnFornecedores.setBackground(menuColor);
 		btnFornecedores.addActionListener(this);
@@ -162,12 +163,17 @@ public class MainMenu extends JFrame implements ActionListener {
 		panel.add(btnFornecedores);
 		panel.add(new JLabel(""));
 
-		Calendar cal = Calendar.getInstance();
-		SimpleDateFormat sdf = new SimpleDateFormat("HH:mm:ss");
+//		Calendar cal = Calendar.getInstance();
+//		SimpleDateFormat sdf = new SimpleDateFormat("HH:mm:ss");
 
         JLabel hour;
 
-		hour = new JLabel(sdf.format(cal.getTime()));
+		hour = new JLabel();
+
+		ClockTimer clock = new ClockTimer(hour);
+		clock.start();
+
+
 		hour.setBorder(BorderFactory.createMatteBorder(5, 5, 5, 5, menuColor));
 		hour.setFont(new Font("Century Gothic", Font.BOLD, 25));
 		hour.setForeground(Color.WHITE);
@@ -193,12 +199,12 @@ public class MainMenu extends JFrame implements ActionListener {
 			protected void paintComponent(Graphics grphcs) {
 				super.paintComponent(grphcs);
 				// BACKGROUND
-				grphcs.drawImage(new ImageIcon("ISUTC_Project\\img\\bg.jpg").getImage(), 0, 0, null);
+				grphcs.drawImage(new ImageIcon("img\\bg.jpg").getImage(), 0, 0, null);
 			}
 
 			public Dimension getPreferredSize() {
 				// BACKGROUND 2 VEZES
-				return new Dimension(new ImageIcon("ISUTC_Project\\img\\bg.jpg").getIconWidth(), new ImageIcon("ISUTC_Project\\img\\bg.jpg").getIconHeight());
+				return new Dimension(new ImageIcon("img\\bg.jpg").getIconWidth(), new ImageIcon("ISUTC_Project\\img\\bg.jpg").getIconHeight());
 			}
 		};
 
@@ -226,7 +232,7 @@ public class MainMenu extends JFrame implements ActionListener {
 		setExtendedState(JFrame.MAXIMIZED_BOTH);
 		// setUndecorated(true);
 
-		ImageIcon icon = new ImageIcon("ISUTC_Project\\img\\icon.jpg");
+		ImageIcon icon = new ImageIcon("img\\icon.jpg");
 		setIconImage(icon.getImage());
 		setJMenuBar(menuBar);
 		setSize(1000, 600);
