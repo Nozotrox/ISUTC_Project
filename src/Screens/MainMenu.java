@@ -119,6 +119,7 @@ public class MainMenu extends JFrame implements ActionListener {
 		isair = new JMenu("Sair");
 		    isair.setFont(new Font("Century Gothic", Font.PLAIN, 15));
 		isairLogout = new JMenuItem("Log Out");
+		    isairLogout.addActionListener(this);
 		isairExit = new JMenuItem("Fechar");
 		isairExit.addActionListener(this);
 		isair.add(isairLogout);

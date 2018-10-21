@@ -1,10 +1,7 @@
 package Screens;
-import Main.Authentication;
 import Main.ID_Gen;
 import Main.UserUtility;
-import Main_Classes.Product;
 import Main_Classes.Provider;
-import Main_Classes.Storage;
 
 import java.awt.BorderLayout;
 import java.awt.FlowLayout;
@@ -37,17 +34,14 @@ public class ProductFrame extends JInternalFrame implements ActionListener {
     String[] columnsNames;
     private JPanel upRight;
     private JPanel upLeft;
-    private JTextField codigo_, stockMinimo_, qtd_, nome_, fornecedor;
-    private JComboBox armazem_;
+    private JTextField codigo_, armazem_, stockMinimo_, qtd_, nome_, fornecedor;
     private JButton save, update;
 
     public ProductFrame() {
-
-        setSize(800, 550);
-        setLocation(0,0);
+        setTitle("Produtos");
+        setSize(600, 400);
         setLayout(new GridLayout(2, 1));
         tablePanel = new JPanel();
-        setSize(600,420);
         tablePanel.setLayout(new BorderLayout(0, 0));
 
         columnsNames = new String[] { "Codigo", "Armazem", "Stock Minimo", "Quantidade", "Nome", "Fornecedor" };
@@ -62,7 +56,6 @@ public class ProductFrame extends JInternalFrame implements ActionListener {
         table = new JTable(model);
         table.setFillsViewportHeight(true);
         table.sizeColumnsToFit(1);
-        populate_table();
 
         sp = new JScrollPane(table);
 
@@ -71,97 +64,61 @@ public class ProductFrame extends JInternalFrame implements ActionListener {
 
         combo = new JComboBox<>();
         combo.addItem("Escolha uma Opcao               ");
-
-        JPanel upper = new JPanel();
-
-        upper.setLayout(new GridLayout(1, 2, 0, 0));
-
-        /*upRight = new JPanel();
-        upRight.setLayout(new FlowLayout(FlowLayout.CENTER, 40, 10));
-        upRight.add(new JLabel("Codigo"));
-
-        //::>>> Set up de Codigo
-        codigo_ = new JTextField(20);
-        codigo_.setEnabled(false);
-        codigo_.setText(ID_Gen.nextId());
-
-        upRight.add(codigo_);
-        upRight.add(new JLabel("Armazem"));
-        armazem_ = new JTextField(20);
-        upRight.add(armazem_);
-        upRight.add(new JLabel("Stock Minimo"));
-        stockMinimo_ = new JTextField(20);
-        upRight.add(stockMinimo_);
-        upRight.add(new JLabel("Quantidade"));
-        qtd_ = new JTextField(20);
-        upRight.add(qtd_);
-        upRight.add(new JLabel("Nome"));
-        nome_ = new JTextField(20);
-        upRight.add(nome_);
-        upRight.add(new JLabel("Fornecedor"));*/
-
-        upRight = new JPanel(new GridLayout(7, 1, 5, 5));
-
-        //::>> Setup Codigo
-        codigo_ = new JTextField(20);
-        codigo_.setEnabled(false);
-        codigo_.setText(ID_Gen.nextId());
-
-        JPanel code = new JPanel(new FlowLayout(FlowLayout.LEFT));
-        code.add(new JLabel("Codigo                  "));
-        code.add(codigo_);
-
-
-        //::>> Setup Armazem
-        armazem_ = new JComboBox(new String[]{"Escolha o Armazem"});
-        JPanel storage = new JPanel(new FlowLayout(FlowLayout.LEFT));
-        storage.add(new JLabel("Armazem             "));
-        storage.add(armazem_);
-
-
-        //::>> Setup  Stock Minimo
-        stockMinimo_ = new JTextField(20);
-        JPanel stock = new JPanel(new FlowLayout(FlowLayout.LEFT));
-        stock.add(new JLabel("Stock Minimo      "));
-        stock.add(stockMinimo_);
-
-
-        //::>> Setup Quantidade
-        qtd_ = new JTextField(20);
-        JPanel qtd  = new JPanel(new FlowLayout(FlowLayout.LEFT));
-        qtd.add(new JLabel("Quantidade:         "));
-        qtd.add(qtd_);
-
-
-        //::>> Setup NOme
-        nome_ = new JTextField(20);
-        JPanel name = new JPanel(new FlowLayout(FlowLayout.LEFT));
-        name.add(new JLabel("Nome:                   "));
-        name.add(nome_);
-
-        //::>> Setup Fornecedor
-        JPanel provider = new JPanel(new FlowLayout(FlowLayout.LEFT));
-        provider.add(new JLabel("Fornecedor:         "));
-        provider.add(combo);
-
         fillComboBox();
-        //::>> Setup Space
-        JPanel space = new JPanel();
-        space.add(new JLabel(" "));
 
-        upRight.add(code);
-        upRight.add(storage);
-        upRight.add(stock);
-        upRight.add(qtd);
-        upRight.add(name);
-        upRight.add(provider);
-        upRight.add(space);
 
-        upper.add(upRight);
+        JPanel pRight = new JPanel();
+        pRight.setLayout(new GridLayout(6, 1));
+
+            stockMinimo_ = new JTextField(12);
+
+            armazem_ = new JTextField(12);
+
+            qtd_ = new JTextField(12);
+
+            nome_ = new JTextField(12);
+
+            codigo_ = new JTextField(12);
+            codigo_.setEnabled(false);
+
+        JPanel p1 = new JPanel(new FlowLayout(FlowLayout.CENTER));
+        p1.add(new JLabel("Codigo:"));
+        p1.add(codigo_);
+        pRight.add(p1);
+
+        JPanel p2 = new JPanel(new FlowLayout(FlowLayout.CENTER));
+        p2.add(new JLabel("Armazem:"));
+        p2.add(armazem_);
+        pRight.add(p2);
+
+        JPanel p3 = new JPanel(new FlowLayout(FlowLayout.CENTER));
+        p3.add(new JLabel("Stock Minimo:"));
+        p3.add(stockMinimo_);
+        pRight.add(p3);
+
+        JPanel p4 = new JPanel(new FlowLayout(FlowLayout.CENTER));
+        p4.add(new JLabel("Quantidade:"));
+        p4.add(qtd_);
+        pRight.add(p4);
+
+        JPanel p5 = new JPanel(new FlowLayout(FlowLayout.CENTER));
+        p5.add(new JLabel("Nome:"));
+        p5.add(nome_);
+        pRight.add(p5);
+
+        JPanel p6 = new JPanel(new FlowLayout(FlowLayout.CENTER));
+        p6.add(new JLabel("Fornecedor:"));
+        p6.add(combo);
+        pRight.add(p6);
+
+        JScrollPane scroll = new JScrollPane(pRight);
+
+        JPanel upper = new JPanel(new GridLayout(1, 2, 0, 0));
+        upper.add(scroll);
 
         upLeft = new JPanel();
         upLeft.setLayout(new FlowLayout(FlowLayout.CENTER));
-        save = new JButton("Gravar  ");
+        save = new JButton("Gravar");
         save.addActionListener(this);
         update = new JButton("Actualizar");
         update.addActionListener(this);
@@ -172,48 +129,19 @@ public class ProductFrame extends JInternalFrame implements ActionListener {
 
         add(upper);
         add(tablePanel);
-
     }
-//
-//    public static void main(String[] args) {
-//        new ProductFrame().setVisible(true);
-//    }
+
+    public static void main(String[] args) {
+        new ProductFrame().setVisible(true);
+    }
 
     @Override
     public void actionPerformed(ActionEvent arg0) {
-        boolean toSave;
         if (arg0.getSource().equals(save)) {
-
-            try {
-                int stockMin = Integer.parseInt(stockMinimo_.getText());
-                int quantidade = Integer.parseInt(qtd_.getText());
-
-
-                if (stockMin <= 0 || quantidade <= 0){
-                    toSave = false;
-                }
-                else if(armazem_.getSelectedIndex() == 0){
-                    toSave = false;
-                }
-                else if(combo.getSelectedIndex() == 0){
-                    toSave = false;
-                }
-                else{
-                    toSave = true;
-                }
-
-
-                if(toSave){
-                    save();
-                }
-
-            }catch(IllegalArgumentException ex){
-                JOptionPane.showMessageDialog(null, "Insira um Dado valido");
-            }
-
-
+            model.addRow(new String[] { "" + codigo_.getText(), "" + armazem_.getText(), "" + stockMinimo_.getText(),
+                    "" + qtd_.getText(), "" + nome_.getText(), "" + combo.getSelectedItem().toString() });
         } else if (arg0.getSource().equals(update)) {
-            update();
+
         }
 
     }
@@ -223,11 +151,6 @@ public class ProductFrame extends JInternalFrame implements ActionListener {
         for(String[] data: fornecedores){
             String nome = data[1];
             combo.addItem(nome);
-        }
-
-        String[][] armazens = UserUtility.active_user.getAllStorages();
-        for(String[] armazem: armazens){
-            armazem_.addItem(armazem[1]);
         }
 
         /*if(!ProviderFrame.reader().isEmpty()){
@@ -240,70 +163,4 @@ public class ProductFrame extends JInternalFrame implements ActionListener {
 
     }
 
-    public void populate_table(){
-
-        Vector<Storage> storages = UserUtility.active_user.getStorage();
-        for(Storage storage: storages){
-
-            String[][] data = storage.getAllProducts();
-
-            for(String[] dt: data){
-                model.addRow(dt);
-            }
-
-        }
-    }
-
-    public void save(){
-
-        String nome = nome_.getText();
-        Provider fornecedor = new Provider("lsjf", "lsdkjfl");
-        int qtd = Integer.parseInt(qtd_.getText());
-        int stk = Integer.parseInt(stockMinimo_.getText());
-        Storage armazem = UserUtility.active_user.findStorage(armazem_.getSelectedItem().toString());
-
-
-        Product produto  = new Product(nome, fornecedor, armazem, qtd, stk);
-
-        armazem.adicionar_produtos(produto);
-
-        model.addRow(new String[] { "" + codigo_.getText(), "" + armazem_.getSelectedItem().toString() , "" + stockMinimo_.getText(),
-                "" + qtd_.getText(), "" + nome_.getText(), "" + combo.getSelectedItem().toString() });
-
-        codigo_.setText(ID_Gen.nextId());
-
-        Authentication.write();
-        clearAll();
-
-    }
-
-    public void clearAll(){
-        nome_.setText("");
-        combo.setSelectedIndex(0);
-        qtd_.setText("");
-        stockMinimo_.setText("");
-        armazem_.setSelectedIndex(0);
-    }
-
-    public void clearComboBox(){
-        combo.removeAllItems();
-        armazem_.removeAllItems();
-    }
-
-    public void clearTable(){
-        int rowCount = model.getRowCount();
-
-        for(int i = 0; i < rowCount; i++){
-            model.removeRow(i);
-        }
-
-    }
-
-
-    public void update(){
-        clearComboBox();
-        clearTable();
-        fillComboBox();
-        populate_table();
-    }
 }
