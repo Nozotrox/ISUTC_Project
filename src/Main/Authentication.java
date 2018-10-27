@@ -26,6 +26,18 @@ public class Authentication extends JFrame implements ActionListener {
     private JButton buttonOK, buttonRegisto, buttonCancel;
 
 
+    //::>> TODO_LIST
+
+    /*
+    * #Done_TODO: aumentar tamhanho dos JinternalFrames
+    * #Done_TODO: ajustar tamanho dos campos da tabela
+    * #Done_TODO: evictar com que dois frames abram-se
+    * #Done_TODO: set look and feel
+    * TODO: Criar menu de Vendas
+    * TODO: Criar menu de Facturas
+    * */
+
+
     public Authentication(){
         Authentication.read();
         build_ui();

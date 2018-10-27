@@ -16,6 +16,7 @@ import java.util.Vector;
 import javax.swing.*;
 import javax.swing.event.ListSelectionEvent;
 import javax.swing.event.ListSelectionListener;
+import javax.swing.table.DefaultTableColumnModel;
 import javax.swing.table.DefaultTableModel;
 
 import static Main.UserUtility.active_user;
@@ -43,11 +44,11 @@ public class ProductFrame extends JInternalFrame implements ActionListener {
 
     public ProductFrame() {
 
-        setSize(800, 550);
+
         setLocation(0,0);
         setLayout(new GridLayout(2, 1));
         tablePanel = new JPanel();
-        setSize(600,420);
+        setSize(900, 600);
         tablePanel.setLayout(new BorderLayout(0, 0));
 
         columnsNames = new String[] { "Codigo", "Armazem", "Stock Minimo", "Quantidade", "Nome", "Fornecedor" };
@@ -167,6 +168,9 @@ public class ProductFrame extends JInternalFrame implements ActionListener {
         update.addActionListener(this);
         upLeft.add(save);
         upLeft.add(update);
+
+        setColumnSizes();
+
 
         upper.add(upLeft);
 
@@ -299,6 +303,15 @@ public class ProductFrame extends JInternalFrame implements ActionListener {
 
     }
 
+    public void setColumnSizes(){
+        DefaultTableColumnModel columnModel = (DefaultTableColumnModel) this.table.getColumnModel();
+
+        for(int i = 0; i < 6; i++){
+            columnModel.getColumn(i).setMinWidth(100);
+        }
+
+
+    }
 
     public void update(){
         clearComboBox();

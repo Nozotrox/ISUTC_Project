@@ -9,6 +9,7 @@ import javax.swing.table.DefaultTableModel;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.util.Vector;
 
 import static Screens.ProviderFrame.model;
 
@@ -37,8 +38,7 @@ public class StorageFrame extends JInternalFrame implements ActionListener {
     public StorageFrame(){
 
         setTitle("Armazem");
-        System.out.println("SHITK");
-        setSize(600,400);
+        setSize(800,500);
         setLocation(220,220);
         setLayout(new BorderLayout());
 
@@ -202,24 +202,30 @@ public class StorageFrame extends JInternalFrame implements ActionListener {
     }
 
 
-    public void update(){
-        clearTable();
-        populate_table();
+    public void update() {
+
+        Vector vector = model.getDataVector();
+
+        String[][] allStorages = UserUtility.active_user.getAllStorages();
+        vector.clear();
+        for (String[] str : allStorages) {
+            Vector<String> temp = new Vector();
+            temp.add(str[0]);
+            temp.add(str[1]);
+            temp.add(str[2]);
+            vector.add(temp);
+        }
+
+        model.fireTableDataChanged();
     }
+
+
     public void addToTable(Storage store){
 
         String[] additionable = {store.getId(), store.getTipo(), String.valueOf(store.getAllProducts().length)};
         this.model.addRow(additionable);
     }
 
-    public void clearTable(){
-        int rowCount = model.getRowCount();
-
-        for(int i = 0; i < rowCount; i++){
-            model.removeRow(i);
-        }
-
-    }
 
     public void clearAll(){
         nome_.setText("");

@@ -7,18 +7,7 @@ import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
-import javax.swing.BorderFactory;
-import javax.swing.ImageIcon;
-import javax.swing.JButton;
-import javax.swing.JDesktopPane;
-import javax.swing.JFrame;
-import javax.swing.JInternalFrame;
-import javax.swing.JLabel;
-import javax.swing.JMenu;
-import javax.swing.JMenuBar;
-import javax.swing.JMenuItem;
-import javax.swing.JOptionPane;
-import javax.swing.JPanel;
+import javax.swing.*;
 import java.text.SimpleDateFormat;
 import java.time.LocalDate;
 import java.util.Calendar;
@@ -58,52 +47,70 @@ public class MainMenu extends JFrame implements ActionListener {
 		build_ui(user);
 	}
 	private void buildStorage() {
-		storageFrame = new StorageFrame();
-		storageFrame.setResizable(true);
-		storageFrame.setMaximizable(true);
-		storageFrame.setIconifiable(true);
-		storageFrame.setClosable(true);
-		storageFrame.setLocation(220, 220);
 
-		desktopPane.add(storageFrame);
+		if(storageFrame == null) {
+			storageFrame = new StorageFrame();
+			storageFrame.setResizable(true);
+			storageFrame.setMaximizable(true);
+			storageFrame.setIconifiable(true);
+			storageFrame.setClosable(true);
+			storageFrame.setLocation(220, 220);
+			desktopPane.add(storageFrame);
 
-		storageFrame.setVisible(true);
-		storageFrame.toFront();
-		storageFrame.setDefaultCloseOperation(HIDE_ON_CLOSE);
+			storageFrame.setVisible(true);
+			storageFrame.toFront();
+			storageFrame.setDefaultCloseOperation(HIDE_ON_CLOSE);
+		}
 	}
 
 	private void buildProduct() {
-		productFrame = new ProductFrame();
-		productFrame.setResizable(true);
-		productFrame.setMaximizable(true);
-		productFrame.setIconifiable(true);
-		productFrame.setClosable(true);
-		productFrame.setLocation(220, 220);
+		if(!productFrame.isVisible() ) {
+			productFrame = new ProductFrame();
+			productFrame.setResizable(true);
+			productFrame.setMaximizable(true);
+			productFrame.setIconifiable(true);
+			productFrame.setClosable(true);
+			productFrame.setLocation(220, 220);
 
-		desktopPane.add(productFrame);
+			desktopPane.add(productFrame);
 
-		productFrame.setVisible(true);
-		productFrame.toFront();
-		productFrame.setDefaultCloseOperation(HIDE_ON_CLOSE);
+			productFrame.setVisible(true);
+			productFrame.toFront();
+			productFrame.setDefaultCloseOperation(HIDE_ON_CLOSE);
+		}
 	}
 
 	private void buildProvider() {
+		if(!providerFrame.isVisible()) {
+			providerFrame = new ProviderFrame();
+			providerFrame.setResizable(true);
+			providerFrame.setMaximizable(true);
+			providerFrame.setIconifiable(true);
+			providerFrame.setClosable(true);
+			providerFrame.setLocation(220, 220);
 
-		providerFrame = new ProviderFrame();
-		providerFrame.setResizable(true);
-		providerFrame.setMaximizable(true);
-		providerFrame.setIconifiable(true);
-		providerFrame.setClosable(true);
-		providerFrame.setLocation(220, 220);
+			desktopPane.add(providerFrame);
 
-		desktopPane.add(providerFrame);
-
-		providerFrame.setVisible(true);
-		providerFrame.toFront();
-		providerFrame.setDefaultCloseOperation(HIDE_ON_CLOSE);
+			providerFrame.setVisible(true);
+			providerFrame.toFront();
+			providerFrame.setDefaultCloseOperation(HIDE_ON_CLOSE);
+		}
 	}
 
 	private void build_ui(String user) {
+		try{
+			for(UIManager.LookAndFeelInfo info: UIManager.getInstalledLookAndFeels()){
+				if("Nimbus".equals(info.getName())){
+					UIManager.setLookAndFeel(info.getClassName());
+					break;
+				}
+			}
+
+
+		}catch(Exception e){
+			e.printStackTrace();
+		}
+
 		setLayout(new BorderLayout());
 		setDefaultLookAndFeelDecorated(true);
 
@@ -152,11 +159,15 @@ public class MainMenu extends JFrame implements ActionListener {
 		btnArmazem.addActionListener(this);
 		btnArmazem.setBorder(BorderFactory.createMatteBorder(7, 7, 7, 7, menuColor));
 
+
+
+
 		icon = new ImageIcon("img\\icon\\product.png");
 		btnProdutos = new JButton(icon);
 		btnProdutos.setBackground(menuColor);
 		btnProdutos.addActionListener(this);
 		btnProdutos.setBorder(BorderFactory.createMatteBorder(7, 7, 7, 7, menuColor));
+
 
 		icon = new ImageIcon("img\\icon\\provider.png");
 		btnFornecedores = new JButton(icon);

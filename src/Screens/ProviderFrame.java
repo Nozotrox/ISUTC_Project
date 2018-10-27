@@ -13,14 +13,7 @@ import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.util.Vector;
 
-import javax.swing.BorderFactory;
-import javax.swing.JButton;
-import javax.swing.JInternalFrame;
-import javax.swing.JLabel;
-import javax.swing.JPanel;
-import javax.swing.JScrollPane;
-import javax.swing.JTable;
-import javax.swing.JTextField;
+import javax.swing.*;
 import javax.swing.table.DefaultTableModel;
 
 import Main.Authentication;
@@ -49,8 +42,9 @@ public class ProviderFrame extends JInternalFrame implements ActionListener {
 	static DefaultTableModel model;
 
 	public ProviderFrame() {
+
 		setTitle("Fornecedores");
-		setSize(600, 400);
+		setSize(800, 500);
 		setLayout(new BorderLayout());
 
 		// Data to be displayed in the JTable
@@ -251,7 +245,7 @@ public class ProviderFrame extends JInternalFrame implements ActionListener {
 			model.addRow(a);
 			Provider fornecedor = new Provider(nome_.getText(), nuit_.getText());
 			UserUtility.active_user.adicionar_fornecedor(fornecedor);
-			codigo_.setText(ID_Gen.nextId());
+			codigo_.setText(ID_Gen.nextProviderId());
 			write();
 		} else if (e.getSource().equals(update_)) {
 //			model.removeRow(model.getDataVector().size() - 1);
@@ -277,15 +271,6 @@ public class ProviderFrame extends JInternalFrame implements ActionListener {
 				model.addRow(data);
 			}
 		}
-	}
-
-	public void clearTable(){
-		int rowCount = model.getRowCount();
-
-		for(int i = 0; i < rowCount; i++){
-			model.removeRow(i);
-		}
-
 	}
 
 	public static Vector reader() {
@@ -316,16 +301,18 @@ public class ProviderFrame extends JInternalFrame implements ActionListener {
 	}
 
 	public void update(){
-//		clearTable();
-		int rowCount = model.getRowCount();
-
 		Vector vector = model.getDataVector();
 
+		String[][] allProviders = UserUtility.active_user.getAllProviders();
+		vector.clear();
+		for(String[] str: allProviders){
+			Vector<String> temp = new Vector();
+			temp.add(str[0]);
+			temp.add(str[1]);
+			temp.add(str[2]);
+			vector.add(temp);
 
-		for(int i = 0; i < rowCount; i++){
-			model.removeRow(i);
 		}
-		read();
 	}
 
 }
