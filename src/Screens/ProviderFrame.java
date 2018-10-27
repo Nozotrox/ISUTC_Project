@@ -1,10 +1,6 @@
 package Screens;
 
-import java.awt.BorderLayout;
-import java.awt.Color;
-import java.awt.FlowLayout;
-import java.awt.Font;
-import java.awt.GridLayout;
+import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.io.FileInputStream;
@@ -14,6 +10,7 @@ import java.io.ObjectInputStream;
 import java.util.Vector;
 
 import javax.swing.*;
+import javax.swing.border.Border;
 import javax.swing.table.DefaultTableModel;
 
 import Main.Authentication;
@@ -35,15 +32,18 @@ public class ProviderFrame extends JInternalFrame implements ActionListener {
 
 	JTextField nuit_, nome_, codigo_;
 
+	JCheckBox por_codigo;
+
 	JButton update_;
 	JButton save;
 	String[] columnNames;
 
 	static DefaultTableModel model;
 
-	public ProviderFrame() {
+	//::>> Vamos decidir se livramo-nos disto
+	public void trash_code(){
 
-		setTitle("Fornecedores");
+		/*setTitle("Fornecedores");
 		setSize(800, 500);
 		setLayout(new BorderLayout());
 
@@ -79,7 +79,7 @@ public class ProviderFrame extends JInternalFrame implements ActionListener {
 
 		JPanel pnUpSide = new JPanel(new GridLayout(1, 2));
 
-		JPanel pn = new JPanel(new BorderLayout());
+		JPanel pn = new JPanel(new BorderLayout());*/
 
 		///// /////
 
@@ -87,21 +87,22 @@ public class ProviderFrame extends JInternalFrame implements ActionListener {
 		pcenter.setLayout(new FlowLayout(FlowLayout.CENTER, 30, 30));
 
 		// Left Side
-		JPanel pLeft = new JPanel();
-		pLeft.setLayout(new GridLayout(6, 1));
+		/*JPanel pLeft = new JPanel();
+		pLeft.setLayout(new GridLayout(6, 1));*/
 
-		pLeft.add(new JLabel("Codigo: "));
+		//::>> Last Code
+		/*pLeft.add(new JLabel("Codigo: "));
 		pLeft.add(new JLabel(""));
 		pLeft.add(new JLabel("Nome: "));
 		pLeft.add(new JLabel(""));
 		pLeft.add(new JLabel("Nuit: "));
 		pLeft.add(new JLabel(""));
-
+*/
 		// Right Side
 		JPanel pRight = new JPanel();
-		pRight.setLayout(new GridLayout(6, 1));
+		pRight.setLayout(new FlowLayout(FlowLayout.LEFT));
 
-		nuit_ = new JTextField(12);
+		/*nuit_ = new JTextField(12);
 
 		// username_.setBorder(BorderFactory.createMatteBorder(0, 0, 1, 0, Color.GRAY));
 
@@ -115,12 +116,13 @@ public class ProviderFrame extends JInternalFrame implements ActionListener {
 		codigo_.setEnabled(false);
 
 		JPanel aux = new JPanel(new FlowLayout());
+		pRight.add(new JLabel("Codgio: "));
 		pRight.add(codigo_);
-		pRight.add(new JLabel(""));
+		pRight.add(new JLabel("Nome: "));
 		pRight.add(nome_);
-		pRight.add(new JLabel(""));
+		pRight.add(new JLabel("Nuit: "));
 		pRight.add(nuit_);
-		pRight.add(new JLabel(""));
+
 
 		JPanel pbtn = new JPanel();
 		pbtn.setLayout(new FlowLayout(FlowLayout.RIGHT));
@@ -138,16 +140,17 @@ public class ProviderFrame extends JInternalFrame implements ActionListener {
 		update_.setBorder(BorderFactory.createMatteBorder(5, 10, 5, 10, Color.GRAY));
 		update_.addActionListener(this);
 
-		pbtn.add(save);
-		pbtn.add(update_);
 
-		pcenter.add(pLeft);
+		*//*pbtn.add(save);
+		pbtn.add(update_);*//*
+
+//		pcenter.add(pLeft);
 		pcenter.add(pRight);
 
 		///// /////
 
 		pn.add("Center", pcenter);
-		pn.add("South", pbtn);
+		pn.add("North", pRight);
 
 		pnUpSide.add(pn);
 
@@ -176,18 +179,140 @@ public class ProviderFrame extends JInternalFrame implements ActionListener {
 
 		add("North", north);
 		add("Center", pnCenter);
-		read();
+		read();*/
 
 	}
+
+	public ProviderFrame() {
+
+		build_ui();
+
+	}
+
+	public void build_ui(){
+
+
+		setTitle("Fornecedores");
+		setSize(800, 300);
+		setLayout(new BorderLayout());
+
+		// Data to be displayed in the JTable
+		String[][] data = null;
+
+		// Column Names
+		columnNames = new String[] { "Codigo", "Nome", "Nuit" };
+
+		// Layout //
+
+		JLabel label = new JLabel("Tela de Registo de Fornecedores");
+		label.setFont(new Font("Century Gothic", Font.BOLD, 14));
+
+		model = new DefaultTableModel(data, columnNames) {
+			@Override
+			public boolean isCellEditable(int row, int column) {
+				// TODO Auto-generated method stub
+				return false;
+			}
+		};
+
+		/*Layout da tabela*/
+		table = new JTable(model);
+		JPanel table_layout = new JPanel(new BorderLayout());
+		JScrollPane scroll = new JScrollPane(table);
+		table_layout.add("North", table.getTableHeader());
+		table_layout.add("Center", scroll);
+
+
+
+		/* Inicializacao de variaveis */
+		nuit_ = new JTextField(12);
+		nome_ = new JTextField(12);
+		codigo_ = new JTextField(5);
+		codigo_.setText(ID_Gen.nextProviderId());
+		codigo_.setEnabled(false);
+
+		// Button Save #Gravar
+		save = new JButton("Gravar");
+		save.addActionListener(this);
+
+		// Button Cancel
+		update_ = new JButton("Actualizar");
+		update_.addActionListener(this);
+
+		// Check Box
+		por_codigo = new JCheckBox("Por Codigo");
+		por_codigo.addActionListener(this);
+
+		getTxtNome = new JTextField(15);
+		getTxtNr = new JTextField(15);
+		getTxtNr.setEnabled(false);
+		btnPesquisar = new JButton("Procurar");
+		btnPesquisar.addActionListener(this);
+
+
+
+		/* Construcao de Layout */
+
+		//::>> Cabecalho
+		JPanel topo = new JPanel(new BorderLayout());
+		JPanel banner = new JPanel(new FlowLayout(FlowLayout.CENTER));
+		JPanel dados_entrada = new JPanel(new FlowLayout(FlowLayout.CENTER, 0, 20));
+		JPanel pesquisa_container = new JPanel(new BorderLayout());
+		JPanel pesquisa_elements = new JPanel(new FlowLayout(FlowLayout.CENTER, 0,20));
+
+
+		dados_entrada.setBorder(BorderFactory.createTitledBorder(BorderFactory.createLineBorder(Color.LIGHT_GRAY,1 ,true),"Dados:"));
+
+
+		banner.add(label);
+
+		dados_entrada.add(new JLabel("Codigo: "));
+		dados_entrada.add(codigo_);
+		dados_entrada.add(new JLabel("Nome: "));
+		dados_entrada.add(nome_);
+		dados_entrada.add(new JLabel("Nuit: "));
+		dados_entrada.add(nuit_);
+		dados_entrada.add(save);
+		dados_entrada.add(update_);
+
+		topo.add("North", banner);
+		topo.add("South", dados_entrada);
+
+
+		pesquisa_elements.add(new JLabel("Codigo: " ));
+		pesquisa_elements.add(getTxtNr);
+		pesquisa_elements.add(new JLabel("Nome: "));
+		pesquisa_elements.add(getTxtNome);
+		pesquisa_elements.add(por_codigo);
+		pesquisa_elements.add(btnPesquisar);
+
+		pesquisa_container.add(pesquisa_elements);
+
+		pesquisa_container.setBorder(BorderFactory.createTitledBorder(BorderFactory.createLineBorder(Color.LIGHT_GRAY, 1, true),"Pesquisa:"));
+
+		//::>> Centro
+		this.add("North", topo);
+		this.add("Center", pesquisa_container);
+		this.add("South", table_layout);
+		this.pack();
+
+		read();
+
+
+	}
+
 
 	@Override
 	public void actionPerformed(ActionEvent e) {
 		if (e.getSource() == btnPesquisar) {
+
 			Vector vasd = new Vector<>();
+			boolean continue_ = validade_search_inputs();
 
 			// ::>> Pesquisa
-			if ((!model.getDataVector().isEmpty() && !getTxtNome.getText().equals(""))
+			if ((!model.getDataVector().isEmpty() && !getTxtNome.getText().equals("") && continue_ )
 					|| (!model.getDataVector().isEmpty() && !codigo_.getText().equals(""))) {
+
 				if ((getTxtNome.getText() != null) && (!getTxtNome.getText().equals(""))) {
 					for (Object object : model.getDataVector()) {
 						Vector vector = (Vector) object;
@@ -207,7 +332,7 @@ public class ProviderFrame extends JInternalFrame implements ActionListener {
 
 					for (Object vd : vasd) {
 						Vector vector = (Vector) vd;
-						model.addRow(new String[] { "" + vector.get(0), "" + vector.get(1), "" + vector.get(2) });
+						model.addRow(new String[]{"" + vector.get(0), "" + vector.get(1), "" + vector.get(2)});
 					}
 				} else if ((getTxtNr.getText() != null) || (!codigo_.getText().equals(""))) {
 					for (Object object : model.getDataVector()) {
@@ -228,7 +353,7 @@ public class ProviderFrame extends JInternalFrame implements ActionListener {
 
 					for (Object vd : vasd) {
 						Vector vector = (Vector) vd;
-						model.addRow(new String[] { "" + vector.get(0), "" + vector.get(1), "" + vector.get(2) });
+						model.addRow(new String[]{"" + vector.get(0), "" + vector.get(1), "" + vector.get(2)});
 					}
 					getTxtNome.setText("");
 					getTxtNr.setText("");
@@ -236,28 +361,67 @@ public class ProviderFrame extends JInternalFrame implements ActionListener {
 				}
 				getTxtNome.setText("");
 				getTxtNr.setText("");
-			} else {
-				read();
 			}
-		} else if (e.getSource().equals(save)) {
+		}
+		else if (e.getSource().equals(save)) {
 
-			String[] a = { "" + codigo_.getText(), "" + nome_.getText(), "" + nuit_.getText() };
-			model.addRow(a);
-			Provider fornecedor = new Provider(nome_.getText(), nuit_.getText());
-			UserUtility.active_user.adicionar_fornecedor(fornecedor);
-			codigo_.setText(ID_Gen.nextProviderId());
-			write();
+			boolean continue_ = validate_inputs();
+
+			if(continue_) {
+				String[] a = {"" + codigo_.getText(), "" + nome_.getText(), "" + nuit_.getText()};
+				model.addRow(a);
+				Provider fornecedor = new Provider(nome_.getText(), nuit_.getText());
+				UserUtility.active_user.adicionar_fornecedor(fornecedor);
+				codigo_.setText(ID_Gen.nextProviderId());
+				write();
+			}
 		} else if (e.getSource().equals(update_)) {
-//			model.removeRow(model.getDataVector().size() - 1);
 			update();
 		}
 		else if(e.getSource().equals(btnActualizar)){
 			update();
 		}
+		else if(e.getSource().equals(this.por_codigo)){
+
+			if(this.por_codigo.isSelected()){
+				this.getTxtNr.setEnabled(true);
+				this.getTxtNome.setEnabled(false);
+			}
+			else{
+				this.getTxtNr.setEnabled(false);
+				this.getTxtNome.setEnabled(true);
+			}
+		}
 	}
 
 	public void write() {
 		Authentication.write();
+	}
+
+	public boolean validate_inputs(){
+		if(this.nome_.getText().trim().equals("") || this.nuit_.getText().trim().equals("")) {
+			JOptionPane.showMessageDialog(null, "Por favor preencher os campos com dados validos");
+			return  false;
+		}
+
+		try{
+
+			long nuit = Integer.parseInt(this.nuit_.getText());
+		}
+		catch(NumberFormatException ex){
+			JOptionPane.showMessageDialog(null, "Preencher o campo de Nuit com dados validos: Numeros");
+			return false;
+		}
+		return true;
+	}
+
+	public boolean validade_search_inputs(){
+
+		if(this.getTxtNr.getText().trim().equals("") && this.getTxtNome.getText().trim().equals("")) {
+			JOptionPane.showMessageDialog(null, "Por favor preencher os campos com dados validos!");
+			return  false;
+		}
+		return true;
 	}
 
 	private void read() {
@@ -305,14 +469,16 @@ public class ProviderFrame extends JInternalFrame implements ActionListener {
 
 		String[][] allProviders = UserUtility.active_user.getAllProviders();
 		vector.clear();
+
 		for(String[] str: allProviders){
 			Vector<String> temp = new Vector();
 			temp.add(str[0]);
 			temp.add(str[1]);
 			temp.add(str[2]);
-			vector.add(temp);
-
+			model.addRow(new String[] { "" + temp.get(0), "" + temp.get(1), "" + temp.get(2) });
 		}
+
+
 	}
 
 }

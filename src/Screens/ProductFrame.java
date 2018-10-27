@@ -183,6 +183,90 @@ public class ProductFrame extends JInternalFrame implements ActionListener {
 //        new ProductFrame().setVisible(true);
 //    }
 
+
+    public void build_ui(){
+
+        setLocation(0,0);
+        this.setTitle("Produtos");
+        setLayout(new GridLayout(2, 1));
+        tablePanel = new JPanel();
+        setSize(900, 600);
+        tablePanel.setLayout(new BorderLayout(0, 0));
+
+        columnsNames = new String[] { "Codigo", "Armazem", "Stock Minimo", "Quantidade", "Nome", "Fornecedor" };
+        model = new DefaultTableModel(null, columnsNames) {
+            @Override
+            public boolean isCellEditable(int row, int column) {
+                // TODO Auto-generated method stub
+                return false;
+            }
+        };
+
+        table = new JTable(model);
+        table.setFillsViewportHeight(true);
+        table.sizeColumnsToFit(1);
+        populate_table();
+
+        sp = new JScrollPane(table);
+        tablePanel.add("North", table.getTableHeader());
+        tablePanel.add("Center", sp);
+
+        combo = new JComboBox<>();
+        combo.addItem("Escolha uma Opcao               ");
+
+        //::>> Setup Codigo
+        codigo_ = new JTextField(20);
+        codigo_.setEnabled(false);
+        codigo_.setText(ID_Gen.nextId());
+
+        //::>> Setup Armazem
+        armazem_ = new JComboBox(new String[]{"Escolha o Armazem"});
+        JPanel storage = new JPanel(new FlowLayout(FlowLayout.LEFT));
+        storage.add(new JLabel("Armazem             "));
+        storage.add(armazem_);
+
+        //::>> Setup  Stock Minimo
+        stockMinimo_ = new JTextField(20);
+        JPanel stock = new JPanel(new FlowLayout(FlowLayout.LEFT));
+        stock.add(new JLabel("Stock Minimo      "));
+        stock.add(stockMinimo_);
+
+
+        //::>> Setup Quantidade
+        qtd_ = new JTextField(20);
+        JPanel qtd  = new JPanel(new FlowLayout(FlowLayout.LEFT));
+        qtd.add(new JLabel("Quantidade:         "));
+        qtd.add(qtd_);
+
+
+        //::>> Setup NOme
+        nome_ = new JTextField(20);
+        JPanel name = new JPanel(new FlowLayout(FlowLayout.LEFT));
+        name.add(new JLabel("Nome:                   "));
+        name.add(nome_);
+
+        //::>> Setup Fornecedor
+        JPanel provider = new JPanel(new FlowLayout(FlowLayout.LEFT));
+        provider.add(new JLabel("Fornecedor:         "));
+        provider.add(combo);
+
+        fillComboBox();
+        //::>> Setup Space
+        JPanel space = new JPanel();
+        space.add(new JLabel(" "));
+
+        //::>Setup Buttons
+        save = new JButton("Gravar  ");
+        save.addActionListener(this);
+        update = new JButton("Actualizar");
+        update.addActionListener(this);
+        upLeft.add(save);
+        upLeft.add(update);
+
+        setColumnSizes();
+
+
+    }
     @Override
     public void actionPerformed(ActionEvent arg0) {
         boolean toSave;
@@ -305,7 +389,6 @@ public class ProductFrame extends JInternalFrame implements ActionListener {
 
     public void setColumnSizes(){
         DefaultTableColumnModel columnModel = (DefaultTableColumnModel) this.table.getColumnModel();
-
         for(int i = 0; i < 6; i++){
             columnModel.getColumn(i).setMinWidth(100);
         }
