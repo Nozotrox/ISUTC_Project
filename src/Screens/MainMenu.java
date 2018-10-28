@@ -1,19 +1,31 @@
 package Screens;
 
-import Main.Authentication;
-import Main_Classes.ClockTimer;
-
-import java.awt.*;
+import java.awt.BorderLayout;
+import java.awt.Color;
+import java.awt.Dimension;
+import java.awt.Font;
+import java.awt.Graphics;
+import java.awt.GridLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-
-import javax.swing.*;
-import java.text.SimpleDateFormat;
-import java.time.LocalDate;
-import java.util.Calendar;
-
-import java.lang.Object;
 import java.time.Clock;
+
+import javax.swing.BorderFactory;
+import javax.swing.ImageIcon;
+import javax.swing.JButton;
+import javax.swing.JDesktopPane;
+import javax.swing.JFrame;
+import javax.swing.JInternalFrame;
+import javax.swing.JLabel;
+import javax.swing.JMenu;
+import javax.swing.JMenuBar;
+import javax.swing.JMenuItem;
+import javax.swing.JOptionPane;
+import javax.swing.JPanel;
+import javax.swing.UIManager;
+
+import Main.Authentication;
+import Main_Classes.ClockTimer;
 
 /**
  * @author MSI
@@ -39,9 +51,9 @@ public class MainMenu extends JFrame implements ActionListener {
 	private JInternalFrame storageFrame, productFrame, buyFrame, armazemFrame, salesFrame;
 	private ImageIcon icon;
 
-    private Clock clock;
+	private Clock clock;
 
-	private static Color menuColor = new Color(5,15,25);
+	private static Color menuColor = new Color(5, 15, 25);
 
 	public MainMenu(String user) {
 		build_ui(user);
@@ -49,7 +61,7 @@ public class MainMenu extends JFrame implements ActionListener {
 
 	private void buildStorage() {
 
-		if(storageFrame == null || !storageFrame.isVisible()) {
+		if (storageFrame == null || !storageFrame.isVisible()) {
 			storageFrame = new StorageFrame();
 			storageFrame.setResizable(true);
 			storageFrame.setMaximizable(true);
@@ -65,7 +77,7 @@ public class MainMenu extends JFrame implements ActionListener {
 	}
 
 	private void buildProduct() {
-		if(!productFrame.isVisible() ) {
+		if (!productFrame.isVisible()) {
 			productFrame = new ProductFrame();
 			productFrame.setResizable(true);
 			productFrame.setMaximizable(true);
@@ -82,7 +94,7 @@ public class MainMenu extends JFrame implements ActionListener {
 	}
 
 	private void buildSales() {
-		if(salesFrame == null || !salesFrame.isVisible()) {
+		if (salesFrame == null || !salesFrame.isVisible()) {
 			salesFrame = new SalesMenuFrame();
 			salesFrame.setResizable(true);
 			salesFrame.setMaximizable(true);
@@ -98,9 +110,9 @@ public class MainMenu extends JFrame implements ActionListener {
 		}
 	}
 
-	private void buildProvider(){
+	private void buildProvider() {
+		if (!providerFrame.isVisible()) {
 
-		if(!providerFrame.isVisible()) {
 			providerFrame = new ProviderFrame();
 			providerFrame.setResizable(true);
 			providerFrame.setMaximizable(true);
@@ -117,17 +129,15 @@ public class MainMenu extends JFrame implements ActionListener {
 	}
 
 	private void build_ui(String user) {
-
-		try{
-			for(UIManager.LookAndFeelInfo info: UIManager.getInstalledLookAndFeels()){
-				if("Nimbus".equals(info.getName())){
+		try {
+			for (UIManager.LookAndFeelInfo info : UIManager.getInstalledLookAndFeels()) {
+				if ("Nimbus".equals(info.getName())) {
 					UIManager.setLookAndFeel(info.getClassName());
 					break;
 				}
 			}
 
-
-		}catch(Exception e){
+		} catch (Exception e) {
 			e.printStackTrace();
 		}
 
@@ -137,7 +147,7 @@ public class MainMenu extends JFrame implements ActionListener {
 		menuBar = new JMenuBar();
 
 		isistema = new JMenu("Sistema");
-		    isistema.setFont(new Font("Century Gothic", Font.PLAIN, 15));
+		isistema.setFont(new Font("Century Gothic", Font.PLAIN, 15));
 		isistemaVenda = new JMenuItem("Venda");
 		isistemaCompra = new JMenuItem("Compra");
 		isistema.add(isistemaVenda);
@@ -145,21 +155,19 @@ public class MainMenu extends JFrame implements ActionListener {
 		isistema.add(isistemaCompra);
 
 		isair = new JMenu("Sair");
-		    isair.setFont(new Font("Century Gothic", Font.PLAIN, 15));
+		isair.setFont(new Font("Century Gothic", Font.PLAIN, 15));
 		isairLogout = new JMenuItem("Log Out");
 		isairExit = new JMenuItem("Fechar");
 		isairExit.addActionListener(this);
 		isair.add(isairLogout);
 
-
 		isairLogout.addActionListener(this);
 		isairExit.addActionListener(this);
-
 
 		isair.add(isairExit);
 
 		ihelp = new JMenu("HELP");
-		    ihelp.setFont(new Font("Century Gothic", Font.PLAIN, 15));
+		ihelp.setFont(new Font("Century Gothic", Font.PLAIN, 15));
 		ihelp.addActionListener(this);
 
 		menuBar.add(isistema);
@@ -180,15 +188,11 @@ public class MainMenu extends JFrame implements ActionListener {
 		btnArmazem.addActionListener(this);
 		btnArmazem.setBorder(BorderFactory.createMatteBorder(7, 7, 7, 7, menuColor));
 
-
-
-
 		icon = new ImageIcon("img\\icon\\product.png");
 		btnProdutos = new JButton(icon);
 		btnProdutos.setBackground(menuColor);
 		btnProdutos.addActionListener(this);
 		btnProdutos.setBorder(BorderFactory.createMatteBorder(7, 7, 7, 7, menuColor));
-
 
 		icon = new ImageIcon("img\\icon\\provider.png");
 		btnFornecedores = new JButton(icon);
@@ -208,17 +212,15 @@ public class MainMenu extends JFrame implements ActionListener {
 		panel.add(btnVendas);
 		panel.add(new JLabel(""));
 
-//		Calendar cal = Calendar.getInstance();
-//		SimpleDateFormat sdf = new SimpleDateFormat("HH:mm:ss");
+		// Calendar cal = Calendar.getInstance();
+		// SimpleDateFormat sdf = new SimpleDateFormat("HH:mm:ss");
 
-        JLabel hour;
+		JLabel hour;
 
 		hour = new JLabel("00:00:00");
 
-
 		ClockTimer clock = new ClockTimer(hour);
 		clock.start();
-
 
 		hour.setBorder(BorderFactory.createMatteBorder(5, 5, 5, 5, menuColor));
 		hour.setFont(new Font("Century Gothic", Font.BOLD, 25));
@@ -242,15 +244,18 @@ public class MainMenu extends JFrame implements ActionListener {
 		 *
 		 */
 		desktopPane = new JDesktopPane() {
+			@Override
 			protected void paintComponent(Graphics grphcs) {
 				super.paintComponent(grphcs);
 				// BACKGROUND
 				grphcs.drawImage(new ImageIcon("img\\bg.jpg").getImage(), 0, 0, null);
 			}
 
+			@Override
 			public Dimension getPreferredSize() {
 				// BACKGROUND 2 VEZES
-				return new Dimension(new ImageIcon("img\\bg.jpg").getIconWidth(), new ImageIcon("ISUTC_Project\\img\\bg.jpg").getIconHeight());
+				return new Dimension(new ImageIcon("img\\bg.jpg").getIconWidth(),
+						new ImageIcon("ISUTC_Project\\img\\bg.jpg").getIconHeight());
 			}
 		};
 
@@ -268,7 +273,7 @@ public class MainMenu extends JFrame implements ActionListener {
 
 		desktopPane.setVisible(true);
 
-		//panel2.add("North", new JLabel("        "));
+		// panel2.add("North", new JLabel(" "));
 		panel2.add("Center", desktopPane);
 
 		add("North", new JLabel(""));
@@ -293,25 +298,21 @@ public class MainMenu extends JFrame implements ActionListener {
 
 		if (arg0.getSource().equals(btnProdutos)) {
 			buildProduct();
-		}
-		else if (arg0.getSource().equals(btnFornecedores)) {
+		} else if (arg0.getSource().equals(btnFornecedores)) {
 			buildProvider();
-		}
-		else if (arg0.getSource().equals(btnVendas)) {
+		} else if (arg0.getSource().equals(btnVendas)) {
 			buildSales();
-		}
-		else if (arg0.getSource().equals(isairExit)) {
+		} else if (arg0.getSource().equals(isairExit)) {
 			JOptionPane.showMessageDialog(null, "SAINDO", "SAIR", JOptionPane.ERROR_MESSAGE);
 			System.exit(1);
-		}
-		else if (arg0.getSource().equals(btnArmazem)) {
+		} else if (arg0.getSource().equals(btnArmazem)) {
 			buildStorage();
 		}
-        else if (arg0.getSource().equals(isairLogout)) {
-			this.dispose();
-            new Authentication();
-        }
 
+		if (arg0.getSource().equals(isairLogout)) {
+			this.dispose();
+			new Authentication();
+		}
 
 	}
 
