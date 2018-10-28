@@ -59,32 +59,32 @@ public class ProviderFrame extends JInternalFrame implements ActionListener, Mou
 
 		/*
 		 * setTitle("Fornecedores"); setSize(800, 500); setLayout(new BorderLayout());
-		 * 
+		 *
 		 * // Data to be displayed in the JTable String[][] data = null;
-		 * 
+		 *
 		 * // Column Names columnNames = new String[] { "Codigo", "Nome", "Nuit" };
-		 * 
+		 *
 		 * // Layout //
-		 * 
+		 *
 		 * JPanel north = new JPanel(new FlowLayout(FlowLayout.CENTER)); JLabel label =
 		 * new JLabel("Tela de Registo de Fornecedores"); label.setFont(new
 		 * Font("Century Gothic", Font.BOLD, 14)); north.add(label);
-		 * 
+		 *
 		 * model = new DefaultTableModel(data, columnNames) {
-		 * 
+		 *
 		 * @Override public boolean isCellEditable(int row, int column) { // TODO
 		 * Auto-generated method stub return false; } };
-		 * 
+		 *
 		 * table = new JTable(model); JPanel table_layout = new JPanel(new
 		 * BorderLayout()); JScrollPane scroll = new JScrollPane(table);
-		 * 
+		 *
 		 * table_layout.add("North", table.getTableHeader()); table_layout.add("Center",
 		 * scroll);
-		 * 
+		 *
 		 * JPanel pnCenter = new JPanel(new GridLayout(2, 1));
-		 * 
+		 *
 		 * JPanel pnUpSide = new JPanel(new GridLayout(1, 2));
-		 * 
+		 *
 		 * JPanel pn = new JPanel(new BorderLayout());
 		 */
 
@@ -110,65 +110,65 @@ public class ProviderFrame extends JInternalFrame implements ActionListener, Mou
 
 		/*
 		 * nuit_ = new JTextField(12);
-		 * 
+		 *
 		 * // username_.setBorder(BorderFactory.createMatteBorder(0, 0, 1, 0,
 		 * Color.GRAY));
-		 * 
+		 *
 		 * // password_.setBorder(BorderFactory.createMatteBorder(0, 0, 1, 0,
 		 * Color.GRAY));
-		 * 
+		 *
 		 * nome_ = new JTextField(12); //
 		 * nome_.setBorder(BorderFactory.createMatteBorder(0, 0, 1, 0, Color.GRAY));
-		 * 
+		 *
 		 * codigo_ = new JTextField(5); codigo_.setText(ID_Gen.nextId());
 		 * codigo_.setEnabled(false);
-		 * 
+		 *
 		 * JPanel aux = new JPanel(new FlowLayout()); pRight.add(new
 		 * JLabel("Codgio: ")); pRight.add(codigo_); pRight.add(new JLabel("Nome: "));
 		 * pRight.add(nome_); pRight.add(new JLabel("Nuit: ")); pRight.add(nuit_);
-		 * 
-		 * 
+		 *
+		 *
 		 * JPanel pbtn = new JPanel(); pbtn.setLayout(new FlowLayout(FlowLayout.RIGHT));
-		 * 
+		 *
 		 * // Button Save #Gravar save = new JButton("Gravar"); save.setBorder(null);
 		 * save.setBackground(Color.LIGHT_GRAY);
 		 * save.setBorder(BorderFactory.createMatteBorder(5, 20, 5, 20,
 		 * Color.LIGHT_GRAY)); save.addActionListener(this);
-		 * 
+		 *
 		 * // Button Cancel update_ = new JButton("Actualizar");
 		 * update_.setBackground(Color.GRAY);
 		 * update_.setBorder(BorderFactory.createMatteBorder(5, 10, 5, 10, Color.GRAY));
 		 * update_.addActionListener(this);
-		 * 
-		 * 
+		 *
+		 *
 		 *//*
 			 * pbtn.add(save); pbtn.add(update_);
 			 *//*
-				 * 
+				 *
 				 * // pcenter.add(pLeft); pcenter.add(pRight);
-				 * 
+				 *
 				 * ///// /////
-				 * 
+				 *
 				 * pn.add("Center", pcenter); pn.add("North", pRight);
-				 * 
+				 *
 				 * pnUpSide.add(pn);
-				 * 
+				 *
 				 * pnUpSide.add(new JLabel(""));
-				 * 
+				 *
 				 * JPanel pnBottonSide = new JPanel(new BorderLayout());
-				 * 
+				 *
 				 * JPanel banner = new JPanel(new FlowLayout(FlowLayout.LEFT, 15, 25));
-				 * 
+				 *
 				 * getTxtNome = new JTextField(15); getTxtNr = new JTextField(15); btnPesquisar
 				 * = new JButton("Procurar"); btnPesquisar.addActionListener(this);
-				 * 
+				 *
 				 * banner.add(new JLabel("Codigo: ")); banner.add(getTxtNr); banner.add(new
 				 * JLabel("Nome:")); banner.add(getTxtNome); banner.add(btnPesquisar);
-				 * 
+				 *
 				 * pnBottonSide.add("North", banner); pnBottonSide.add("Center", table_layout);
-				 * 
+				 *
 				 * pnCenter.add(pnUpSide); pnCenter.add(pnBottonSide);
-				 * 
+				 *
 				 * add("North", north); add("Center", pnCenter); read();
 				 */
 
@@ -181,6 +181,7 @@ public class ProviderFrame extends JInternalFrame implements ActionListener, Mou
 	}
 
 	public void build_ui() {
+
 
 		setTitle("Fornecedores");
 		setSize(800, 300);
@@ -207,7 +208,6 @@ public class ProviderFrame extends JInternalFrame implements ActionListener, Mou
 
 		/* Layout da tabela */
 		table = new JTable(model);
-		table.addMouseListener(this);
 		JPanel table_layout = new JPanel(new BorderLayout());
 		JScrollPane scroll = new JScrollPane(table);
 		table_layout.add("North", table.getTableHeader());
@@ -242,19 +242,22 @@ public class ProviderFrame extends JInternalFrame implements ActionListener, Mou
 		btnPesquisar = new JButton("Procurar");
 		btnPesquisar.addActionListener(this);
 
+
+
 		/* Construcao de Layout */
 
-		// ::>> Cabecalho
+		//::>> Cabecalho
 		JPanel topo = new JPanel(new BorderLayout());
 		JPanel banner = new JPanel(new FlowLayout(FlowLayout.CENTER));
 		JPanel dados_entrada = new JPanel(new FlowLayout(FlowLayout.CENTER, 0, 20));
 		JPanel pesquisa_container = new JPanel(new BorderLayout());
-		JPanel pesquisa_elements = new JPanel(new FlowLayout(FlowLayout.CENTER, 0, 20));
+		JPanel pesquisa_elements = new JPanel(new FlowLayout(FlowLayout.CENTER, 0,20));
 
 		dados_entrada.setBorder(
 				BorderFactory.createTitledBorder(BorderFactory.createLineBorder(Color.LIGHT_GRAY, 1, true), "Dados:"));
 
 		banner.add(label);
+
 		dados_entrada.add(new JLabel("Codigo: "));
 		dados_entrada.add(codigo_);
 		dados_entrada.add(new JLabel("Nome: "));
@@ -263,7 +266,6 @@ public class ProviderFrame extends JInternalFrame implements ActionListener, Mou
 		dados_entrada.add(nuit_);
 		dados_entrada.add(save);
 		dados_entrada.add(update_);
-		dados_entrada.add(btnNovo);
 
 		topo.add("North", banner);
 		topo.add("South", dados_entrada);
@@ -288,7 +290,9 @@ public class ProviderFrame extends JInternalFrame implements ActionListener, Mou
 		table.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
 		read();
 
+
 	}
+
 
 	@Override
 	public void actionPerformed(ActionEvent e) {
@@ -411,7 +415,7 @@ public class ProviderFrame extends JInternalFrame implements ActionListener, Mou
 
 		if (this.getTxtNr.getText().trim().equals("") && this.getTxtNome.getText().trim().equals("")) {
 			JOptionPane.showMessageDialog(null, "Por favor preencher os campos com dados validos!");
-			return false;
+			return  false;
 		}
 		return true;
 	}

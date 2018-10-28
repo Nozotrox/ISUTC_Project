@@ -12,6 +12,7 @@ public class Product implements DataList, Serializable {
     private Provider fornecedor;
     private Storage armazem;
     private int quantidade;
+    private double preco;
 
 
     public Product(String nome, Provider fornecedor, Storage armazem, int quantidade, int stockMinimo){
@@ -20,6 +21,12 @@ public class Product implements DataList, Serializable {
         this.armazem = armazem;
         this.quantidade = quantidade;
         this.stock_minimo = stockMinimo;
+
+    }
+
+    public Product(String nome, Provider fornecedor, Storage armazem, int quantidade, int stockMinimo, double preco){
+       this(nome, fornecedor, armazem, quantidade, stockMinimo);
+       this.preco = preco;
 
     }
 

@@ -336,6 +336,38 @@ public class SalesMenuFrame extends JInternalFrame implements ActionListener, Mo
         }
     }
 
+    public void gerar_recibo(){
+
+        /*String str = "\t\t\t<<<<::: FACTURA :::>>>>\n" +
+                "\t\t\t\n" +
+                "\t\t\tA negociar Como (Mocambique) LTD\n" +
+                "\t\t\t\tMATOLA\n" +
+                "\n" +
+                "***********************************************************\n" +
+                "\n" +
+                "::>Usuario\n" + UserUtility.active_user.get
+                "Nome:\n" +
+                "Username: \n" +
+                "***********************************************************\n" +
+                "\n" +
+                "::>Venda\n" +
+                "Data: \n" +
+                "Hora:\n" +
+                "\n" +
+                "\n" +
+                "***************************************\n" +
+                "Produto\t\tQtd\t\tPreco\n" +
+                "\n" +
+                "\n" +
+                "\n" +
+                "************************************\n" +
+                "Obrigado Por comprar no ifk!\n" +
+                "Nao deixe de ver as nossas ofertas no \n" +
+                "Facebook ou em ifk.com";
+*/
+
+
+    }
 
     public void setColumnSizes(){
         DefaultTableColumnModel columnModel = (DefaultTableColumnModel) this.table.getColumnModel();
