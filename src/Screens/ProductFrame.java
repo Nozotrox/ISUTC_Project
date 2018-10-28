@@ -514,7 +514,8 @@ public class ProductFrame extends JInternalFrame implements ActionListener, Mous
 			String[][] data = storage.getAllProducts();
 
 			for (String[] dt : data) {
-				model.addRow(new String[] { "" + dt[0], "" + dt[1], "" + dt[5], "" + dt[3], "" + dt[4], "" + dt[2] });
+				model.addRow(new String[] { "" + dt[0], "" + dt[1], "" + dt[5], "" + dt[3], "" + dt[4], "" + dt[2],
+						"" + UserUtility.active_user.findStorage("" + dt[3]).getProduto("" + dt[0]).getPreco() });
 			}
 
 		}
@@ -597,7 +598,6 @@ public class ProductFrame extends JInternalFrame implements ActionListener, Mous
 			qtd_.setText("" + vector.get(4));
 			combo.setSelectedItem("" + vector.get(5));
 			preco_.setText("" + vector.get(6));
-
 		}
 	}
 
