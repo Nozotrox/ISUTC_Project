@@ -182,7 +182,6 @@ public class ProviderFrame extends JInternalFrame implements ActionListener, Mou
 
 	public void build_ui() {
 
-
 		setTitle("Fornecedores");
 		setSize(800, 300);
 		setLayout(new BorderLayout());
@@ -208,6 +207,7 @@ public class ProviderFrame extends JInternalFrame implements ActionListener, Mou
 
 		/* Layout da tabela */
 		table = new JTable(model);
+		table.addMouseListener(this);
 		JPanel table_layout = new JPanel(new BorderLayout());
 		JScrollPane scroll = new JScrollPane(table);
 		table_layout.add("North", table.getTableHeader());
@@ -242,16 +242,14 @@ public class ProviderFrame extends JInternalFrame implements ActionListener, Mou
 		btnPesquisar = new JButton("Procurar");
 		btnPesquisar.addActionListener(this);
 
-
-
 		/* Construcao de Layout */
 
-		//::>> Cabecalho
+		// ::>> Cabecalho
 		JPanel topo = new JPanel(new BorderLayout());
 		JPanel banner = new JPanel(new FlowLayout(FlowLayout.CENTER));
 		JPanel dados_entrada = new JPanel(new FlowLayout(FlowLayout.CENTER, 0, 20));
 		JPanel pesquisa_container = new JPanel(new BorderLayout());
-		JPanel pesquisa_elements = new JPanel(new FlowLayout(FlowLayout.CENTER, 0,20));
+		JPanel pesquisa_elements = new JPanel(new FlowLayout(FlowLayout.CENTER, 0, 20));
 
 		dados_entrada.setBorder(
 				BorderFactory.createTitledBorder(BorderFactory.createLineBorder(Color.LIGHT_GRAY, 1, true), "Dados:"));
@@ -266,6 +264,7 @@ public class ProviderFrame extends JInternalFrame implements ActionListener, Mou
 		dados_entrada.add(nuit_);
 		dados_entrada.add(save);
 		dados_entrada.add(update_);
+		dados_entrada.add(btnNovo);
 
 		topo.add("North", banner);
 		topo.add("South", dados_entrada);
@@ -290,9 +289,7 @@ public class ProviderFrame extends JInternalFrame implements ActionListener, Mou
 		table.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
 		read();
 
-
 	}
-
 
 	@Override
 	public void actionPerformed(ActionEvent e) {
@@ -420,7 +417,7 @@ public class ProviderFrame extends JInternalFrame implements ActionListener, Mou
 
 		if (this.getTxtNr.getText().trim().equals("") && this.getTxtNome.getText().trim().equals("")) {
 			JOptionPane.showMessageDialog(null, "Por favor preencher os campos com dados validos!");
-			return  false;
+			return false;
 		}
 		return true;
 	}
