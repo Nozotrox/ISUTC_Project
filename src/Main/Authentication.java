@@ -31,6 +31,7 @@ import javax.swing.UIManager.LookAndFeelInfo;
 import Main_Classes.User;
 import Screens.MainMenu;
 import Screens.Sign_up;
+import Screens.Splash;
 
 public class Authentication extends JFrame implements ActionListener {
 
@@ -212,7 +213,7 @@ public class Authentication extends JFrame implements ActionListener {
 	// ::>> CLOSE
 
 	public static void main(String[] args) {
-		try {
+		/*try {
 			for (LookAndFeelInfo info : UIManager.getInstalledLookAndFeels()) {
 				if ("Nimbus".equals(info.getName())) {
 					UIManager.setLookAndFeel(info.getClassName());
@@ -221,8 +222,8 @@ public class Authentication extends JFrame implements ActionListener {
 			}
 		} catch (Exception e) {
 			JOptionPane.showMessageDialog(null, "Display couldn't be Loaded");
-		}
-		// new Splash();
+		}*/
+//		 new Splash();
 		new Authentication();
 	}
 

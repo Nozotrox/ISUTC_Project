@@ -1,5 +1,6 @@
 package Screens;
 
+import Main.Authentication;
 import Main.ID_Gen;
 import Main.UserUtility;
 import Main_Classes.Product;
@@ -14,6 +15,7 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
+import java.util.Calendar;
 import java.util.Vector;
 
 public class SalesMenuFrame extends JInternalFrame implements ActionListener, MouseListener {
@@ -31,6 +33,8 @@ public class SalesMenuFrame extends JInternalFrame implements ActionListener, Mo
     private JComboBox armazem_;
     private JButton save, update, btnPesquisar, calcular, vender;
     private JCheckBox efectuarPesquisa;
+
+    private Vector<String[]> this_instace_sales = new Vector();
 
 
     public SalesMenuFrame(){
@@ -212,8 +216,28 @@ public class SalesMenuFrame extends JInternalFrame implements ActionListener, Mo
     public void vender(){
         Storage storage = UserUtility.active_user.findStorage(armazem_.getSelectedItem().toString());
         Product product = storage.getProduto(this.codigo_.getText());
+
+        Calendar date = Calendar.getInstance();
+        String data = date.get(Calendar.DAY_OF_MONTH) + "/" + date.get(Calendar.MONTH) +"/" + date.get(Calendar.YEAR);
+        String hora = date.get(Calendar.HOUR_OF_DAY) + ":" + date.get(Calendar.MINUTE) + ":" + date.get(Calendar.SECOND);
+        String produto = this.nome_.getText();
+        String qtd = this.qtd_venda.getText();
+        String preco = this.total.getText();
+        String iva = this.taxes.getText();
+
+        String[] venda = {data, hora, produto, qtd, preco, iva};
+        this.this_instace_sales.add(venda);
+        String recipe = gerar_recibo();
+        FacturaFrame facturaFrame = new FacturaFrame(recipe);
+
+        UserUtility.active_user.adicionar_venda(venda);
         product.setQuantidade(product.getQuantidade() - Integer.parseInt(this.qtd_venda.getText()));
         update();
+        FacturaFrame.sell = false;
+
+
+
+
     }
     @Override
     public void actionPerformed(ActionEvent e){
@@ -243,6 +267,7 @@ public class SalesMenuFrame extends JInternalFrame implements ActionListener, Mo
 
         else if(e.getSource() == this.vender){
             vender();
+            Authentication.write();
         }
 
     }
@@ -337,37 +362,45 @@ public class SalesMenuFrame extends JInternalFrame implements ActionListener, Mo
         }
     }
 
-    public void gerar_recibo(){
+    public String gerar_recibo(){
 
-        /*String str = "\t\t\t<<<<::: FACTURA :::>>>>\n" +
-                "\t\t\t\n" +
-                "\t\t\tA negociar Como (Mocambique) LTD\n" +
-                "\t\t\t\tMATOLA\n" +
+        Calendar date = Calendar.getInstance();
+        String str = ":::FACTURA:::\n" +
+                "\n" +
+                "    A negociar Como (Mocambique) LTD\n" +
+                "    MATOLA\n" +
                 "\n" +
                 "***********************************************************\n" +
                 "\n" +
-                "::>Usuario\n" + UserUtility.active_user.get
-                "Nome:\n" +
-                "Username: \n" +
-                "***********************************************************\n" +
+                "::>Usuario\n" +
+                "Nome: " + UserUtility.active_user.getName() +
+                "\nUsername: " + UserUtility.active_user.getUsername() +
+                "\n***********************************************************\n" +
                 "\n" +
                 "::>Venda\n" +
-                "Data: \n" +
-                "Hora:\n" +
+                "Data: " + date.get(Calendar.DAY_OF_MONTH) + "/" +
+                + date.get(Calendar.MONTH) +"/" + date.get(Calendar.YEAR) + "\n" +
+                "Hora: " + date.get(Calendar.HOUR_OF_DAY) + ":" + date.get(Calendar.MINUTE) + ":" + date.get(Calendar.SECOND) +
                 "\n" +
                 "\n" +
                 "***************************************\n" +
-                "Produto\t\tQtd\t\tPreco\n" +
-                "\n" +
-                "\n" +
-                "\n" +
-                "************************************\n" +
-                "Obrigado Por comprar no ifk!\n" +
-                "Nao deixe de ver as nossas ofertas no \n" +
-                "Facebook ou em ifk.com";
-*/
+                "Produto                      Qtd    Preco\n";
 
+        String another = "";
+        Vector<String[]> t = this.this_instace_sales;
+        String insert = "";
+        for(int i = 0; i < t.size(); i++) {
+            insert = another.format("%-29s %-8s %-13s\n", t.get(i)[2], t.get(i)[3], t.get(i)[4]);
 
+            str += insert;
+
+        }
+        str += "************************************\n" +
+                    "Obrigado Por comprar no ifk!\n" +
+                    "Nao deixe de ver as nossas ofertas no \n" +
+                    "Facebook ou em ifk.com";
+
+        return str;
     }
 
     public void setColumnSizes(){
