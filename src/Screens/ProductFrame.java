@@ -31,6 +31,7 @@ import static Main.UserUtility.active_user;
  *
  */
 public class ProductFrame extends JInternalFrame implements ActionListener {
+
     public JTable table;
     public DefaultTableModel model;
     JComboBox<String> combo;
