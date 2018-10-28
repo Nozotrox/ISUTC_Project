@@ -228,8 +228,8 @@ public class ProviderFrame extends JInternalFrame implements ActionListener, Mou
 		update_ = new JButton("Actualizar");
 		update_.addActionListener(this);
 
-		// Button de Teste
-		btnNovo = new JButton("Teste");
+		// Button de Edit
+		btnNovo = new JButton("Edit");
 		btnNovo.addActionListener(this);
 
 		// Check Box
@@ -365,11 +365,16 @@ public class ProviderFrame extends JInternalFrame implements ActionListener, Mou
 			if (continue_) {
 
 				String[] a = { "" + codigo_.getText(), "" + nome_.getText(), "" + nuit_.getText() };
-				model.addRow(a);
-				Provider fornecedor = new Provider(nome_.getText(), nuit_.getText());
-				UserUtility.active_user.adicionar_fornecedor(fornecedor);
-				codigo_.setText(ID_Gen.nextProviderId());
-				write();
+				if (nuitVerifier()) {
+					System.out.println("LOL");
+					JOptionPane.showMessageDialog(null, "Somebody with NUIT Exists!");
+				} else {
+					model.addRow(a);
+					Provider fornecedor = new Provider(nome_.getText(), nuit_.getText());
+					UserUtility.active_user.adicionar_fornecedor(fornecedor);
+					codigo_.setText(ID_Gen.nextProviderId());
+					write();
+				}
 			}
 
 		} else if (e.getSource().equals(update_)) {
@@ -463,6 +468,18 @@ public class ProviderFrame extends JInternalFrame implements ActionListener, Mou
 	public void dataSwitch() {
 		model.setValueAt(nome_.getText(), table.getSelectedRow(), 1);
 		model.setValueAt(nuit_.getText(), table.getSelectedRow(), 2);
+	}
+
+	public boolean nuitVerifier() {
+		for (Object obj : model.getDataVector()) {
+			Vector vector = (Vector) obj;
+			for (Object object : vector) {
+				if (object.equals(nuit_.getText())) {
+					return true;
+				}
+			}
+		}
+		return false;
 	}
 
 	public void update() {
