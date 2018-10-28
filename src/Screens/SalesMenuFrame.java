@@ -110,6 +110,7 @@ public class SalesMenuFrame extends JInternalFrame implements ActionListener, Mo
         total = new JTextField(20);
         qtd_venda = new JTextField(10);
         preco = new JTextField(10);
+        preco.setEnabled(false);
         total = new JTextField(10);
         total.setEnabled(false);
         taxes = new JTextField(10);
@@ -390,6 +391,9 @@ public class SalesMenuFrame extends JInternalFrame implements ActionListener, Mo
         this.stockMinimo_.setText(selected_data.get(3));
         this.combo.setSelectedItem(this.data.get(row)[2]);
         this.armazem_.setSelectedItem(this.data.get(row)[3]);
+
+        double preco = UserUtility.active_user.findStorage(this.data.get(row)[3]).getProduto(this.codigo_.getText()).getPreco();
+        this.preco.setText(String.valueOf(preco));
 
 
     }

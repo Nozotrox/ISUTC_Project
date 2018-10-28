@@ -31,6 +31,15 @@ public class Product implements DataList, Serializable {
     }
 
     //::>> Getters e Setters
+
+    public double getPreco() {
+        return preco;
+    }
+
+    public void setPreco(double preco) {
+        this.preco = preco;
+    }
+
     public String getId() {
         return id;
     }
