@@ -133,6 +133,15 @@ public class User implements Serializable {
         return null;
     }
 
+    public Provider findProvider(String nome){
+        for(Provider provider: fornecedores){
+            if(provider.getNome().equals(nome)){
+                return provider;
+            }
+        }
+        return null;
+    }
+
     public String[][] getAllStorages(){
         int parm_storage = 3;
         String[][] allStorage = new String[this.armazens.size()][parm_storage];

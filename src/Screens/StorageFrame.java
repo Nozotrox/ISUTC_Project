@@ -9,6 +9,7 @@ import javax.swing.table.DefaultTableModel;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.util.Vector;
 
 import static Screens.ProviderFrame.model;
 
@@ -30,15 +31,127 @@ public class StorageFrame extends JInternalFrame implements ActionListener {
     JTextField tipo;
     JTextField nome_;
 
+    JCheckBox por_codigo;
+
     JButton update_;
     JButton save_;
     private ImageIcon icon;
 
-    public StorageFrame(){
+
+    public void build_ui(){
 
         setTitle("Armazem");
-        System.out.println("SHITK");
-        setSize(600,400);
+        setSize(800,500);
+        setLocation(220,220);
+        setLayout(new BorderLayout());
+
+        // Data to be displayed in the JTable
+        String[][] data = null;
+
+        // Column Names
+        String[] columnNames = null;
+        // Column Names
+        columnNames = new String[] { "Codigo", "Nome" , "Quantidade de produtos"};
+
+        // Layout //
+
+        JPanel north = new JPanel(new FlowLayout(FlowLayout.CENTER));
+        JLabel label = new JLabel("Tela de Registo de Armazem");
+        label.setFont(new Font("Century Gothic", Font.BOLD, 14));
+        north.add(label);
+
+        model = new DefaultTableModel(data, columnNames) {
+            @Override
+            public boolean isCellEditable(int row, int column) {
+                // TODO Auto-generated method stub
+                return false;
+            }
+        };
+
+
+        populate_table();
+
+
+        //   Layout    //
+        table = new JTable(model);
+        JPanel table_layout = new JPanel(new BorderLayout());
+        JScrollPane scroll = new JScrollPane(table);
+
+        table_layout.add("North", table.getTableHeader());
+        table_layout.add("Center", scroll);
+
+        /*Inicializacao de variaveis*/
+        codigo_ = new JTextField(12);
+        codigo_.setEnabled(false);
+        codigo_.setText(ID_Gen.nextStorageId());
+
+        por_codigo = new JCheckBox("Por Codigo");
+        por_codigo.addActionListener(this);
+
+        tipo = new JTextField(12);
+        nome_ = new JTextField(12);
+
+        //Button OK
+        save_= new JButton("Guardar");
+        save_.addActionListener(this);
+
+        //Button Cancel
+        update_ = new JButton("Actualizar");
+        update_.addActionListener(this);
+
+        getTxtNome = new JTextField(15);
+        getTxtNr = new JTextField(15);
+        getTxtNr.setEnabled(false);
+        btnPesquisar = new JButton("Procurar");
+        btnPesquisar.addActionListener(this);
+
+
+        /*Layout*/
+
+        JPanel headerLayout = new JPanel(new BorderLayout());
+        JPanel banner = new JPanel(new FlowLayout(FlowLayout.CENTER,20, 10));
+        JPanel data_input = new JPanel(new FlowLayout(FlowLayout.CENTER, 20, 10));
+
+        JPanel southBorder = new JPanel(new BorderLayout());
+        JPanel searchPane = new JPanel(new FlowLayout(FlowLayout.CENTER, 20, 10));
+
+        banner.add(label);
+
+        data_input.add(new JLabel("Codig: "));
+        data_input.add(codigo_);
+        data_input.add(new JLabel("Tipo: "));
+        data_input.add(tipo);
+        data_input.add(save_);
+        data_input.add(update_);
+
+        searchPane.add(new JLabel("Codigo: "));
+        searchPane.add(this.getTxtNr);
+        searchPane.add(new JLabel("Nome: "));
+        searchPane.add(this.getTxtNome);
+        searchPane.add(this.por_codigo);
+        searchPane.add(btnPesquisar);
+
+        southBorder.add("North", data_input);
+        southBorder.add("South", searchPane);
+
+        data_input.setBorder(BorderFactory.createTitledBorder(BorderFactory.createLineBorder(Color.LIGHT_GRAY, 1), "Dados: "));
+        searchPane.setBorder(BorderFactory.createTitledBorder(BorderFactory.createLineBorder(Color.LIGHT_GRAY, 1), "Pesquisa: "));
+
+        headerLayout.add("North", banner);
+        headerLayout.add("South", southBorder);
+
+        this.add("North", headerLayout);
+        this.add("South", table_layout);
+        this.pack();
+
+        setVisible(true);
+
+    }
+
+
+    public void trashCode(){
+        /* setTitle("Armazem");
+        setSize(800,500);
         setLocation(220,220);
         setLayout(new BorderLayout());
 
@@ -70,8 +183,8 @@ public class StorageFrame extends JInternalFrame implements ActionListener {
 
         //   Layout    //
 
-/*        JPanel north = new JPanel(new FlowLayout(FlowLayout.CENTER));
-        north.add(new JLabel("Tela de Registo de Armazem"));*/
+*//*        JPanel north = new JPanel(new FlowLayout(FlowLayout.CENTER));
+        north.add(new JLabel("Tela de Registo de Armazem"));*//*
 
 
         table = new JTable(model);
@@ -172,12 +285,14 @@ public class StorageFrame extends JInternalFrame implements ActionListener {
         add("North",north );
         add("Center", pnCenter);
 
-        setVisible(true);
+        setVisible(true);*/
+
     }
 
-//    public static void main(String [] args){
-//        new StorageFrame();
-//    }
+    public StorageFrame(){
+       build_ui();
+    }
+
 
     @Override
     public void actionPerformed(ActionEvent e) {
@@ -186,8 +301,7 @@ public class StorageFrame extends JInternalFrame implements ActionListener {
         if(e.getSource()==save_){
 
             if(validation()){
-
-                String nome = nome_.getText();
+                String nome = tipo.getText();
                 Storage store = new Storage(nome);
                 UserUtility.active_user.adicionar_armazem(store);
                 addToTable(store);
@@ -196,30 +310,49 @@ public class StorageFrame extends JInternalFrame implements ActionListener {
             }
         }
 
-        if(e.getSource() == update_){
+        else if(e.getSource() == update_){
             update();
+        }
+
+        else if(e.getSource() == this.por_codigo){
+            if(this.por_codigo.isSelected()){
+                this.getTxtNome.setEnabled(false);
+                this.getTxtNr.setEnabled(true);
+            }else{
+                this.getTxtNr.setEnabled(false);
+                this.getTxtNome.setEnabled(true);
+            }
+        }
+        else if(e.getSource() == this.btnPesquisar){
+            perform_search();
         }
     }
 
 
-    public void update(){
-        clearTable();
-        populate_table();
+    public void update() {
+
+        Vector vector = model.getDataVector();
+
+        String[][] allStorages = UserUtility.active_user.getAllStorages();
+        vector.clear();
+        for (String[] str : allStorages) {
+            Vector<String> temp = new Vector();
+            temp.add(str[0]);
+            temp.add(str[1]);
+            temp.add(str[2]);
+            vector.add(temp);
+        }
+
+        model.fireTableDataChanged();
     }
+
+
     public void addToTable(Storage store){
 
         String[] additionable = {store.getId(), store.getTipo(), String.valueOf(store.getAllProducts().length)};
         this.model.addRow(additionable);
     }
 
-    public void clearTable(){
-        int rowCount = model.getRowCount();
-
-        for(int i = 0; i < rowCount; i++){
-            model.removeRow(i);
-        }
-
-    }
 
     public void clearAll(){
         nome_.setText("");
@@ -228,9 +361,10 @@ public class StorageFrame extends JInternalFrame implements ActionListener {
     }
 
     public boolean validation(){
-        String nome = nome_.getText();
+        String nome = tipo.getText().trim();
 
         if(nome.equals("") || nome.isEmpty()){
+            JOptionPane.showMessageDialog(null, "Por favor preecher os campos com dados validos.");
             return false;
         }
 
@@ -245,6 +379,71 @@ public class StorageFrame extends JInternalFrame implements ActionListener {
         for(String[] data: allStorage){
 
             this.model.addRow(data);
+        }
+    }
+
+    public void perform_search(){
+        Vector vasd = new Vector<>();
+        // ::>> Pesquisa
+        if (!getTxtNome.getText().equals("") || !getTxtNr.getText().equals("")){
+
+            if (!getTxtNome.getText().equals("")){
+
+                update();
+                for (Object object : model.getDataVector()) {
+                    Vector vector = (Vector) object;
+                    if (vector.get(1).equals(getTxtNome.getText())){
+                        vasd.add(vector);
+                    }
+                }
+
+                int a = model.getDataVector().size();
+                for (int i = 0; i <= a; i++) {
+                    try {
+                        model.removeRow(i);
+                        i--;
+                    } catch (Exception d) {
+
+                    }
+                }
+
+                for (Object vd : vasd) {
+                    Vector vector = (Vector) vd;
+                    model.addRow(new String[]{"" + vector.get(0), "" + vector.get(1), "" + vector.get(2)});
+                }
+            } else if (!getTxtNr.getText().equals("")) {
+
+                update();
+
+                for (Object object : model.getDataVector()) {
+                    Vector vector = (Vector) object;
+                    if (vector.get(0).equals(getTxtNr.getText())) {
+                        vasd.add(vector);
+                    }
+                }
+
+                int a = model.getDataVector().size();
+                for (int i = 0; i <= a; i++) {
+                    try {
+                        model.removeRow(i);
+                        i--;
+                    } catch (Exception d) {
+
+                    }
+                }
+
+                for (Object vd : vasd) {
+                    Vector vector = (Vector) vd;
+                    model.addRow(new String[]{"" + vector.get(0), "" + vector.get(1), "" + vector.get(2)});
+                }
+                getTxtNome.setText("");
+                getTxtNr.setText("");
+            }
+            getTxtNome.setText("");
+            getTxtNr.setText("");
+        }
+        else{
+            JOptionPane.showMessageDialog(null, "Por favor verificar os valores introduzidos nos campos de Pesquisa!");
         }
     }
 }

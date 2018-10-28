@@ -7,18 +7,7 @@ import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
-import javax.swing.BorderFactory;
-import javax.swing.ImageIcon;
-import javax.swing.JButton;
-import javax.swing.JDesktopPane;
-import javax.swing.JFrame;
-import javax.swing.JInternalFrame;
-import javax.swing.JLabel;
-import javax.swing.JMenu;
-import javax.swing.JMenuBar;
-import javax.swing.JMenuItem;
-import javax.swing.JOptionPane;
-import javax.swing.JPanel;
+import javax.swing.*;
 import java.text.SimpleDateFormat;
 import java.time.LocalDate;
 import java.util.Calendar;
@@ -45,9 +34,9 @@ public class MainMenu extends JFrame implements ActionListener {
 	private JMenuItem isairLogout, isairExit, isistemaVenda, isistemaCompra;
 	private JInternalFrame saleFrame, providerFrame;
 
-	private JButton btnArmazem, btnProdutos, btnFornecedores;
+	private JButton btnArmazem, btnProdutos, btnFornecedores, btnVendas;
 	private JMenuBar menuBar;
-	private JInternalFrame storageFrame, productFrame, buyFrame, armazemFrame;
+	private JInternalFrame storageFrame, productFrame, buyFrame, armazemFrame, salesFrame;
 	private ImageIcon icon;
 
     private Clock clock;
@@ -57,53 +46,91 @@ public class MainMenu extends JFrame implements ActionListener {
 	public MainMenu(String user) {
 		build_ui(user);
 	}
+
 	private void buildStorage() {
-		storageFrame = new StorageFrame();
-		storageFrame.setResizable(true);
-		storageFrame.setMaximizable(true);
-		storageFrame.setIconifiable(true);
-		storageFrame.setClosable(true);
-		storageFrame.setLocation(220, 220);
 
-		desktopPane.add(storageFrame);
+		if(storageFrame == null || !storageFrame.isVisible()) {
+			storageFrame = new StorageFrame();
+			storageFrame.setResizable(true);
+			storageFrame.setMaximizable(true);
+			storageFrame.setIconifiable(true);
+			storageFrame.setClosable(true);
+			storageFrame.setLocation(220, 220);
+			desktopPane.add(storageFrame);
 
-		storageFrame.setVisible(true);
-		storageFrame.toFront();
-		storageFrame.setDefaultCloseOperation(HIDE_ON_CLOSE);
+			storageFrame.setVisible(true);
+			storageFrame.toFront();
+			storageFrame.setDefaultCloseOperation(HIDE_ON_CLOSE);
+		}
 	}
 
 	private void buildProduct() {
-		productFrame = new ProductFrame();
-		productFrame.setResizable(true);
-		productFrame.setMaximizable(true);
-		productFrame.setIconifiable(true);
-		productFrame.setClosable(true);
-		productFrame.setLocation(220, 220);
+		if(!productFrame.isVisible() ) {
+			productFrame = new ProductFrame();
+			productFrame.setResizable(true);
+			productFrame.setMaximizable(true);
+			productFrame.setIconifiable(true);
+			productFrame.setClosable(true);
+			productFrame.setLocation(220, 220);
 
-		desktopPane.add(productFrame);
+			desktopPane.add(productFrame);
 
-		productFrame.setVisible(true);
-		productFrame.toFront();
-		productFrame.setDefaultCloseOperation(HIDE_ON_CLOSE);
+			productFrame.setVisible(true);
+			productFrame.toFront();
+			productFrame.setDefaultCloseOperation(HIDE_ON_CLOSE);
+		}
 	}
 
-	private void buildProvider() {
+	private void buildSales() {
+		if(salesFrame == null || !salesFrame.isVisible()) {
+			salesFrame = new SalesMenuFrame();
+			salesFrame.setResizable(true);
+			salesFrame.setMaximizable(true);
+			salesFrame.setIconifiable(true);
+			salesFrame.setClosable(true);
+			salesFrame.setLocation(220, 220);
 
-		providerFrame = new ProviderFrame();
-		providerFrame.setResizable(true);
-		providerFrame.setMaximizable(true);
-		providerFrame.setIconifiable(true);
-		providerFrame.setClosable(true);
-		providerFrame.setLocation(220, 220);
+			desktopPane.add(salesFrame);
 
-		desktopPane.add(providerFrame);
+			salesFrame.setVisible(true);
+			salesFrame.toFront();
+			salesFrame.setDefaultCloseOperation(HIDE_ON_CLOSE);
+		}
+	}
 
-		providerFrame.setVisible(true);
-		providerFrame.toFront();
-		providerFrame.setDefaultCloseOperation(HIDE_ON_CLOSE);
+	private void buildProvider(){
+
+		if(!providerFrame.isVisible()) {
+			providerFrame = new ProviderFrame();
+			providerFrame.setResizable(true);
+			providerFrame.setMaximizable(true);
+			providerFrame.setIconifiable(true);
+			providerFrame.setClosable(true);
+			providerFrame.setLocation(220, 220);
+
+			desktopPane.add(providerFrame);
+
+			providerFrame.setVisible(true);
+			providerFrame.toFront();
+			providerFrame.setDefaultCloseOperation(HIDE_ON_CLOSE);
+		}
 	}
 
 	private void build_ui(String user) {
+
+		try{
+			for(UIManager.LookAndFeelInfo info: UIManager.getInstalledLookAndFeels()){
+				if("Nimbus".equals(info.getName())){
+					UIManager.setLookAndFeel(info.getClassName());
+					break;
+				}
+			}
+
+
+		}catch(Exception e){
+			e.printStackTrace();
+		}
+
 		setLayout(new BorderLayout());
 		setDefaultLookAndFeelDecorated(true);
 
@@ -114,6 +141,7 @@ public class MainMenu extends JFrame implements ActionListener {
 		isistemaVenda = new JMenuItem("Venda");
 		isistemaCompra = new JMenuItem("Compra");
 		isistema.add(isistemaVenda);
+		isistemaVenda.addActionListener(this);
 		isistema.add(isistemaCompra);
 
 		isair = new JMenu("Sair");
@@ -141,7 +169,7 @@ public class MainMenu extends JFrame implements ActionListener {
 
 		menuBar.setBackground(Color.white);
 
-		JPanel panel = new JPanel(new GridLayout(6, 1));
+		JPanel panel = new JPanel(new GridLayout(7, 1));
 
 		JPanel panel2 = new JPanel(new BorderLayout());
 
@@ -153,11 +181,15 @@ public class MainMenu extends JFrame implements ActionListener {
 		btnArmazem.addActionListener(this);
 		btnArmazem.setBorder(BorderFactory.createMatteBorder(7, 7, 7, 7, menuColor));
 
+
+
+
 		icon = new ImageIcon("img\\icon\\product.png");
 		btnProdutos = new JButton(icon);
 		btnProdutos.setBackground(menuColor);
 		btnProdutos.addActionListener(this);
 		btnProdutos.setBorder(BorderFactory.createMatteBorder(7, 7, 7, 7, menuColor));
+
 
 		icon = new ImageIcon("img\\icon\\provider.png");
 		btnFornecedores = new JButton(icon);
@@ -165,9 +197,16 @@ public class MainMenu extends JFrame implements ActionListener {
 		btnFornecedores.addActionListener(this);
 		btnFornecedores.setBorder(BorderFactory.createMatteBorder(7, 7, 7, 7, menuColor));
 
+		icon = new ImageIcon("img\\icon\\provider.png");
+		btnVendas = new JButton(icon);
+		btnVendas.setBackground(menuColor);
+		btnVendas.addActionListener(this);
+		btnVendas.setBorder(BorderFactory.createMatteBorder(7, 7, 7, 7, menuColor));
+
 		panel.add(btnArmazem);
 		panel.add(btnProdutos);
 		panel.add(btnFornecedores);
+		panel.add(btnVendas);
 		panel.add(new JLabel(""));
 
 //		Calendar cal = Calendar.getInstance();
@@ -255,19 +294,25 @@ public class MainMenu extends JFrame implements ActionListener {
 
 		if (arg0.getSource().equals(btnProdutos)) {
 			buildProduct();
-		} else if (arg0.getSource().equals(btnFornecedores)) {
+		}
+		else if (arg0.getSource().equals(btnFornecedores)) {
 			buildProvider();
-		} else if (arg0.getSource().equals(isairExit)) {
+		}
+		else if (arg0.getSource().equals(btnVendas)) {
+			buildSales();
+		}
+		else if (arg0.getSource().equals(isairExit)) {
 			JOptionPane.showMessageDialog(null, "SAINDO", "SAIR", JOptionPane.ERROR_MESSAGE);
 			System.exit(1);
 		}
-		if (arg0.getSource().equals(btnArmazem)) {
+		else if (arg0.getSource().equals(btnArmazem)) {
 			buildStorage();
 		}
-        if (arg0.getSource().equals(isairLogout)) {
+        else if (arg0.getSource().equals(isairLogout)) {
 			this.dispose();
             new Authentication();
         }
+
 
 	}
 
