@@ -2,6 +2,7 @@ package Screens;
 
 import Main.ID_Gen;
 import Main.UserUtility;
+import Main_Classes.Product;
 import Main_Classes.Storage;
 
 import javax.swing.*;
@@ -11,9 +12,11 @@ import javax.swing.table.DefaultTableModel;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.MouseEvent;
+import java.awt.event.MouseListener;
 import java.util.Vector;
 
-public class SalesMenuFrame extends JInternalFrame implements ActionListener {
+public class SalesMenuFrame extends JInternalFrame implements ActionListener, MouseListener {
 
 
     public JTable table;
@@ -22,28 +25,15 @@ public class SalesMenuFrame extends JInternalFrame implements ActionListener {
     JScrollPane sp;
     JPanel tablePanel;
     String[] columnsNames;
+    Vector<String[]> data = new Vector();
 
     private JTextField codigo_, stockMinimo_, qtd_, nome_, qtd_venda, preco, taxes, total;
     private JComboBox armazem_;
-    private JButton save, update, btnPesquisar, calcular;
+    private JButton save, update, btnPesquisar, calcular, vender;
     private JCheckBox efectuarPesquisa;
 
 
     public SalesMenuFrame(){
-
-        /*try{
-            for(UIManager.LookAndFeelInfo info: UIManager.getInstalledLookAndFeels()){
-                if("Nimbus".equals(info.getName())){
-                    UIManager.setLookAndFeel(info.getClassName());
-                    break;
-                }
-            }
-
-
-        }catch(Exception e){
-            e.printStackTrace();
-        }*/
-
         build_ui();
     }
 
@@ -56,7 +46,7 @@ public class SalesMenuFrame extends JInternalFrame implements ActionListener {
         this.setLayout(new BorderLayout(0, 0));
 
         JLabel title = new JLabel("Introducao de Produtos");
-        columnsNames = new String[] { "Codigo", "Nome", "Stock Minimo", "Armazem", "Quantidade", "Stock Minimo" };
+        columnsNames = new String[] { "Codigo", "Nome","Quantidade", "Stock Minimo" };
         model = new DefaultTableModel(null, columnsNames) {
             @Override
             public boolean isCellEditable(int row, int column) {
@@ -66,6 +56,7 @@ public class SalesMenuFrame extends JInternalFrame implements ActionListener {
         };
 
         table = new JTable(model);
+        table.addMouseListener(this);
         table.setFillsViewportHeight(true);
         table.sizeColumnsToFit(1);
         populate_table();
@@ -79,7 +70,6 @@ public class SalesMenuFrame extends JInternalFrame implements ActionListener {
         //::>> Setup Codigo
         codigo_ = new JTextField(7);
         codigo_.setEnabled(false);
-        codigo_.setText("Undefined");
 
         //::>> Setup Armazem
         armazem_ = new JComboBox();
@@ -108,9 +98,12 @@ public class SalesMenuFrame extends JInternalFrame implements ActionListener {
         this.btnPesquisar = new JButton("Pesquisar");
         this.btnPesquisar.addActionListener(this);
         this.calcular = new JButton("Calcular");
+        this.vender = new JButton("Vender");
+        this.vender.addActionListener(this);
         this.calcular.addActionListener(this);
 
         this.efectuarPesquisa = new JCheckBox("Efectura Pesquisa");
+        this.efectuarPesquisa.addActionListener(this);
         setColumnSizes();
 
         //::>> Setup Selling elemnts
@@ -124,9 +117,10 @@ public class SalesMenuFrame extends JInternalFrame implements ActionListener {
         /*Layout*/
 
         JPanel bd1 = new JPanel(new GridLayout(2,2, 10, 10));
-        bd1.setPreferredSize(new Dimension(150, 60));
+        bd1.setPreferredSize(new Dimension(150, 65));
         JPanel bd2 = new JPanel(new GridLayout(2,2, 10, 10));
         JPanel bd3 = new JPanel(new GridLayout(2,2, 10, 10));
+        bd3.setPreferredSize(new Dimension(200, 65));
         JPanel bd4 = new JPanel(new GridLayout(2,1, 10, 10));
         JPanel bdLayout = new JPanel(new FlowLayout(FlowLayout.CENTER));
 
@@ -185,6 +179,8 @@ public class SalesMenuFrame extends JInternalFrame implements ActionListener {
         bd6.add(total);
 
         bd7.add(calcular);
+        bd7.add(new JLabel(""));
+        bd7.add(this.vender);
 
         bd6.setPreferredSize(new Dimension(150, 63));
 
@@ -192,6 +188,13 @@ public class SalesMenuFrame extends JInternalFrame implements ActionListener {
         bdLayout2.add(bd6);
         bdLayout2.add(bd7);
 
+        /*Initila Disabling*/
+        this.nome_.setEnabled(false);
+        this.qtd_.setEnabled(false);
+        this.stockMinimo_.setEnabled(false);
+        this.combo.setEnabled(false);
+        this.armazem_.setEnabled(false);
+        this.vender.setEnabled(false);
 
         data_fields.add("North", bdLayout);
         data_fields.add("South", bdLayout2);
@@ -203,11 +206,105 @@ public class SalesMenuFrame extends JInternalFrame implements ActionListener {
         this.setVisible(true);
 
     }
+
+
+    public void vender(){
+        Storage storage = UserUtility.active_user.findStorage(armazem_.getSelectedItem().toString());
+        Product product = storage.getProduto(this.codigo_.getText());
+        product.setQuantidade(product.getQuantidade() - Integer.parseInt(this.qtd_venda.getText()));
+        update();
+    }
     @Override
-    public void actionPerformed(ActionEvent e) {
+    public void actionPerformed(ActionEvent e){
+
+        if(e.getSource() == this.efectuarPesquisa){
+
+            if(efectuarPesquisa.isSelected()) {
+                this.nome_.setEnabled(true);
+                this.qtd_.setEnabled(true);
+                this.stockMinimo_.setEnabled(true);
+                this.combo.setEnabled(true);
+                this.armazem_.setEnabled(true);
+            }
+            else{
+                this.nome_.setEnabled(false);
+                this.qtd_.setEnabled(false);
+                this.stockMinimo_.setEnabled(false);
+                this.combo.setEnabled(false);
+                this.armazem_.setEnabled(false);
+            }
+        }
+
+        else if(e.getSource() == this.calcular){
+
+            validate_and_calculate();
+        }
+
+        else if(e.getSource() == this.vender){
+            vender();
+        }
 
     }
 
+    public void update(){
+
+        Vector vector = model.getDataVector();
+        vector.clear();
+
+        Vector<Storage> storages = UserUtility.active_user.getStorage();
+        for(Storage storage: storages){
+
+            String[][] data = storage.getAllProducts();
+
+            for(String[] dt: data){
+                this.data.add(dt);
+                model.addRow(new String[]{"" + dt[0], "" + dt[1], "" + dt[4], ""+ dt[5]});
+            }
+
+        }
+    }
+
+    public void validate_and_calculate(){
+        boolean proceed = true;
+        if(this.qtd_.getText().trim().equals("") || this.preco.getText().trim().equals("") || this.taxes.getText().trim().equals("")){
+            JOptionPane.showMessageDialog(null, "Preecha os campos antes de calcular");
+            proceed = false;
+        }
+
+        if(proceed){
+
+            try{
+
+                int qtd = Integer.parseInt(this.qtd_venda.getText());
+                double preco = Double.parseDouble(this.preco.getText());
+                double iva = Double.parseDouble(this.taxes.getText());
+
+                if(     qtd <= 0
+                        || preco <= 0
+                        || iva < 0
+                        )
+                {
+                    JOptionPane.showMessageDialog(null, "Preencha os campos com dados validos");
+                }
+
+                else {
+
+                    if(qtd > Double.parseDouble(this.qtd_.getText())){
+                        JOptionPane.showMessageDialog(null, "Quantidade Superior a Existente");
+                    }
+                    else {
+                        double total_0 = qtd * preco;
+                        double total_1 = total_0 + total_0 * Double.parseDouble(this.taxes.getText());
+                        this.total.setText(String.valueOf(total_1));
+                        this.vender.setEnabled(true);
+                    }
+                }
+
+            }catch(IllegalArgumentException ex){
+                JOptionPane.showMessageDialog(null, "Preencha os campos com dados validos");
+            }
+        }
+    }
 
     public void fillComboBox(){
         String[][] fornecedores = UserUtility.active_user.getAllProviders();
@@ -232,7 +329,8 @@ public class SalesMenuFrame extends JInternalFrame implements ActionListener {
             String[][] data = storage.getAllProducts();
 
             for(String[] dt: data){
-                model.addRow(dt);
+                this.data.add(dt);
+                model.addRow(new String[]{"" + dt[0], "" + dt[1], "" + dt[4], ""+ dt[5]});
             }
 
         }
@@ -241,10 +339,46 @@ public class SalesMenuFrame extends JInternalFrame implements ActionListener {
 
     public void setColumnSizes(){
         DefaultTableColumnModel columnModel = (DefaultTableColumnModel) this.table.getColumnModel();
-        for(int i = 0; i < 6; i++){
+        for(int i = 0; i < 4; i++){
             columnModel.getColumn(i).setMinWidth(100);
         }
 
+
+    }
+
+    @Override
+    public void mouseClicked(MouseEvent e) {
+
+        int row = table.getSelectedRow();
+        Vector<String> selected_data = model.getDataVector().get(row);
+
+        this.codigo_.setText(selected_data.get(0));
+        this.nome_.setText(selected_data.get(1));
+        this.qtd_.setText(selected_data.get(2));
+        this.stockMinimo_.setText(selected_data.get(3));
+        this.combo.setSelectedItem(this.data.get(row)[2]);
+        this.armazem_.setSelectedItem(this.data.get(row)[3]);
+
+
+    }
+
+    @Override
+    public void mousePressed(MouseEvent e) {
+
+    }
+
+    @Override
+    public void mouseReleased(MouseEvent e) {
+
+    }
+
+    @Override
+    public void mouseEntered(MouseEvent e) {
+
+    }
+
+    @Override
+    public void mouseExited(MouseEvent e) {
 
     }
 }

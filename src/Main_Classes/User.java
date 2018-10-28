@@ -142,8 +142,6 @@ public class User implements Serializable {
         return null;
     }
 
-
-
     public String[][] getAllStorages(){
         int parm_storage = 3;
         String[][] allStorage = new String[this.armazens.size()][parm_storage];

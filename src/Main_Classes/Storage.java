@@ -48,6 +48,16 @@ public class Storage implements DataList, Serializable {
 		return false;
 	}
 
+	public Product getProduto(String id){
+
+		for (Product pro : this.produtos) {
+			if (pro.getId().equals(id)) {
+				return pro;
+			}
+		}
+		return null;
+	}
+
 	public boolean adicionar_produtos(Product produto) {
 
 		if (verificar_existencia(produto)) {

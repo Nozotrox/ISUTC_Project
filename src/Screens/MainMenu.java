@@ -82,7 +82,7 @@ public class MainMenu extends JFrame implements ActionListener {
 	}
 
 	private void buildSales() {
-		if(salesFrame == null || !saleFrame.isVisible()) {
+		if(salesFrame == null || !salesFrame.isVisible()) {
 			salesFrame = new SalesMenuFrame();
 			salesFrame.setResizable(true);
 			salesFrame.setMaximizable(true);
