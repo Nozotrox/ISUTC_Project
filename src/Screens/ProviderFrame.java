@@ -311,15 +311,18 @@ public class ProviderFrame extends JInternalFrame implements ActionListener {
 
 			// ::>> Pesquisa
 			if ((!model.getDataVector().isEmpty() && !getTxtNome.getText().equals("") && continue_ )
-					|| (!model.getDataVector().isEmpty() && !codigo_.getText().equals(""))) {
+					|| (!model.getDataVector().isEmpty() && !getTxtNr.getText().equals(""))) {
 
 				if ((getTxtNome.getText() != null) && (!getTxtNome.getText().equals(""))) {
+					update();
+
 					for (Object object : model.getDataVector()) {
 						Vector vector = (Vector) object;
 						if (vector.get(1).equals(getTxtNome.getText())) {
 							vasd.add(vector);
 						}
 					}
+
 					int a = model.getDataVector().size();
 					for (int i = 0; i <= a; i++) {
 						try {
@@ -334,13 +337,15 @@ public class ProviderFrame extends JInternalFrame implements ActionListener {
 						Vector vector = (Vector) vd;
 						model.addRow(new String[]{"" + vector.get(0), "" + vector.get(1), "" + vector.get(2)});
 					}
-				} else if ((getTxtNr.getText() != null) || (!codigo_.getText().equals(""))) {
+				} else if ((getTxtNr.getText() != null) || (!getTxtNr.getText().equals(""))) {
+					update();
 					for (Object object : model.getDataVector()) {
 						Vector vector = (Vector) object;
 						if (vector.get(0).equals(getTxtNr.getText())) {
 							vasd.add(vector);
 						}
 					}
+
 					int a = model.getDataVector().size();
 					for (int i = 0; i <= a; i++) {
 						try {
@@ -366,8 +371,8 @@ public class ProviderFrame extends JInternalFrame implements ActionListener {
 		else if (e.getSource().equals(save)) {
 
 			boolean continue_ = validate_inputs();
-
 			if(continue_) {
+
 				String[] a = {"" + codigo_.getText(), "" + nome_.getText(), "" + nuit_.getText()};
 				model.addRow(a);
 				Provider fornecedor = new Provider(nome_.getText(), nuit_.getText());
@@ -375,6 +380,7 @@ public class ProviderFrame extends JInternalFrame implements ActionListener {
 				codigo_.setText(ID_Gen.nextProviderId());
 				write();
 			}
+
 		} else if (e.getSource().equals(update_)) {
 			update();
 		}

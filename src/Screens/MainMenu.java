@@ -48,7 +48,7 @@ public class MainMenu extends JFrame implements ActionListener {
 	}
 	private void buildStorage() {
 
-		if(storageFrame == null) {
+		if(storageFrame == null || !storageFrame.isVisible()) {
 			storageFrame = new StorageFrame();
 			storageFrame.setResizable(true);
 			storageFrame.setMaximizable(true);
