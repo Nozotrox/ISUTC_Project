@@ -359,8 +359,15 @@ public class StorageFrame extends JInternalFrame implements ActionListener, Mous
 		String nome = tipo.getText().trim();
 
 		if (nome.equals("") || nome.isEmpty()) {
+
 			JOptionPane.showMessageDialog(null, "Por favor preecher os campos com dados validos.");
 			return false;
+		}
+		for (Vector vector : model.getDataVector()) {
+			if (vector.get(1).equals(nome)) {
+				JOptionPane.showMessageDialog(null, "Existe um Armazem com esse Nome");
+				return false;
+			}
 		}
 
 		return true;
