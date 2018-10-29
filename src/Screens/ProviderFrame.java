@@ -174,6 +174,12 @@ public class ProviderFrame extends JInternalFrame implements ActionListener, Mou
 
 	}
 
+	public ProviderFrame(String user) {
+
+		build_ui();
+
+	}
+
 	public ProviderFrame() {
 
 		build_ui();

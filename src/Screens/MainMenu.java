@@ -189,7 +189,7 @@ public class MainMenu extends JFrame implements ActionListener {
 
 		menuBar.setBackground(Color.white);
 
-		JPanel panel = new JPanel(new GridLayout(6, 1));
+		JPanel panel = new JPanel(new GridLayout(7, 1));
 
 		JPanel panel2 = new JPanel(new BorderLayout());
 
@@ -204,14 +204,14 @@ public class MainMenu extends JFrame implements ActionListener {
 
 
 
-		icon = new ImageIcon("img\\icon\\product.png");
+		icon = new ImageIcon("ISUTC_Project\\img\\icon\\product.png");
 		btnProdutos = new JButton(icon);
 		btnProdutos.setBackground(menuColor);
 		btnProdutos.addActionListener(this);
 		btnProdutos.setBorder(BorderFactory.createMatteBorder(7, 7, 7, 7, menuColor));
 
 
-		icon = new ImageIcon("img\\icon\\provider.png");
+		icon = new ImageIcon("ISUTC_Project\\img\\icon\\provider.png");
 		btnFornecedores = new JButton(icon);
 		btnFornecedores.setBackground(menuColor);
 		btnFornecedores.addActionListener(this);
