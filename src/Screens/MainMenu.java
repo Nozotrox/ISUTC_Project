@@ -31,19 +31,23 @@ public class MainMenu extends JFrame implements ActionListener {
 	// MAIN MENU
 	private JDesktopPane desktopPane;
 	private JMenu isistema, isair, ihelp;
-	private JMenuItem isairLogout, isairExit, isistemaVenda, isistemaCompra;
+	private JMenuItem isairLogout, isairExit, isistemaReport;
 	private JInternalFrame saleFrame, providerFrame;
 
 	private JButton btnArmazem, btnProdutos, btnFornecedores, btnVendas;
 	private JMenuBar menuBar;
-	private JInternalFrame storageFrame, productFrame, buyFrame, armazemFrame, salesFrame;
+	private JInternalFrame storageFrame, productFrame, buyFrame, armazemFrame, salesFrame, reportFrame;
 	private ImageIcon icon;
 
     private Clock clock;
 
+    public String user;
+
 	private static Color menuColor = new Color(5,15,25);
 
-	public MainMenu(String user) {
+	public MainMenu(String u)
+	{
+		user = u;
 		build_ui(user);
 	}
 
@@ -101,7 +105,7 @@ public class MainMenu extends JFrame implements ActionListener {
 	private void buildProvider(){
 
 		if(!providerFrame.isVisible()) {
-			providerFrame = new ProviderFrame();
+			providerFrame = new ProviderFrame(user);
 			providerFrame.setResizable(true);
 			providerFrame.setMaximizable(true);
 			providerFrame.setIconifiable(true);
@@ -113,6 +117,24 @@ public class MainMenu extends JFrame implements ActionListener {
 			providerFrame.setVisible(true);
 			providerFrame.toFront();
 			providerFrame.setDefaultCloseOperation(HIDE_ON_CLOSE);
+		}
+	}
+
+	private void buildReport(){
+
+		if(!reportFrame.isVisible()) {
+			reportFrame = new ReportFrame();
+			reportFrame.setResizable(true);
+			reportFrame.setMaximizable(true);
+			reportFrame.setIconifiable(true);
+			reportFrame.setClosable(true);
+			reportFrame.setLocation(220, 220);
+
+			desktopPane.add(reportFrame);
+
+			reportFrame.setVisible(true);
+			reportFrame.toFront();
+			reportFrame.setDefaultCloseOperation(HIDE_ON_CLOSE);
 		}
 	}
 
@@ -138,11 +160,9 @@ public class MainMenu extends JFrame implements ActionListener {
 
 		isistema = new JMenu("Sistema");
 		    isistema.setFont(new Font("Century Gothic", Font.PLAIN, 15));
-		isistemaVenda = new JMenuItem("Venda");
-		isistemaCompra = new JMenuItem("Compra");
-		isistema.add(isistemaVenda);
-		isistemaVenda.addActionListener(this);
-		isistema.add(isistemaCompra);
+		isistemaReport = new JMenuItem("Histórico");
+		isistema.add(isistemaReport);
+		isistemaReport.addActionListener(this);
 
 		isair = new JMenu("Sair");
 		    isair.setFont(new Font("Century Gothic", Font.PLAIN, 15));
@@ -169,13 +189,13 @@ public class MainMenu extends JFrame implements ActionListener {
 
 		menuBar.setBackground(Color.white);
 
-		JPanel panel = new JPanel(new GridLayout(7, 1));
+		JPanel panel = new JPanel(new GridLayout(6, 1));
 
 		JPanel panel2 = new JPanel(new BorderLayout());
 
 		panel.setBackground(menuColor);
 
-		icon = new ImageIcon("img\\icon\\sotage.png");
+		icon = new ImageIcon("ISUTC_Project\\img\\icon\\sotage.png");
 		btnArmazem = new JButton(icon);
 		btnArmazem.setBackground(menuColor);
 		btnArmazem.addActionListener(this);
@@ -184,20 +204,20 @@ public class MainMenu extends JFrame implements ActionListener {
 
 
 
-		icon = new ImageIcon("img\\icon\\product.png");
+		icon = new ImageIcon("ISUTC_Project\\img\\icon\\product.png");
 		btnProdutos = new JButton(icon);
 		btnProdutos.setBackground(menuColor);
 		btnProdutos.addActionListener(this);
 		btnProdutos.setBorder(BorderFactory.createMatteBorder(7, 7, 7, 7, menuColor));
 
 
-		icon = new ImageIcon("img\\icon\\provider.png");
+		icon = new ImageIcon("ISUTC_Project\\img\\icon\\provider.png");
 		btnFornecedores = new JButton(icon);
 		btnFornecedores.setBackground(menuColor);
 		btnFornecedores.addActionListener(this);
 		btnFornecedores.setBorder(BorderFactory.createMatteBorder(7, 7, 7, 7, menuColor));
 
-		icon = new ImageIcon("img\\icon\\provider.png");
+		icon = new ImageIcon("ISUTC_Project\\img\\icon\\sale.png");
 		btnVendas = new JButton(icon);
 		btnVendas.setBackground(menuColor);
 		btnVendas.addActionListener(this);
@@ -207,8 +227,6 @@ public class MainMenu extends JFrame implements ActionListener {
 		panel.add(btnProdutos);
 		panel.add(btnFornecedores);
 		panel.add(btnVendas);
-		panel.add(new JLabel(""));
-
 //		Calendar cal = Calendar.getInstance();
 //		SimpleDateFormat sdf = new SimpleDateFormat("HH:mm:ss");
 
@@ -237,6 +255,8 @@ public class MainMenu extends JFrame implements ActionListener {
 
 		providerFrame = new JInternalFrame("Menu de Fornecedores", true, true, true, true);
 
+		reportFrame = new JInternalFrame("Menu de Fornecedores", true, true, true, true);
+
 		/**
 		 *
 		 * LEMBRETE URGENTE SENAO BUG LEMBREM-SE DE ADICIONAR UM BACKGROUND
@@ -262,6 +282,7 @@ public class MainMenu extends JFrame implements ActionListener {
 		desktopPane.add(armazemFrame);
 		desktopPane.add(providerFrame);
 		desktopPane.add(productFrame);
+		desktopPane.add(reportFrame);
 		// desktopPane.add(buyFrame);
 
 		icon = new ImageIcon("img/bg.jpg");
@@ -304,6 +325,9 @@ public class MainMenu extends JFrame implements ActionListener {
 		else if (arg0.getSource().equals(isairExit)) {
 			JOptionPane.showMessageDialog(null, "SAINDO", "SAIR", JOptionPane.ERROR_MESSAGE);
 			System.exit(1);
+		}
+		else if(arg0.getSource().equals(isistemaReport)){
+			buildReport();
 		}
 		else if (arg0.getSource().equals(btnArmazem)) {
 			buildStorage();

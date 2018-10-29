@@ -18,6 +18,7 @@ import Main.ID_Gen;
 import Main.UserUtility;
 import Main_Classes.Provider;
 
+
 /**
  * Created by MSI on 16-Oct-18.
  *
@@ -37,6 +38,8 @@ public class ProviderFrame extends JInternalFrame implements ActionListener {
 	JButton update_;
 	JButton save;
 	String[] columnNames;
+
+	String user="null";
 
 	static DefaultTableModel model;
 
@@ -183,11 +186,7 @@ public class ProviderFrame extends JInternalFrame implements ActionListener {
 
 	}
 
-	public ProviderFrame() {
-
-		build_ui();
-
-	}
+	public ProviderFrame(String u){ user = u; build_ui();}
 
 	public void build_ui(){
 
@@ -302,6 +301,12 @@ public class ProviderFrame extends JInternalFrame implements ActionListener {
 	}
 
 
+	public void reportProvider(){
+		String save = user+" adicionou Fornecedor: "+nome_.getText();
+		ClassRelatorio cr = new ClassRelatorio();
+		cr.salvar_Relatorio(save);
+	}
+
 	@Override
 	public void actionPerformed(ActionEvent e) {
 		if (e.getSource() == btnPesquisar) {
@@ -310,6 +315,7 @@ public class ProviderFrame extends JInternalFrame implements ActionListener {
 			boolean continue_ = validade_search_inputs();
 
 			// ::>> Pesquisa
+
 			if ((!model.getDataVector().isEmpty() && !getTxtNome.getText().equals("") && continue_ )
 					|| (!model.getDataVector().isEmpty() && !getTxtNr.getText().equals(""))) {
 
@@ -379,6 +385,7 @@ public class ProviderFrame extends JInternalFrame implements ActionListener {
 				UserUtility.active_user.adicionar_fornecedor(fornecedor);
 				codigo_.setText(ID_Gen.nextProviderId());
 				write();
+				reportProvider();
 			}
 
 		} else if (e.getSource().equals(update_)) {

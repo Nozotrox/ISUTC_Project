@@ -200,41 +200,43 @@ public class StorageFrame extends JInternalFrame implements ActionListener {
 
         JPanel pn = new JPanel(new BorderLayout());
 
-        /////         /////
-
         JPanel pcenter = new JPanel();
-        pcenter.setLayout(new FlowLayout(FlowLayout.CENTER, 30, 70));
-
-        // Left Side
-        JPanel pLeft = new JPanel();
-        pLeft.setLayout(new GridLayout(5,1));
-
-        pLeft.add(new JLabel("Codigo: "));
-        pLeft.add(new JLabel(""));
-        pLeft.add(new JLabel("Tipo: "));
-        pLeft.add(new JLabel(""));
-        pLeft.add(new JLabel("Password: "));
-
-        // Right Side
-        JPanel pRight = new JPanel();
-        pRight.setLayout(new GridLayout(5, 1));
-        codigo_ = new JTextField(12);
-        codigo_.setEnabled(false);
-        codigo_.setText(ID_Gen.nextStorageId());
+        pcenter.setLayout(new FlowLayout(FlowLayout.LEFT, 30, 30));
 
 
-        //codigo_.setBorder(BorderFactory.createMatteBorder(0, 0, 1, 0, Color.GRAY));
-        tipo = new JTextField(12);
-        //tipo.setBorder(BorderFactory.createMatteBorder(0, 0, 1, 0, Color.GRAY));
-        nome_ = new JTextField(12);
-        //nome_.setBorder(BorderFactory.createMatteBorder(0, 0, 1, 0, Color.GRAY));
+            // Left Side
+            JPanel pLeft = new JPanel();
+            pLeft.setLayout(new GridLayout(5,1));
+
+            pLeft.add(new JLabel("Codigo: "));
+            pLeft.add(new JLabel(""));
+            pLeft.add(new JLabel("Tipo: "));
+            pLeft.add(new JLabel(""));
+            pLeft.add(new JLabel("Password: "));
+
+            // Right Side
+            JPanel pRight = new JPanel();
+            pRight.setLayout(new GridLayout(5, 1));
+            codigo_ = new JTextField(12);
+            codigo_.setEnabled(false);
+            codigo_.setText(ID_Gen.nextStorageId());
 
 
-        pRight.add(codigo_);
-        pRight.add(new JLabel(""));
-        pRight.add(nome_);
-        pRight.add(new JLabel(""));
-        pRight.add(tipo);
+            //codigo_.setBorder(BorderFactory.createMatteBorder(0, 0, 1, 0, Color.GRAY));
+            tipo = new JTextField(12);
+            //tipo.setBorder(BorderFactory.createMatteBorder(0, 0, 1, 0, Color.GRAY));
+            nome_ = new JTextField(12);
+            //nome_.setBorder(BorderFactory.createMatteBorder(0, 0, 1, 0, Color.GRAY));
+
+
+            pRight.add(codigo_);
+            pRight.add(new JLabel(""));
+            pRight.add(nome_);
+            pRight.add(new JLabel(""));
+            pRight.add(tipo);
+
+
+        pcenter.add(pLeft); pcenter.add(pRight);
 
         JPanel pbtn = new JPanel();
         pbtn.setLayout(new FlowLayout(FlowLayout.RIGHT));
@@ -251,12 +253,12 @@ public class StorageFrame extends JInternalFrame implements ActionListener {
 
         pbtn.add(save_); pbtn.add(update_);
 
-        pcenter.add(pLeft); pcenter.add(pRight);
+
 
         /////         /////
 
         pn.add("Center", pcenter);
-        pn.add("South", pbtn);
+        //pn.add("South", pbtn);
 
         pnUpSide.add(pn);
 

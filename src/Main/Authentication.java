@@ -201,7 +201,6 @@ public class Authentication extends JFrame implements ActionListener {
 
     @Override
     public void actionPerformed(ActionEvent e) {
-
         String nome;
         String username;
         String password;
