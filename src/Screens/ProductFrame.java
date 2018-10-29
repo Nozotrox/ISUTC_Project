@@ -406,7 +406,6 @@ public class ProductFrame extends JInternalFrame implements ActionListener, Mous
 
 				for (Vector object : model.getDataVector()) {
 					Vector vector = object;
-
 					if (object.get(4).equals(param)) {
 						vasd.add(vector);
 					}
@@ -420,8 +419,7 @@ public class ProductFrame extends JInternalFrame implements ActionListener, Mous
 
 				for (Vector object : model.getDataVector()) {
 					Vector vector = object;
-
-					if (object.get(5).equals(param)) {
+					if (object.get(2).equals(param)) {
 						vasd.add(vector);
 					}
 
@@ -435,36 +433,36 @@ public class ProductFrame extends JInternalFrame implements ActionListener, Mous
 
 				for (Vector object : model.getDataVector()) {
 					Vector vector = object;
-
 					if (object.get(1).equals(param)) {
 						vasd.add(vector);
 					}
 
 				}
+				break;
 			}
 
 			case 3: {
 
 				for (Vector object : model.getDataVector()) {
 					Vector vector = object;
-
-					if (object.get(2).equals(param)) {
+					if (object.get(5).equals(param)) {
 						vasd.add(vector);
 					}
 
 				}
+				break;
 			}
 
 			case 4: {
 
 				for (Vector object : model.getDataVector()) {
 					Vector vector = object;
-
 					if (object.get(3).equals(param)) {
 						vasd.add(vector);
 					}
 
 				}
+				break;
 			}
 
 			}
