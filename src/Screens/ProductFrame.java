@@ -624,6 +624,7 @@ public class ProductFrame extends JInternalFrame implements ActionListener, Mous
 		}
 	}
 
+
 	@Override
 	public void mouseEntered(MouseEvent arg0) {
 		// TODO Auto-generated method stub

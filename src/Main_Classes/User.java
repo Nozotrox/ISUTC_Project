@@ -1,7 +1,6 @@
 package Main_Classes;
 
 import java.io.Serializable;
-import java.util.Iterator;
 import java.util.Vector;
 
 public class User implements Serializable {
@@ -108,6 +107,8 @@ public class User implements Serializable {
             }
         }
     }
+
+    public Vector<Provider> getProvider(){return this.fornecedores;}
 
     public Vector getStorage(){
         return this.armazens;
