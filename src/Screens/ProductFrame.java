@@ -33,6 +33,7 @@ import Main.UserUtility;
 import Main_Classes.Product;
 import Main_Classes.Provider;
 import Main_Classes.Storage;
+import Main_Classes.User;
 
 /**
  *
@@ -231,7 +232,7 @@ public class ProductFrame extends JInternalFrame implements ActionListener, Mous
 		update.addActionListener(this);
 		this.btnPesquisar = new JButton("Pesquisar");
 		this.btnPesquisar.addActionListener(this);
-		btnNovo = new JButton("Teste");
+		btnNovo = new JButton("Editar");
 		btnNovo.addActionListener(this);
 
 		setColumnSizes();
@@ -358,6 +359,7 @@ public class ProductFrame extends JInternalFrame implements ActionListener, Mous
 			}
 		} else if (arg0.getSource().equals(btnNovo)) {
 			dataSwitch();
+			Authentication.write();
 		}
 
 		else if (arg0.getSource().equals(this.btnPesquisar)) {
@@ -529,15 +531,21 @@ public class ProductFrame extends JInternalFrame implements ActionListener, Mous
 		double preco = Double.parseDouble(preco_.getText());
 		Storage armazem = UserUtility.active_user.findStorage(armazem_.getSelectedItem().toString());
 
-		Product produto = new Product(nome, fornecedor, armazem, qtd, stk, preco);
+		if(armazem.verificar_existencia(nome) && armazem.verificar_existencia(preco)){
+			Product produto = armazem.getProduto(nome, preco);
+			produto.setQuantidade(produto.getQuantidade() + qtd);
+			update();
+		}
+		else {
+			Product produto = new Product(nome, fornecedor, armazem, qtd, stk, preco);
 
-		armazem.adicionar_produtos(produto);
+			armazem.adicionar_produtos(produto);
 
-		model.addRow(new String[] { "" + codigo_.getText(), "" + nome_.getText(), "" + stockMinimo_.getText(),
-				"" + armazem_.getSelectedItem().toString(), "" + qtd_.getText(),
-				"" + combo.getSelectedItem().toString(), "" + preco_.getText() });
-
+			model.addRow(new String[]{"" + codigo_.getText(), "" + nome_.getText(), "" + stockMinimo_.getText(),
+					"" + armazem_.getSelectedItem().toString(), "" + qtd_.getText(),
+					"" + combo.getSelectedItem().toString(), "" + preco_.getText()});
 		codigo_.setText(ID_Gen.nextId());
+		}
 
 		Authentication.write();
 		clearAll();
@@ -551,6 +559,22 @@ public class ProductFrame extends JInternalFrame implements ActionListener, Mous
 		model.setValueAt(qtd_.getText(), table.getSelectedRow(), 4);
 		model.setValueAt(combo.getSelectedItem().toString(), table.getSelectedRow(), 5);
 		model.setValueAt(preco_.getText(), table.getSelectedRow(), 6);
+
+		String nome = nome_.getText();
+		Provider fornecedor = UserUtility.active_user.findProvider(combo.getSelectedItem().toString());
+		String id = codigo_.getText();
+		int qtd = Integer.parseInt(qtd_.getText());
+		int stk = Integer.parseInt(stockMinimo_.getText());
+		double preco = Double.parseDouble(preco_.getText());
+		Storage armazem = UserUtility.active_user.findStorage(armazem_.getSelectedItem().toString());
+
+		Product produto = armazem.getProduto(id);
+		produto.setQuantidade(qtd);
+		produto.setStock_minimo(stk);
+		produto.setNome(nome);
+		produto.setArmazem(armazem);
+		produto.setFornecedor(fornecedor);
+		update();
 	}
 
 	public void clearAll() {
@@ -592,6 +616,7 @@ public class ProductFrame extends JInternalFrame implements ActionListener, Mous
 	public void mouseClicked(MouseEvent arg0) {
 		if (arg0.getSource().equals(table)) {
 			Vector vector = model.getDataVector().elementAt(table.getSelectedRow());
+			codigo_.setText("" + vector.get(0));
 			nome_.setText("" + vector.get(1));
 			stockMinimo_.setText("" + vector.get(2));
 			armazem_.setSelectedItem("" + vector.get(3));

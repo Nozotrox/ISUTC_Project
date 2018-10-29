@@ -48,6 +48,30 @@ public class Storage implements DataList, Serializable {
 		return false;
 	}
 
+	public boolean verificar_existencia(String produto) {
+
+		for (Product pro : this.produtos) {
+			if (pro.getNome().equals(produto)) {
+				return true;
+			}
+		}
+
+		return false;
+	}
+
+	public boolean verificar_existencia(Double price) {
+
+		for (Product pro : this.produtos) {
+			if (pro.getPreco() == price){
+				return true;
+			}
+		}
+
+		return false;
+	}
+
+
+
 	public Product getProduto(String id){
 
 		for (Product pro : this.produtos) {
@@ -55,6 +79,17 @@ public class Storage implements DataList, Serializable {
 				return pro;
 			}
 		}
+		return null;
+	}
+
+	public Product getProduto(String nome, Double preco){
+
+		for (Product pro : this.produtos) {
+			if (pro.getPreco() == preco && pro.getNome().equals(nome)){
+				return pro;
+			}
+		}
+
 		return null;
 	}
 

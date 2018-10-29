@@ -427,6 +427,7 @@ public class SalesMenuFrame extends JInternalFrame implements ActionListener, Mo
 
         double preco = UserUtility.active_user.findStorage(this.data.get(row)[3]).getProduto(this.codigo_.getText()).getPreco();
         this.preco.setText(String.valueOf(preco));
+        this.vender.setEnabled(false);
 
 
     }
