@@ -15,6 +15,7 @@ public class User implements Serializable {
 
     private Vector<Provider> fornecedores = new Vector();
     private Vector<Storage> armazens = new Vector();
+    private Vector<String[]> vendas = new Vector();
 
 
     public User(String name, String password){
@@ -30,7 +31,6 @@ public class User implements Serializable {
     }
 
     //::>> GETTERS AND SETTERS
-
 
     public void setProvider_id_gen(int provider_id_gen) {
         this.provider_id_gen = provider_id_gen;
@@ -79,6 +79,9 @@ public class User implements Serializable {
 
     //:::>> HELPER METHODS
 
+    public void adicionar_venda(String[] venda){
+        this.vendas.add(venda);
+    }
     public void adicionar_fornecedor(Provider fornecedor){
         this.fornecedores.add(fornecedor);
     }

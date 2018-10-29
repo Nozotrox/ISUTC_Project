@@ -1,16 +1,30 @@
 package Screens;
 
-import java.awt.*;
+import java.awt.BorderLayout;
+import java.awt.Color;
+import java.awt.FlowLayout;
+import java.awt.Font;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.MouseEvent;
+import java.awt.event.MouseListener;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.util.Vector;
 
-import javax.swing.*;
-import javax.swing.border.Border;
+import javax.swing.BorderFactory;
+import javax.swing.JButton;
+import javax.swing.JCheckBox;
+import javax.swing.JInternalFrame;
+import javax.swing.JLabel;
+import javax.swing.JOptionPane;
+import javax.swing.JPanel;
+import javax.swing.JScrollPane;
+import javax.swing.JTable;
+import javax.swing.JTextField;
+import javax.swing.ListSelectionModel;
 import javax.swing.table.DefaultTableModel;
 
 import Main.Authentication;
@@ -18,18 +32,17 @@ import Main.ID_Gen;
 import Main.UserUtility;
 import Main_Classes.Provider;
 
-
 /**
  * Created by MSI on 16-Oct-18.
  *
  */
-public class ProviderFrame extends JInternalFrame implements ActionListener {
+public class ProviderFrame extends JInternalFrame implements ActionListener, MouseListener {
 
 	JTable table;
 
 	JTextField getTxtNome, getTxtNr;
 
-	JButton btnPesquisar, btnActualizar, btnGravar;
+	JButton btnPesquisar, btnActualizar, btnGravar, btnNovo;
 
 	JTextField nuit_, nome_, codigo_;
 
@@ -39,50 +52,41 @@ public class ProviderFrame extends JInternalFrame implements ActionListener {
 	JButton save;
 	String[] columnNames;
 
-	String user="null";
-
 	static DefaultTableModel model;
 
-	//::>> Vamos decidir se livramo-nos disto
-	public void trash_code(){
+	// ::>> Vamos decidir se livramo-nos disto
+	public void trash_code() {
 
-		/*setTitle("Fornecedores");
-		setSize(800, 500);
-		setLayout(new BorderLayout());
-
-		// Data to be displayed in the JTable
-		String[][] data = null;
-
-		// Column Names
-		columnNames = new String[] { "Codigo", "Nome", "Nuit" };
-
-		// Layout //
-
-		JPanel north = new JPanel(new FlowLayout(FlowLayout.CENTER));
-		JLabel label = new JLabel("Tela de Registo de Fornecedores");
-		label.setFont(new Font("Century Gothic", Font.BOLD, 14));
-		north.add(label);
-
-		model = new DefaultTableModel(data, columnNames) {
-			@Override
-			public boolean isCellEditable(int row, int column) {
-				// TODO Auto-generated method stub
-				return false;
-			}
-		};
-
-		table = new JTable(model);
-		JPanel table_layout = new JPanel(new BorderLayout());
-		JScrollPane scroll = new JScrollPane(table);
-
-		table_layout.add("North", table.getTableHeader());
-		table_layout.add("Center", scroll);
-
-		JPanel pnCenter = new JPanel(new GridLayout(2, 1));
-
-		JPanel pnUpSide = new JPanel(new GridLayout(1, 2));
-
-		JPanel pn = new JPanel(new BorderLayout());*/
+		/*
+		 * setTitle("Fornecedores"); setSize(800, 500); setLayout(new BorderLayout());
+		 *
+		 * // Data to be displayed in the JTable String[][] data = null;
+		 *
+		 * // Column Names columnNames = new String[] { "Codigo", "Nome", "Nuit" };
+		 *
+		 * // Layout //
+		 *
+		 * JPanel north = new JPanel(new FlowLayout(FlowLayout.CENTER)); JLabel label =
+		 * new JLabel("Tela de Registo de Fornecedores"); label.setFont(new
+		 * Font("Century Gothic", Font.BOLD, 14)); north.add(label);
+		 *
+		 * model = new DefaultTableModel(data, columnNames) {
+		 *
+		 * @Override public boolean isCellEditable(int row, int column) { // TODO
+		 * Auto-generated method stub return false; } };
+		 *
+		 * table = new JTable(model); JPanel table_layout = new JPanel(new
+		 * BorderLayout()); JScrollPane scroll = new JScrollPane(table);
+		 *
+		 * table_layout.add("North", table.getTableHeader()); table_layout.add("Center",
+		 * scroll);
+		 *
+		 * JPanel pnCenter = new JPanel(new GridLayout(2, 1));
+		 *
+		 * JPanel pnUpSide = new JPanel(new GridLayout(1, 2));
+		 *
+		 * JPanel pn = new JPanel(new BorderLayout());
+		 */
 
 		///// /////
 
@@ -90,106 +94,93 @@ public class ProviderFrame extends JInternalFrame implements ActionListener {
 		pcenter.setLayout(new FlowLayout(FlowLayout.CENTER, 30, 30));
 
 		// Left Side
-		/*JPanel pLeft = new JPanel();
-		pLeft.setLayout(new GridLayout(6, 1));*/
+		/*
+		 * JPanel pLeft = new JPanel(); pLeft.setLayout(new GridLayout(6, 1));
+		 */
 
-		//::>> Last Code
-		/*pLeft.add(new JLabel("Codigo: "));
-		pLeft.add(new JLabel(""));
-		pLeft.add(new JLabel("Nome: "));
-		pLeft.add(new JLabel(""));
-		pLeft.add(new JLabel("Nuit: "));
-		pLeft.add(new JLabel(""));
-*/
+		// ::>> Last Code
+		/*
+		 * pLeft.add(new JLabel("Codigo: ")); pLeft.add(new JLabel("")); pLeft.add(new
+		 * JLabel("Nome: ")); pLeft.add(new JLabel("")); pLeft.add(new
+		 * JLabel("Nuit: ")); pLeft.add(new JLabel(""));
+		 */
 		// Right Side
 		JPanel pRight = new JPanel();
 		pRight.setLayout(new FlowLayout(FlowLayout.LEFT));
 
-		/*nuit_ = new JTextField(12);
-
-		// username_.setBorder(BorderFactory.createMatteBorder(0, 0, 1, 0, Color.GRAY));
-
-		// password_.setBorder(BorderFactory.createMatteBorder(0, 0, 1, 0, Color.GRAY));
-
-		nome_ = new JTextField(12);
-		// nome_.setBorder(BorderFactory.createMatteBorder(0, 0, 1, 0, Color.GRAY));
-
-		codigo_ = new JTextField(5);
-		codigo_.setText(ID_Gen.nextId());
-		codigo_.setEnabled(false);
-
-		JPanel aux = new JPanel(new FlowLayout());
-		pRight.add(new JLabel("Codgio: "));
-		pRight.add(codigo_);
-		pRight.add(new JLabel("Nome: "));
-		pRight.add(nome_);
-		pRight.add(new JLabel("Nuit: "));
-		pRight.add(nuit_);
-
-
-		JPanel pbtn = new JPanel();
-		pbtn.setLayout(new FlowLayout(FlowLayout.RIGHT));
-
-		// Button Save #Gravar
-		save = new JButton("Gravar");
-		save.setBorder(null);
-		save.setBackground(Color.LIGHT_GRAY);
-		save.setBorder(BorderFactory.createMatteBorder(5, 20, 5, 20, Color.LIGHT_GRAY));
-		save.addActionListener(this);
-
-		// Button Cancel
-		update_ = new JButton("Actualizar");
-		update_.setBackground(Color.GRAY);
-		update_.setBorder(BorderFactory.createMatteBorder(5, 10, 5, 10, Color.GRAY));
-		update_.addActionListener(this);
-
-
-		*//*pbtn.add(save);
-		pbtn.add(update_);*//*
-
-//		pcenter.add(pLeft);
-		pcenter.add(pRight);
-
-		///// /////
-
-		pn.add("Center", pcenter);
-		pn.add("North", pRight);
-
-		pnUpSide.add(pn);
-
-		pnUpSide.add(new JLabel(""));
-
-		JPanel pnBottonSide = new JPanel(new BorderLayout());
-
-		JPanel banner = new JPanel(new FlowLayout(FlowLayout.LEFT, 15, 25));
-
-		getTxtNome = new JTextField(15);
-		getTxtNr = new JTextField(15);
-		btnPesquisar = new JButton("Procurar");
-		btnPesquisar.addActionListener(this);
-
-		banner.add(new JLabel("Codigo: "));
-		banner.add(getTxtNr);
-		banner.add(new JLabel("Nome:"));
-		banner.add(getTxtNome);
-		banner.add(btnPesquisar);
-
-		pnBottonSide.add("North", banner);
-		pnBottonSide.add("Center", table_layout);
-
-		pnCenter.add(pnUpSide);
-		pnCenter.add(pnBottonSide);
-
-		add("North", north);
-		add("Center", pnCenter);
-		read();*/
+		/*
+		 * nuit_ = new JTextField(12);
+		 *
+		 * // username_.setBorder(BorderFactory.createMatteBorder(0, 0, 1, 0,
+		 * Color.GRAY));
+		 *
+		 * // password_.setBorder(BorderFactory.createMatteBorder(0, 0, 1, 0,
+		 * Color.GRAY));
+		 *
+		 * nome_ = new JTextField(12); //
+		 * nome_.setBorder(BorderFactory.createMatteBorder(0, 0, 1, 0, Color.GRAY));
+		 *
+		 * codigo_ = new JTextField(5); codigo_.setText(ID_Gen.nextId());
+		 * codigo_.setEnabled(false);
+		 *
+		 * JPanel aux = new JPanel(new FlowLayout()); pRight.add(new
+		 * JLabel("Codgio: ")); pRight.add(codigo_); pRight.add(new JLabel("Nome: "));
+		 * pRight.add(nome_); pRight.add(new JLabel("Nuit: ")); pRight.add(nuit_);
+		 *
+		 *
+		 * JPanel pbtn = new JPanel(); pbtn.setLayout(new FlowLayout(FlowLayout.RIGHT));
+		 *
+		 * // Button Save #Gravar save = new JButton("Gravar"); save.setBorder(null);
+		 * save.setBackground(Color.LIGHT_GRAY);
+		 * save.setBorder(BorderFactory.createMatteBorder(5, 20, 5, 20,
+		 * Color.LIGHT_GRAY)); save.addActionListener(this);
+		 *
+		 * // Button Cancel update_ = new JButton("Actualizar");
+		 * update_.setBackground(Color.GRAY);
+		 * update_.setBorder(BorderFactory.createMatteBorder(5, 10, 5, 10, Color.GRAY));
+		 * update_.addActionListener(this);
+		 *
+		 *
+		 *//*
+			 * pbtn.add(save); pbtn.add(update_);
+			 *//*
+				 *
+				 * // pcenter.add(pLeft); pcenter.add(pRight);
+				 *
+				 * ///// /////
+				 *
+				 * pn.add("Center", pcenter); pn.add("North", pRight);
+				 *
+				 * pnUpSide.add(pn);
+				 *
+				 * pnUpSide.add(new JLabel(""));
+				 *
+				 * JPanel pnBottonSide = new JPanel(new BorderLayout());
+				 *
+				 * JPanel banner = new JPanel(new FlowLayout(FlowLayout.LEFT, 15, 25));
+				 *
+				 * getTxtNome = new JTextField(15); getTxtNr = new JTextField(15); btnPesquisar
+				 * = new JButton("Procurar"); btnPesquisar.addActionListener(this);
+				 *
+				 * banner.add(new JLabel("Codigo: ")); banner.add(getTxtNr); banner.add(new
+				 * JLabel("Nome:")); banner.add(getTxtNome); banner.add(btnPesquisar);
+				 *
+				 * pnBottonSide.add("North", banner); pnBottonSide.add("Center", table_layout);
+				 *
+				 * pnCenter.add(pnUpSide); pnCenter.add(pnBottonSide);
+				 *
+				 * add("North", north); add("Center", pnCenter); read();
+				 */
 
 	}
 
-	public ProviderFrame(String u){ user = u; build_ui();}
+	public ProviderFrame() {
 
-	public void build_ui(){
+		build_ui();
 
+	}
+
+	public void build_ui() {
 
 		setTitle("Fornecedores");
 		setSize(800, 300);
@@ -214,14 +205,13 @@ public class ProviderFrame extends JInternalFrame implements ActionListener {
 			}
 		};
 
-		/*Layout da tabela*/
+		/* Layout da tabela */
 		table = new JTable(model);
+		table.addMouseListener(this);
 		JPanel table_layout = new JPanel(new BorderLayout());
 		JScrollPane scroll = new JScrollPane(table);
 		table_layout.add("North", table.getTableHeader());
 		table_layout.add("Center", scroll);
-
-
 
 		/* Inicializacao de variaveis */
 		nuit_ = new JTextField(12);
@@ -238,6 +228,10 @@ public class ProviderFrame extends JInternalFrame implements ActionListener {
 		update_ = new JButton("Actualizar");
 		update_.addActionListener(this);
 
+		// Button de Edit
+		btnNovo = new JButton("Edit");
+		btnNovo.addActionListener(this);
+
 		// Check Box
 		por_codigo = new JCheckBox("Por Codigo");
 		por_codigo.addActionListener(this);
@@ -248,20 +242,17 @@ public class ProviderFrame extends JInternalFrame implements ActionListener {
 		btnPesquisar = new JButton("Procurar");
 		btnPesquisar.addActionListener(this);
 
-
-
 		/* Construcao de Layout */
 
-		//::>> Cabecalho
+		// ::>> Cabecalho
 		JPanel topo = new JPanel(new BorderLayout());
 		JPanel banner = new JPanel(new FlowLayout(FlowLayout.CENTER));
 		JPanel dados_entrada = new JPanel(new FlowLayout(FlowLayout.CENTER, 0, 20));
 		JPanel pesquisa_container = new JPanel(new BorderLayout());
-		JPanel pesquisa_elements = new JPanel(new FlowLayout(FlowLayout.CENTER, 0,20));
+		JPanel pesquisa_elements = new JPanel(new FlowLayout(FlowLayout.CENTER, 0, 20));
 
-
-		dados_entrada.setBorder(BorderFactory.createTitledBorder(BorderFactory.createLineBorder(Color.LIGHT_GRAY,1 ,true),"Dados:"));
-
+		dados_entrada.setBorder(
+				BorderFactory.createTitledBorder(BorderFactory.createLineBorder(Color.LIGHT_GRAY, 1, true), "Dados:"));
 
 		banner.add(label);
 
@@ -273,12 +264,12 @@ public class ProviderFrame extends JInternalFrame implements ActionListener {
 		dados_entrada.add(nuit_);
 		dados_entrada.add(save);
 		dados_entrada.add(update_);
+		dados_entrada.add(btnNovo);
 
 		topo.add("North", banner);
 		topo.add("South", dados_entrada);
 
-
-		pesquisa_elements.add(new JLabel("Codigo: " ));
+		pesquisa_elements.add(new JLabel("Codigo: "));
 		pesquisa_elements.add(getTxtNr);
 		pesquisa_elements.add(new JLabel("Nome: "));
 		pesquisa_elements.add(getTxtNome);
@@ -287,24 +278,17 @@ public class ProviderFrame extends JInternalFrame implements ActionListener {
 
 		pesquisa_container.add(pesquisa_elements);
 
-		pesquisa_container.setBorder(BorderFactory.createTitledBorder(BorderFactory.createLineBorder(Color.LIGHT_GRAY, 1, true),"Pesquisa:"));
+		pesquisa_container.setBorder(BorderFactory
+				.createTitledBorder(BorderFactory.createLineBorder(Color.LIGHT_GRAY, 1, true), "Pesquisa:"));
 
-		//::>> Centro
+		// ::>> Centro
 		this.add("North", topo);
 		this.add("Center", pesquisa_container);
 		this.add("South", table_layout);
 		this.pack();
-
+		table.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
 		read();
 
-
-	}
-
-
-	public void reportProvider(){
-		String save = user+" adicionou Fornecedor: "+nome_.getText();
-		ClassRelatorio cr = new ClassRelatorio();
-		cr.salvar_Relatorio(save);
 	}
 
 	@Override
@@ -315,8 +299,7 @@ public class ProviderFrame extends JInternalFrame implements ActionListener {
 			boolean continue_ = validade_search_inputs();
 
 			// ::>> Pesquisa
-
-			if ((!model.getDataVector().isEmpty() && !getTxtNome.getText().equals("") && continue_ )
+			if ((!model.getDataVector().isEmpty() && !getTxtNome.getText().equals("") && continue_)
 					|| (!model.getDataVector().isEmpty() && !getTxtNr.getText().equals(""))) {
 
 				if ((getTxtNome.getText() != null) && (!getTxtNome.getText().equals(""))) {
@@ -341,7 +324,7 @@ public class ProviderFrame extends JInternalFrame implements ActionListener {
 
 					for (Object vd : vasd) {
 						Vector vector = (Vector) vd;
-						model.addRow(new String[]{"" + vector.get(0), "" + vector.get(1), "" + vector.get(2)});
+						model.addRow(new String[] { "" + vector.get(0), "" + vector.get(1), "" + vector.get(2) });
 					}
 				} else if ((getTxtNr.getText() != null) || (!getTxtNr.getText().equals(""))) {
 					update();
@@ -364,7 +347,7 @@ public class ProviderFrame extends JInternalFrame implements ActionListener {
 
 					for (Object vd : vasd) {
 						Vector vector = (Vector) vd;
-						model.addRow(new String[]{"" + vector.get(0), "" + vector.get(1), "" + vector.get(2)});
+						model.addRow(new String[] { "" + vector.get(0), "" + vector.get(1), "" + vector.get(2) });
 					}
 					getTxtNome.setText("");
 					getTxtNr.setText("");
@@ -373,34 +356,37 @@ public class ProviderFrame extends JInternalFrame implements ActionListener {
 				getTxtNome.setText("");
 				getTxtNr.setText("");
 			}
-		}
-		else if (e.getSource().equals(save)) {
+		} else if (e.getSource().equals(save)) {
 
 			boolean continue_ = validate_inputs();
-			if(continue_) {
+			if (continue_) {
 
-				String[] a = {"" + codigo_.getText(), "" + nome_.getText(), "" + nuit_.getText()};
-				model.addRow(a);
-				Provider fornecedor = new Provider(nome_.getText(), nuit_.getText());
-				UserUtility.active_user.adicionar_fornecedor(fornecedor);
-				codigo_.setText(ID_Gen.nextProviderId());
-				write();
-				reportProvider();
+				String[] a = { "" + codigo_.getText(), "" + nome_.getText(), "" + nuit_.getText() };
+				if (nuitVerifier()) {
+					System.out.println("LOL");
+					JOptionPane.showMessageDialog(null, "Somebody with NUIT Exists!");
+				} else {
+					model.addRow(a);
+					Provider fornecedor = new Provider(nome_.getText(), nuit_.getText());
+					UserUtility.active_user.adicionar_fornecedor(fornecedor);
+					codigo_.setText(ID_Gen.nextProviderId());
+					write();
+				}
 			}
 
 		} else if (e.getSource().equals(update_)) {
 			update();
-		}
-		else if(e.getSource().equals(btnActualizar)){
+		} else if (e.getSource().equals(btnNovo)) {
+			dataSwitch();
+			write();
+		} else if (e.getSource().equals(btnActualizar)) {
 			update();
-		}
-		else if(e.getSource().equals(this.por_codigo)){
+		} else if (e.getSource().equals(this.por_codigo)) {
 
-			if(this.por_codigo.isSelected()){
+			if (this.por_codigo.isSelected()) {
 				this.getTxtNr.setEnabled(true);
 				this.getTxtNome.setEnabled(false);
-			}
-			else{
+			} else {
 				this.getTxtNr.setEnabled(false);
 				this.getTxtNome.setEnabled(true);
 			}
@@ -411,28 +397,27 @@ public class ProviderFrame extends JInternalFrame implements ActionListener {
 		Authentication.write();
 	}
 
-	public boolean validate_inputs(){
-		if(this.nome_.getText().trim().equals("") || this.nuit_.getText().trim().equals("")) {
+	public boolean validate_inputs() {
+		if (this.nome_.getText().trim().equals("") || this.nuit_.getText().trim().equals("")) {
 			JOptionPane.showMessageDialog(null, "Por favor preencher os campos com dados validos");
-			return  false;
+			return false;
 		}
 
-		try{
+		try {
 
 			long nuit = Integer.parseInt(this.nuit_.getText());
-		}
-		catch(NumberFormatException ex){
+		} catch (NumberFormatException ex) {
 			JOptionPane.showMessageDialog(null, "Preencher o campo de Nuit com dados validos: Numeros");
 			return false;
 		}
 		return true;
 	}
 
-	public boolean validade_search_inputs(){
+	public boolean validade_search_inputs() {
 
-		if(this.getTxtNr.getText().trim().equals("") && this.getTxtNome.getText().trim().equals("")) {
+		if (this.getTxtNr.getText().trim().equals("") && this.getTxtNome.getText().trim().equals("")) {
 			JOptionPane.showMessageDialog(null, "Por favor preencher os campos com dados validos!");
-			return  false;
+			return false;
 		}
 		return true;
 	}
@@ -477,13 +462,30 @@ public class ProviderFrame extends JInternalFrame implements ActionListener {
 		}
 	}
 
-	public void update(){
+	public void dataSwitch() {
+		model.setValueAt(nome_.getText(), table.getSelectedRow(), 1);
+		model.setValueAt(nuit_.getText(), table.getSelectedRow(), 2);
+	}
+
+	public boolean nuitVerifier() {
+		for (Object obj : model.getDataVector()) {
+			Vector vector = (Vector) obj;
+			for (Object object : vector) {
+				if (object.equals(nuit_.getText())) {
+					return true;
+				}
+			}
+		}
+		return false;
+	}
+
+	public void update() {
 		Vector vector = model.getDataVector();
 
 		String[][] allProviders = UserUtility.active_user.getAllProviders();
 		vector.clear();
 
-		for(String[] str: allProviders){
+		for (String[] str : allProviders) {
 			Vector<String> temp = new Vector();
 			temp.add(str[0]);
 			temp.add(str[1]);
@@ -491,6 +493,39 @@ public class ProviderFrame extends JInternalFrame implements ActionListener {
 			model.addRow(new String[] { "" + temp.get(0), "" + temp.get(1), "" + temp.get(2) });
 		}
 
+	}
+
+	@Override
+	public void mouseClicked(MouseEvent arg0) {
+		if (arg0.getSource().equals(table)) {
+			Vector vector = model.getDataVector().elementAt(table.getSelectedRow());
+			nome_.setText("" + vector.get(1));
+			nuit_.setText("" + vector.get(2));
+		}
+
+	}
+
+	@Override
+	public void mouseEntered(MouseEvent arg0) {
+		// TODO Auto-generated method stub
+
+	}
+
+	@Override
+	public void mouseExited(MouseEvent arg0) {
+		// TODO Auto-generated method stub
+
+	}
+
+	@Override
+	public void mousePressed(MouseEvent arg0) {
+		// TODO Auto-generated method stub
+
+	}
+
+	@Override
+	public void mouseReleased(MouseEvent arg0) {
+		// TODO Auto-generated method stub
 
 	}
 
