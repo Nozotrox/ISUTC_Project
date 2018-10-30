@@ -91,10 +91,8 @@ public class User implements Serializable {
 
     public void remover_fornecedor(Provider fornecedor){
 
-        for(Provider forn: this.fornecedores){
-            if(forn.getId().equals(fornecedor.getId())){
-                this.fornecedores.remove(forn);
-            }
+        if(this.fornecedores.contains(fornecedor)){
+            this.fornecedores.remove(fornecedor);
         }
 
     }

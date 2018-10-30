@@ -49,7 +49,7 @@ public class ProviderFrame extends JInternalFrame implements ActionListener, Mou
 	JCheckBox por_codigo;
 
 	JButton update_;
-	JButton save;
+	JButton save, remove;
 	String[] columnNames;
 
 	static DefaultTableModel model;
@@ -230,6 +230,9 @@ public class ProviderFrame extends JInternalFrame implements ActionListener, Mou
 		save = new JButton("Gravar");
 		save.addActionListener(this);
 
+		// BUtton Remove #Remover
+		remove = new JButton("Remover");
+		remove.addActionListener(this);
 		// Button Cancel
 		update_ = new JButton("Actualizar");
 		update_.addActionListener(this);
@@ -269,6 +272,7 @@ public class ProviderFrame extends JInternalFrame implements ActionListener, Mou
 		dados_entrada.add(new JLabel("Nuit: "));
 		dados_entrada.add(nuit_);
 		dados_entrada.add(save);
+		dados_entrada.add(remove);
 		dados_entrada.add(update_);
 		dados_entrada.add(btnNovo);
 
@@ -396,6 +400,14 @@ public class ProviderFrame extends JInternalFrame implements ActionListener, Mou
 				this.getTxtNr.setEnabled(false);
 				this.getTxtNome.setEnabled(true);
 			}
+		} else if (e.getSource().equals(this.remove)){
+
+			Provider prov = UserUtility.active_user.findProvider_c(this.codigo_.getText());
+			UserUtility.active_user.remover_fornecedor(prov);
+			int index = table.getSelectedRow();
+			model.removeRow(index);
+			update();
+			write();
 		}
 	}
 

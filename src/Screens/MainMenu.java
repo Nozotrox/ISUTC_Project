@@ -31,7 +31,7 @@ public class MainMenu extends JFrame implements ActionListener {
 	// MAIN MENU
 	private JDesktopPane desktopPane;
 	private JMenu isistema, isair, ihelp;
-	private JMenuItem isairLogout, isairExit, isistemaReport;
+	private JMenuItem isairLogout, isairExit, isistemaReport, report;
 	private JInternalFrame saleFrame, providerFrame;
 
 	private JButton btnArmazem, btnProdutos, btnFornecedores, btnVendas;
@@ -162,6 +162,9 @@ public class MainMenu extends JFrame implements ActionListener {
 		    isistema.setFont(new Font("Century Gothic", Font.PLAIN, 15));
 		isistemaReport = new JMenuItem("Histórico");
 		isistema.add(isistemaReport);
+		report = new JMenuItem("Relatorio");
+		isistema.add(report);
+		report.addActionListener(this);
 		isistemaReport.addActionListener(this);
 
 		isair = new JMenu("Sair");
@@ -340,6 +343,9 @@ public class MainMenu extends JFrame implements ActionListener {
 			this.dispose();
             new Authentication();
         }
+        else if(arg0.getSource().equals(report)){
+			new Report();
+		}
 
 
 	}

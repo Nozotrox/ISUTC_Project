@@ -16,16 +16,7 @@ import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 import java.util.Vector;
 
-import javax.swing.BorderFactory;
-import javax.swing.ImageIcon;
-import javax.swing.JButton;
-import javax.swing.JFrame;
-import javax.swing.JLabel;
-import javax.swing.JOptionPane;
-import javax.swing.JPanel;
-import javax.swing.JPasswordField;
-import javax.swing.JTextField;
-import javax.swing.UIManager;
+import javax.swing.*;
 import javax.swing.UIManager.LookAndFeelInfo;
 
 import Main_Classes.User;
@@ -53,11 +44,27 @@ public class Authentication extends JFrame implements ActionListener {
 	 */
 
 	public Authentication() {
+		try {
+			for (UIManager.LookAndFeelInfo info : UIManager.getInstalledLookAndFeels()) {
+				if ("Nimbus".equals(info.getName())) {
+					UIManager.setLookAndFeel(info.getClassName());
+					break;
+				}
+			}
+		} catch (IllegalAccessException e) {
+			e.printStackTrace();
+		} catch (InstantiationException e) {
+			e.printStackTrace();
+		} catch (UnsupportedLookAndFeelException e) {
+			e.printStackTrace();
+		} catch (ClassNotFoundException e) {
+			e.printStackTrace();
+		}
+
 		Authentication.read();
 		build_ui();
 	}
-
-	// ::>> UI METHODS
+		// ::>> UI METHODS
 	private void build_ui() {
 		this.setTitle("ifk > Login");
 		this.setSize(500, 350);
@@ -107,13 +114,13 @@ public class Authentication extends JFrame implements ActionListener {
 		pbtn.setLayout(new FlowLayout(5));
 		// Button OK
 		buttonOK = new JButton("OK");
-		buttonOK.setBorder(null);
-		buttonOK.setBackground(Color.LIGHT_GRAY);
-		buttonOK.setBorder(BorderFactory.createMatteBorder(5, 20, 5, 20, Color.LIGHT_GRAY));
+//		buttonOK.setBorder(null);
+//		buttonOK.setBackground(Color.LIGHT_GRAY);
+//		buttonOK.setBorder(BorderFactory.createMatteBorder(5, 20, 5, 20, Color.LIGHT_GRAY));
 		// Button Cancel
 		buttonCancel = new JButton("Cancel");
-		buttonCancel.setBackground(Color.GRAY);
-		buttonCancel.setBorder(BorderFactory.createMatteBorder(5, 10, 5, 10, Color.GRAY));
+//		buttonCancel.setBackground(Color.GRAY);
+//		buttonCancel.setBorder(BorderFactory.createMatteBorder(5, 10, 5, 10, Color.GRAY));
 
 		pbtn.add(buttonOK);
 		pbtn.add(buttonCancel);
@@ -129,8 +136,8 @@ public class Authentication extends JFrame implements ActionListener {
 		pBotton.setLayout(new FlowLayout(FlowLayout.CENTER, 0, 50));
 		// Button Registo
 		buttonRegisto = new JButton("Registo");
-		buttonRegisto.setBorder(null);
-		buttonRegisto.setBackground(Color.WHITE);
+//		buttonRegisto.setBorder(null);
+//		buttonRegisto.setBackground(Color.WHITE);
 		// buttonRegisto.setBorder(BorderFactory.createMatteBorder(1, 1, 1, 1,
 		// Color.black));
 		pBotton.add(buttonRegisto);
