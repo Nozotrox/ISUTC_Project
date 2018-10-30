@@ -23,6 +23,7 @@ import javax.swing.JTable;
 import javax.swing.JTextField;
 import javax.swing.table.DefaultTableModel;
 
+import Main.Authentication;
 import Main.ID_Gen;
 import Main.UserUtility;
 import Main_Classes.Storage;
@@ -300,6 +301,7 @@ public class StorageFrame extends JInternalFrame implements ActionListener, Mous
 				addToTable(store);
 				codigo_.setText(ID_Gen.nextStorageId());
 				clearAll();
+				Authentication.write();
 			}
 		}
 
@@ -323,7 +325,25 @@ public class StorageFrame extends JInternalFrame implements ActionListener, Mous
 	}
 
 	public void dataSwitch() {
-		model.setValueAt(tipo.getText(), table.getSelectedRow(), 1);
+		boolean switch_data = true;
+		if (this.tipo.getText().equals("") || this.tipo.getText().isEmpty()) {
+			JOptionPane.showMessageDialog(null, "Por favor preecher os campos com dados validos.");
+			switch_data = false;
+		}
+		for (Vector vector : model.getDataVector()) {
+			if (vector.get(1).equals(this.tipo.getText())) {
+				JOptionPane.showMessageDialog(null, "Existe um Armazem com esse Nome");
+				switch_data = false;
+			}
+		}
+
+		if(switch_data) {
+			model.setValueAt(tipo.getText(), table.getSelectedRow(), 1);
+			Storage armazem = UserUtility.active_user.findStorage_c(codigo_.getText());
+			armazem.setTipo(tipo.getText());
+			Authentication.write();
+		}
+
 	}
 
 	public void update() {
@@ -452,6 +472,7 @@ public class StorageFrame extends JInternalFrame implements ActionListener, Mous
 	public void mouseClicked(MouseEvent arg0) {
 		if (arg0.getSource().equals(table)) {
 			Vector vector = model.getDataVector().elementAt(table.getSelectedRow());
+			codigo_.setText("" +vector.get(0));
 			tipo.setText("" + vector.get(1));
 		}
 

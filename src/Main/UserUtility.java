@@ -51,4 +51,8 @@ public class UserUtility {
         }
         return null;
     }
+
+    //::>> Estatistica
+
+    public get
 }

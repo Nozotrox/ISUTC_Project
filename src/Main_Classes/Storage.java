@@ -93,6 +93,15 @@ public class Storage implements DataList, Serializable {
 		return null;
 	}
 
+	public int getQuantidadeProd(){
+		int sum = 0;
+		for(Product pro: this.produtos){
+			sum += pro.getQuantidade();
+		}
+
+		return sum;
+	}
+
 	public boolean adicionar_produtos(Product produto) {
 
 		if (verificar_existencia(produto)) {
@@ -110,7 +119,7 @@ public class Storage implements DataList, Serializable {
 	// ::>> Returns in this sequence {id, tipo, quantidade de produtos}
 	@Override
 	public String[] return_collection() {
-		String[] data_list = { this.id, this.tipo, String.valueOf(this.produtos.size()) };
+		String[] data_list = { this.id, this.tipo, String.valueOf(this.getQuantidadeProd()) };
 		return data_list;
 	}
 

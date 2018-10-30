@@ -136,6 +136,14 @@ public class User implements Serializable {
         }
         return null;
     }
+    public Storage findStorage_c(String code){
+        for(Storage store: armazens){
+            if(store.getId().equals(code)){
+                return store;
+            }
+        }
+        return null;
+    }
 
     public Provider findProvider(String nome){
         for(Provider provider: fornecedores){
@@ -145,6 +153,15 @@ public class User implements Serializable {
         }
         return null;
     }
+
+    public Provider findProvider_c(String code){
+            for(Provider provider: fornecedores){
+                if(provider.getId().equals(code)){
+                    return provider;
+                }
+            }
+            return null;
+        }
 
     public String[][] getAllStorages(){
         int parm_storage = 3;
