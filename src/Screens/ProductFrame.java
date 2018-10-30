@@ -545,6 +545,7 @@ public class ProductFrame extends JInternalFrame implements ActionListener, Mous
 		if(armazem.verificar_existencia(nome) && armazem.verificar_existencia(preco)){
 			Product produto = armazem.getProduto(nome, preco);
 			produto.setQuantidade(produto.getQuantidade() + qtd);
+			produto.setProd_s(produto.getProd_s() + qtd);
 			update();
 		}
 		else {

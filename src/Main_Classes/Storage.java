@@ -82,6 +82,10 @@ public class Storage implements DataList, Serializable {
 		return null;
 	}
 
+	public Vector<Product> getProdutos() {
+		return produtos;
+	}
+
 	public Product getProduto(String nome, Double preco){
 
 		for (Product pro : this.produtos) {

@@ -78,6 +78,10 @@ public class User implements Serializable {
 
     //:::>> HELPER METHODS
 
+    public Vector<String[]> getVendas() {
+        return vendas;
+    }
+
     public void adicionar_venda(String[] venda){
         this.vendas.add(venda);
     }
@@ -110,7 +114,7 @@ public class User implements Serializable {
 
     public Vector<Provider> getProvider(){return this.fornecedores;}
 
-    public Vector getStorage(){
+    public Vector<Storage> getStorage(){
         return this.armazens;
     }
 

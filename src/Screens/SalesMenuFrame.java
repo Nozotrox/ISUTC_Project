@@ -365,6 +365,7 @@ public class SalesMenuFrame extends JInternalFrame implements ActionListener, Mo
     public String gerar_recibo(){
 
         Calendar date = Calendar.getInstance();
+        String another = "";
         String str = ":::FACTURA:::\n" +
                 "\n" +
                 "    A negociar Como (Mocambique) LTD\n" +
@@ -384,9 +385,10 @@ public class SalesMenuFrame extends JInternalFrame implements ActionListener, Mo
                 "\n" +
                 "\n" +
                 "***************************************\n" +
-                "Produto                      Qtd    Preco\n";
+                another.format("%-29s %-8s %-13s\n", "Produto", "Qtd", "Preco");
+//                "Produto                      Qtd    Preco\n";
 
-        String another = "";
+
         Vector<String[]> t = this.this_instace_sales;
         String insert = "";
         for(int i = 0; i < t.size(); i++) {
