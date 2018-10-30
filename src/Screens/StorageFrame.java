@@ -220,6 +220,7 @@ public class StorageFrame extends JInternalFrame implements ActionListener, Mous
 			dataSwitch();
 		}
 		else if(e.getSource() == this.remove){
+
 			remove();
 		}
 	}
@@ -364,14 +365,18 @@ public class StorageFrame extends JInternalFrame implements ActionListener, Mous
 	public void remove() {
 		Storage store = UserUtility.active_user.findStorage_c(this.codigo_.getText());
 
-		String s = new String(user+" Removeu Armazém: "+store.getTipo());
-		cr.salvar_Relatorio(s);
-
-		int index = table.getSelectedRow();
-		model.removeRow(index);
-		UserUtility.active_user.remover_armazem(store);
-		update();
-		Authentication.write();
+		if (store.getQuantidadeProd() == 0) {
+			String s = new String(user + " Removeu Armazém: " + store.getTipo());
+			cr.salvar_Relatorio(s);
+			int index = table.getSelectedRow();
+			model.removeRow(index);
+			UserUtility.active_user.remover_armazem(store);
+			update();
+			Authentication.write();
+		}
+		else{
+			JOptionPane.showMessageDialog(null, "Armazem ainda contem produtos");
+		}
 
 
 	}
