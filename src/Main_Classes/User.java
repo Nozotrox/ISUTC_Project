@@ -82,10 +82,6 @@ public class User implements Serializable {
 
     //:::>> HELPER METHODS
 
-    public Vector<String[]> getVendas() {
-        return vendas;
-    }
-
     public void adicionar_venda(String[] venda){
         this.vendas.add(venda);
     }
