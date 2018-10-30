@@ -48,7 +48,13 @@ public class StorageFrame extends JInternalFrame implements ActionListener, Mous
 
 	JButton update_;
 	JButton save_;
+
+	String user;
+
+	ClassRelatorio cr = new ClassRelatorio();
+
 	private ImageIcon icon;
+
 
 	public void build_ui() {
 
@@ -284,6 +290,12 @@ public class StorageFrame extends JInternalFrame implements ActionListener, Mous
 
 	}
 
+	public StorageFrame(String u) {
+
+		user = u;
+		build_ui();
+	}
+
 	public StorageFrame() {
 		build_ui();
 	}
@@ -300,6 +312,9 @@ public class StorageFrame extends JInternalFrame implements ActionListener, Mous
 				addToTable(store);
 				codigo_.setText(ID_Gen.nextStorageId());
 				clearAll();
+
+				String s = new String(user+" adicionou Fornecedor: "+nome_.getText());
+				cr.salvar_Relatorio(s);
 			}
 		}
 

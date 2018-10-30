@@ -60,6 +60,10 @@ public class User implements Serializable {
         return name;
     }
 
+    public Vector<String[]> getVendas(){
+        return this.vendas;
+    }
+
     public void setName(String name) {
         this.name = name;
     }

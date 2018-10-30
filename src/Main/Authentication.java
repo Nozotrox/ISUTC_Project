@@ -223,7 +223,7 @@ public class Authentication extends JFrame implements ActionListener {
 		} catch (Exception e) {
 			JOptionPane.showMessageDialog(null, "Display couldn't be Loaded");
 		}*/
-//		 new Splash();
+		new Splash();
 		new Authentication();
 	}
 

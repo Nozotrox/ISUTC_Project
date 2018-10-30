@@ -52,6 +52,9 @@ public class ProviderFrame extends JInternalFrame implements ActionListener, Mou
 	JButton save;
 	String[] columnNames;
 
+	String user;
+	ClassRelatorio cr = new ClassRelatorio();
+
 	static DefaultTableModel model;
 
 	// ::>> Vamos decidir se livramo-nos disto
@@ -174,8 +177,8 @@ public class ProviderFrame extends JInternalFrame implements ActionListener, Mou
 
 	}
 
-	public ProviderFrame(String user) {
-
+	public ProviderFrame(String u) {
+		user = u;
 		build_ui();
 
 	}
@@ -377,6 +380,9 @@ public class ProviderFrame extends JInternalFrame implements ActionListener, Mou
 					UserUtility.active_user.adicionar_fornecedor(fornecedor);
 					codigo_.setText(ID_Gen.nextProviderId());
 					write();
+
+					String s = new String(user+" Adicionou Fornecedor: "+nome_.getText());
+					cr.salvar_Relatorio(s);
 				}
 			}
 
