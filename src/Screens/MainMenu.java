@@ -125,7 +125,7 @@ public class MainMenu extends JFrame implements ActionListener {
 	private void buildReport(){
 
 		if(!reportFrame.isVisible()) {
-			reportFrame = new ReportFrame();
+//			reportFrame = new ReportFrame();
 			reportFrame.setResizable(true);
 			reportFrame.setMaximizable(true);
 			reportFrame.setIconifiable(true);
@@ -201,7 +201,7 @@ public class MainMenu extends JFrame implements ActionListener {
 
 		panel.setBackground(menuColor);
 
-		icon = new ImageIcon("ISUTC_Project\\img\\icon\\sotage.png");
+		icon = new ImageIcon("img\\icon\\sotage.png");
 		btnArmazem = new JButton(icon);
 		btnArmazem.setBackground(menuColor);
 		btnArmazem.addActionListener(this);
@@ -210,20 +210,20 @@ public class MainMenu extends JFrame implements ActionListener {
 
 
 
-		icon = new ImageIcon("ISUTC_Project\\img\\icon\\product.png");
+		icon = new ImageIcon("img\\icon\\product.png");
 		btnProdutos = new JButton(icon);
 		btnProdutos.setBackground(menuColor);
 		btnProdutos.addActionListener(this);
 		btnProdutos.setBorder(BorderFactory.createMatteBorder(7, 7, 7, 7, menuColor));
 
 
-		icon = new ImageIcon("ISUTC_Project\\img\\icon\\provider.png");
+		icon = new ImageIcon("img\\icon\\provider.png");
 		btnFornecedores = new JButton(icon);
 		btnFornecedores.setBackground(menuColor);
 		btnFornecedores.addActionListener(this);
 		btnFornecedores.setBorder(BorderFactory.createMatteBorder(7, 7, 7, 7, menuColor));
 
-		icon = new ImageIcon("ISUTC_Project\\img\\icon\\sale.png");
+		icon = new ImageIcon("img\\icon\\sale.png");
 		btnVendas = new JButton(icon);
 		btnVendas.setBackground(menuColor);
 		btnVendas.addActionListener(this);
@@ -279,7 +279,7 @@ public class MainMenu extends JFrame implements ActionListener {
 			public Dimension getPreferredSize() {
 				// BACKGROUND 2 VEZES
 				return new Dimension(new ImageIcon("img\\bg.jpg").getIconWidth(),
-						new ImageIcon("ISUTC_Project\\img\\bg.jpg").getIconHeight());
+						new ImageIcon("img\\bg.jpg").getIconHeight());
 			}
 		};
 

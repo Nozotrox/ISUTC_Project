@@ -33,6 +33,7 @@ import Main.UserUtility;
 import Main_Classes.Product;
 import Main_Classes.Provider;
 import Main_Classes.Storage;
+import Main_Classes.User;
 
 /**
  *
@@ -231,7 +232,7 @@ public class ProductFrame extends JInternalFrame implements ActionListener, Mous
 		update.addActionListener(this);
 		this.btnPesquisar = new JButton("Pesquisar");
 		this.btnPesquisar.addActionListener(this);
-		btnNovo = new JButton("Teste");
+		btnNovo = new JButton("Editar");
 		btnNovo.addActionListener(this);
 
 		setColumnSizes();
@@ -324,26 +325,17 @@ public class ProductFrame extends JInternalFrame implements ActionListener, Mous
 				int stockMin = Integer.parseInt(stockMinimo_.getText());
 				int quantidade = Integer.parseInt(qtd_.getText());
 
-				if (stockMin <= 0 || quantidade <= 0) {
-					toSave = false;
+				if(stockMin > quantidade){
+					JOptionPane.showMessageDialog(null, "::::Aviso!::::\nQuantidade menor que o stock minimo");
 				}
-
-				else if (armazem_.getSelectedIndex() == 0) {
-					toSave = false;
-
-				} else if (combo.getSelectedIndex() == 0) {
-					toSave = false;
-				} else {
-					toSave = true;
-				}
+				toSave = validation();
 
 				if (toSave) {
 					save();
-					// verify_again = false;
 				}
 
 			} catch (IllegalArgumentException ex) {
-				JOptionPane.showMessageDialog(null, "Insira um Dado valido");
+				JOptionPane.showMessageDialog(null, "Insira Dados validos");
 			}
 
 		} else if (arg0.getSource().equals(update)) {
@@ -358,6 +350,7 @@ public class ProductFrame extends JInternalFrame implements ActionListener, Mous
 			}
 		} else if (arg0.getSource().equals(btnNovo)) {
 			dataSwitch();
+			Authentication.write();
 		}
 
 		else if (arg0.getSource().equals(this.btnPesquisar)) {
@@ -395,6 +388,28 @@ public class ProductFrame extends JInternalFrame implements ActionListener, Mous
 
 	}
 
+	public boolean validation(){
+		int stockMin = Integer.parseInt(stockMinimo_.getText());
+		int quantidade = Integer.parseInt(qtd_.getText());
+		double preco = Double.parseDouble(preco_.getText());
+
+		if (stockMin < 0 || quantidade <= 0 || preco < 0) {
+			JOptionPane.showMessageDialog(null, "Atencao, valores Negativos ou iguais a Zero(0).");
+			return false;
+		}
+
+		else if (armazem_.getSelectedIndex() == 0 || combo.getSelectedIndex() == 0) {
+			JOptionPane.showMessageDialog(null, "Selecione um Armazem e um Forncecedor antes de gravar.");
+			return false;
+
+		} else if (preco == 0) {
+			JOptionPane.showMessageDialog(null, "Preco inserido igual a zero(0).");
+			return false;
+		} else {
+			return true;
+		}
+	}
+
 	public void search_by_param(String param, int type) {
 		update();
 		Vector vasd = new Vector<>();
@@ -406,7 +421,6 @@ public class ProductFrame extends JInternalFrame implements ActionListener, Mous
 
 				for (Vector object : model.getDataVector()) {
 					Vector vector = object;
-
 					if (object.get(4).equals(param)) {
 						vasd.add(vector);
 					}
@@ -420,8 +434,7 @@ public class ProductFrame extends JInternalFrame implements ActionListener, Mous
 
 				for (Vector object : model.getDataVector()) {
 					Vector vector = object;
-
-					if (object.get(5).equals(param)) {
+					if (object.get(2).equals(param)) {
 						vasd.add(vector);
 					}
 
@@ -435,36 +448,36 @@ public class ProductFrame extends JInternalFrame implements ActionListener, Mous
 
 				for (Vector object : model.getDataVector()) {
 					Vector vector = object;
-
 					if (object.get(1).equals(param)) {
 						vasd.add(vector);
 					}
 
 				}
+				break;
 			}
 
 			case 3: {
 
 				for (Vector object : model.getDataVector()) {
 					Vector vector = object;
-
-					if (object.get(2).equals(param)) {
+					if (object.get(5).equals(param)) {
 						vasd.add(vector);
 					}
 
 				}
+				break;
 			}
 
 			case 4: {
 
 				for (Vector object : model.getDataVector()) {
 					Vector vector = object;
-
 					if (object.get(3).equals(param)) {
 						vasd.add(vector);
 					}
 
 				}
+				break;
 			}
 
 			}
@@ -529,15 +542,22 @@ public class ProductFrame extends JInternalFrame implements ActionListener, Mous
 		double preco = Double.parseDouble(preco_.getText());
 		Storage armazem = UserUtility.active_user.findStorage(armazem_.getSelectedItem().toString());
 
-		Product produto = new Product(nome, fornecedor, armazem, qtd, stk, preco);
+		if(armazem.verificar_existencia(nome) && armazem.verificar_existencia(preco)){
+			Product produto = armazem.getProduto(nome, preco);
+			produto.setQuantidade(produto.getQuantidade() + qtd);
+			produto.setProd_s(produto.getProd_s() + qtd);
+			update();
+		}
+		else {
+			Product produto = new Product(nome, fornecedor, armazem, qtd, stk, preco);
 
-		armazem.adicionar_produtos(produto);
+			armazem.adicionar_produtos(produto);
 
-		model.addRow(new String[] { "" + codigo_.getText(), "" + nome_.getText(), "" + stockMinimo_.getText(),
-				"" + armazem_.getSelectedItem().toString(), "" + qtd_.getText(),
-				"" + combo.getSelectedItem().toString(), "" + preco_.getText() });
-
+			model.addRow(new String[]{"" + codigo_.getText(), "" + nome_.getText(), "" + stockMinimo_.getText(),
+					"" + armazem_.getSelectedItem().toString(), "" + qtd_.getText(),
+					"" + combo.getSelectedItem().toString(), "" + preco_.getText()});
 		codigo_.setText(ID_Gen.nextId());
+		}
 
 		Authentication.write();
 		clearAll();
@@ -551,6 +571,24 @@ public class ProductFrame extends JInternalFrame implements ActionListener, Mous
 		model.setValueAt(qtd_.getText(), table.getSelectedRow(), 4);
 		model.setValueAt(combo.getSelectedItem().toString(), table.getSelectedRow(), 5);
 		model.setValueAt(preco_.getText(), table.getSelectedRow(), 6);
+
+		if(validation()) {
+			String nome = nome_.getText();
+			Provider fornecedor = UserUtility.active_user.findProvider(combo.getSelectedItem().toString());
+			String id = codigo_.getText();
+			int qtd = Integer.parseInt(qtd_.getText());
+			int stk = Integer.parseInt(stockMinimo_.getText());
+			double preco = Double.parseDouble(preco_.getText());
+			Storage armazem = UserUtility.active_user.findStorage(armazem_.getSelectedItem().toString());
+
+			Product produto = armazem.getProduto(id);
+			produto.setQuantidade(qtd);
+			produto.setStock_minimo(stk);
+			produto.setNome(nome);
+			produto.setArmazem(armazem);
+			produto.setFornecedor(fornecedor);
+			update();
+		}
 	}
 
 	public void clearAll() {
@@ -592,6 +630,7 @@ public class ProductFrame extends JInternalFrame implements ActionListener, Mous
 	public void mouseClicked(MouseEvent arg0) {
 		if (arg0.getSource().equals(table)) {
 			Vector vector = model.getDataVector().elementAt(table.getSelectedRow());
+			codigo_.setText("" + vector.get(0));
 			nome_.setText("" + vector.get(1));
 			stockMinimo_.setText("" + vector.get(2));
 			armazem_.setSelectedItem("" + vector.get(3));
@@ -600,6 +639,7 @@ public class ProductFrame extends JInternalFrame implements ActionListener, Mous
 			preco_.setText("" + vector.get(6));
 		}
 	}
+
 
 	@Override
 	public void mouseEntered(MouseEvent arg0) {

@@ -48,6 +48,30 @@ public class Storage implements DataList, Serializable {
 		return false;
 	}
 
+	public boolean verificar_existencia(String produto) {
+
+		for (Product pro : this.produtos) {
+			if (pro.getNome().equals(produto)) {
+				return true;
+			}
+		}
+
+		return false;
+	}
+
+	public boolean verificar_existencia(Double price) {
+
+		for (Product pro : this.produtos) {
+			if (pro.getPreco() == price){
+				return true;
+			}
+		}
+
+		return false;
+	}
+
+
+
 	public Product getProduto(String id){
 
 		for (Product pro : this.produtos) {
@@ -56,6 +80,30 @@ public class Storage implements DataList, Serializable {
 			}
 		}
 		return null;
+	}
+
+	public Vector<Product> getProdutos() {
+		return produtos;
+	}
+
+	public Product getProduto(String nome, Double preco){
+
+		for (Product pro : this.produtos) {
+			if (pro.getPreco() == preco && pro.getNome().equals(nome)){
+				return pro;
+			}
+		}
+
+		return null;
+	}
+
+	public int getQuantidadeProd(){
+		int sum = 0;
+		for(Product pro: this.produtos){
+			sum += pro.getQuantidade();
+		}
+
+		return sum;
 	}
 
 	public boolean adicionar_produtos(Product produto) {
@@ -75,7 +123,7 @@ public class Storage implements DataList, Serializable {
 	// ::>> Returns in this sequence {id, tipo, quantidade de produtos}
 	@Override
 	public String[] return_collection() {
-		String[] data_list = { this.id, this.tipo, String.valueOf(this.produtos.size()) };
+		String[] data_list = { this.id, this.tipo, String.valueOf(this.getQuantidadeProd()) };
 		return data_list;
 	}
 

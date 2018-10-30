@@ -390,7 +390,7 @@ public class ProviderFrame extends JInternalFrame implements ActionListener, Mou
 			update();
 		} else if (e.getSource().equals(btnNovo)) {
 			dataSwitch();
-			write();
+
 		} else if (e.getSource().equals(btnActualizar)) {
 			update();
 		} else if (e.getSource().equals(this.por_codigo)) {
@@ -412,6 +412,10 @@ public class ProviderFrame extends JInternalFrame implements ActionListener, Mou
 	public boolean validate_inputs() {
 		if (this.nome_.getText().trim().equals("") || this.nuit_.getText().trim().equals("")) {
 			JOptionPane.showMessageDialog(null, "Por favor preencher os campos com dados validos");
+			return false;
+		}
+		else if(this.nuit_.getText().length() != 9){
+			JOptionPane.showMessageDialog(null, "Nuit Invalido! Nuit deve possuir 9 Numeros");
 			return false;
 		}
 
@@ -477,6 +481,20 @@ public class ProviderFrame extends JInternalFrame implements ActionListener, Mou
 	public void dataSwitch() {
 		model.setValueAt(nome_.getText(), table.getSelectedRow(), 1);
 		model.setValueAt(nuit_.getText(), table.getSelectedRow(), 2);
+
+		if (this.nome_.getText().trim().equals("") || this.nuit_.getText().trim().equals("")) {
+			JOptionPane.showMessageDialog(null, "Por favor preencher os campos com dados validos");
+
+		}
+		else if(this.nuit_.getText().length() != 9){
+			JOptionPane.showMessageDialog(null, "Nuit Invalido! Nuit deve possuir 9 Numeros");
+
+		}else {
+			Provider fornecedor = UserUtility.active_user.findProvider_c(codigo_.getText());
+			fornecedor.setNome(nome_.getText());
+			fornecedor.setNuit(nuit_.getText());
+			Authentication.write();
+		}
 	}
 
 	public boolean nuitVerifier() {
@@ -511,6 +529,7 @@ public class ProviderFrame extends JInternalFrame implements ActionListener, Mou
 	public void mouseClicked(MouseEvent arg0) {
 		if (arg0.getSource().equals(table)) {
 			Vector vector = model.getDataVector().elementAt(table.getSelectedRow());
+			codigo_.setText("" + vector.get(0));
 			nome_.setText("" + vector.get(1));
 			nuit_.setText("" + vector.get(2));
 		}

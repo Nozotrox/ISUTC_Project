@@ -1,7 +1,6 @@
 package Main_Classes;
 
 import java.io.Serializable;
-import java.util.Iterator;
 import java.util.Vector;
 
 public class User implements Serializable {
@@ -83,6 +82,10 @@ public class User implements Serializable {
 
     //:::>> HELPER METHODS
 
+    public Vector<String[]> getVendas() {
+        return vendas;
+    }
+
     public void adicionar_venda(String[] venda){
         this.vendas.add(venda);
     }
@@ -113,7 +116,9 @@ public class User implements Serializable {
         }
     }
 
-    public Vector getStorage(){
+    public Vector<Provider> getProvider(){return this.fornecedores;}
+
+    public Vector<Storage> getStorage(){
         return this.armazens;
     }
 
@@ -139,6 +144,14 @@ public class User implements Serializable {
         }
         return null;
     }
+    public Storage findStorage_c(String code){
+        for(Storage store: armazens){
+            if(store.getId().equals(code)){
+                return store;
+            }
+        }
+        return null;
+    }
 
     public Provider findProvider(String nome){
         for(Provider provider: fornecedores){
@@ -148,6 +161,15 @@ public class User implements Serializable {
         }
         return null;
     }
+
+    public Provider findProvider_c(String code){
+            for(Provider provider: fornecedores){
+                if(provider.getId().equals(code)){
+                    return provider;
+                }
+            }
+            return null;
+        }
 
     public String[][] getAllStorages(){
         int parm_storage = 3;

@@ -25,7 +25,6 @@ public class Provider implements DataList, Serializable {
     }
 
     public String getNome() {
-
         return nome;
     }
 
