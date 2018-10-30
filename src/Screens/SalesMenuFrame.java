@@ -28,6 +28,9 @@ public class SalesMenuFrame extends JInternalFrame implements ActionListener, Mo
     JPanel tablePanel;
     String[] columnsNames;
     Vector<String[]> data = new Vector();
+    String user;
+
+    ClassRelatorio cr = new ClassRelatorio();
 
     private JTextField codigo_, stockMinimo_, qtd_, nome_, qtd_venda, preco, taxes, total;
     private JComboBox armazem_;
@@ -37,6 +40,10 @@ public class SalesMenuFrame extends JInternalFrame implements ActionListener, Mo
     private Vector<String[]> this_instace_sales = new Vector();
 
 
+    public SalesMenuFrame(String u){
+        user = u;
+        build_ui();
+    }
     public SalesMenuFrame(){
         build_ui();
     }
@@ -44,7 +51,7 @@ public class SalesMenuFrame extends JInternalFrame implements ActionListener, Mo
     public void build_ui(){
 
         setLocation(0,0);
-        this.setTitle("Produtos");
+        this.setTitle("Vendas");
         tablePanel = new JPanel();
         tablePanel.setLayout(new BorderLayout(0, 0));
         this.setLayout(new BorderLayout(0, 0));
@@ -226,6 +233,10 @@ public class SalesMenuFrame extends JInternalFrame implements ActionListener, Mo
         String iva = this.taxes.getText();
 
         String[] venda = {data, hora, produto, qtd, preco, iva};
+
+        String s = new String(user+" Vendeu: "+venda[2]+" Quant="+venda[3]);
+        cr.salvar_Relatorio(s);
+
         this.this_instace_sales.add(venda);
         String recipe = gerar_recibo();
         FacturaFrame facturaFrame = new FacturaFrame(recipe);

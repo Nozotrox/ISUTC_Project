@@ -18,9 +18,14 @@ public class saleFrame extends JFrame implements ActionListener {
     JButton cancel;
     JButton sign_up;
 
-    //String user;
+    String user;
 
     private ImageIcon icon;
+
+    public saleFrame(String u){
+        user = u;
+        build_ui();
+    }
 
     public saleFrame(){
         build_ui();
@@ -38,7 +43,7 @@ public class saleFrame extends JFrame implements ActionListener {
         JPanel pcenter = new JPanel();
         pcenter.setBackground(Color.white);
         pcenter.setLayout(new FlowLayout(FlowLayout.CENTER, 10, 30));
-        icon = new ImageIcon("img/addUser.png");
+        icon = new ImageIcon("ISUTC_Product/img/addUser.png");
         JLabel title = new JLabel(icon);
         title.setFont(new Font("AriaL", Font.BOLD, 25));
         pcenter.add(title);

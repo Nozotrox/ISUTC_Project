@@ -414,6 +414,8 @@ public class ProviderFrame extends JInternalFrame implements ActionListener, Mou
 
 	public void remove(){
 		Provider prov = UserUtility.active_user.findProvider_c(this.codigo_.getText());
+		String s = new String(user+" Removeu Fornecedor: "+prov.getNome());
+		cr.salvar_Relatorio(s);
 		UserUtility.active_user.remover_fornecedor(prov);
 		int index = table.getSelectedRow();
 		model.removeRow(index);

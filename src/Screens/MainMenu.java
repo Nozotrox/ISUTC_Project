@@ -33,7 +33,7 @@ public class MainMenu extends JFrame implements ActionListener {
 	// MAIN MENU
 	private JDesktopPane desktopPane;
 	private JMenu isistema, isair;
-	private JMenuItem isairLogout, isairExit, isistemaReport, report,ihelp;
+	private JMenuItem isairLogout, isairExit, isistemaReport, report, ihelp;
 	private JInternalFrame saleFrame, providerFrame;
 
 	private JButton btnArmazem, btnProdutos, btnFornecedores, btnVendas;
@@ -56,7 +56,7 @@ public class MainMenu extends JFrame implements ActionListener {
 	private void buildStorage() {
 
 		if(storageFrame == null || !storageFrame.isVisible()) {
-			storageFrame = new StorageFrame();
+			storageFrame = new StorageFrame(user);
 			storageFrame.setResizable(true);
 			storageFrame.setMaximizable(true);
 			storageFrame.setIconifiable(true);
@@ -72,7 +72,7 @@ public class MainMenu extends JFrame implements ActionListener {
 
 	private void buildProduct() {
 		if(!productFrame.isVisible() ) {
-			productFrame = new ProductFrame();
+			productFrame = new ProductFrame(user);
 			productFrame.setResizable(true);
 			productFrame.setMaximizable(true);
 			productFrame.setIconifiable(true);
@@ -89,7 +89,7 @@ public class MainMenu extends JFrame implements ActionListener {
 
 	private void buildSales() {
 		if(salesFrame == null || !salesFrame.isVisible()) {
-			salesFrame = new SalesMenuFrame();
+			salesFrame = new SalesMenuFrame(user);
 			salesFrame.setResizable(true);
 			salesFrame.setMaximizable(true);
 			salesFrame.setIconifiable(true);
@@ -125,7 +125,7 @@ public class MainMenu extends JFrame implements ActionListener {
 	private void buildReport(){
 
 		if(!reportFrame.isVisible()) {
-//			reportFrame = new ReportFrame();
+			reportFrame = new ReportFrame();
 			reportFrame.setResizable(true);
 			reportFrame.setMaximizable(true);
 			reportFrame.setIconifiable(true);

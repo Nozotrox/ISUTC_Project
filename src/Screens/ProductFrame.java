@@ -50,6 +50,7 @@ public class ProductFrame extends JInternalFrame implements ActionListener, Mous
 	JScrollPane sp;
 	JPanel tablePanel;
 	String[] columnsNames;
+	String user;
 
 	private JTextField codigo_, stockMinimo_, qtd_, nome_, preco_;
 	private JComboBox armazem_;
@@ -59,115 +60,15 @@ public class ProductFrame extends JInternalFrame implements ActionListener, Mous
 	private ButtonGroup checkBoxes;
 	private boolean verify_again = true;
 
+	ClassRelatorio cr = new ClassRelatorio();
+
+	public ProductFrame(String u){
+		user = u;
+		build_ui();
+	}
 	public ProductFrame() {
 		build_ui();
-
 	}
-
-	// ::>> We can rollBack
-	public void trashCOde() {
-
-		/*
-		 * setLocation(0,0); setLayout(new GridLayout(2, 1)); tablePanel = new JPanel();
-		 * setSize(900, 600); tablePanel.setLayout(new BorderLayout(0, 0));
-		 * 
-		 * columnsNames = new String[] { "Codigo", "Armazem", "Stock Minimo",
-		 * "Quantidade", "Nome", "Fornecedor" }; model = new DefaultTableModel(null,
-		 * columnsNames) {
-		 * 
-		 * @Override public boolean isCellEditable(int row, int column) { // TODO
-		 * Auto-generated method stub return false; } };
-		 * 
-		 * table = new JTable(model); table.setFillsViewportHeight(true);
-		 * table.sizeColumnsToFit(1); populate_table();
-		 * 
-		 * sp = new JScrollPane(table);
-		 * 
-		 * tablePanel.add("North", table.getTableHeader()); tablePanel.add("Center",
-		 * sp);
-		 * 
-		 * combo = new JComboBox<>(); combo.addItem("Escolha uma Opcao               ");
-		 * 
-		 * JPanel upper = new JPanel();
-		 * 
-		 * upper.setLayout(new GridLayout(1, 2, 0, 0));
-		 * 
-		 *//*
-			 * upRight = new JPanel(); upRight.setLayout(new FlowLayout(FlowLayout.CENTER,
-			 * 40, 10)); upRight.add(new JLabel("Codigo"));
-			 * 
-			 * //::>>> Set up de Codigo codigo_ = new JTextField(20);
-			 * codigo_.setEnabled(false); codigo_.setText(ID_Gen.nextId());
-			 * 
-			 * upRight.add(codigo_); upRight.add(new JLabel("Armazem")); armazem_ = new
-			 * JTextField(20); upRight.add(armazem_); upRight.add(new
-			 * JLabel("Stock Minimo")); stockMinimo_ = new JTextField(20);
-			 * upRight.add(stockMinimo_); upRight.add(new JLabel("Quantidade")); qtd_ = new
-			 * JTextField(20); upRight.add(qtd_); upRight.add(new JLabel("Nome")); nome_ =
-			 * new JTextField(20); upRight.add(nome_); upRight.add(new
-			 * JLabel("Fornecedor"));
-			 *//*
-				 * 
-				 * upRight = new JPanel(new GridLayout(7, 1, 5, 5));
-				 * 
-				 * //::>> Setup Codigo codigo_ = new JTextField(20); codigo_.setEnabled(false);
-				 * codigo_.setText(ID_Gen.nextId());
-				 * 
-				 * JPanel code = new JPanel(new FlowLayout(FlowLayout.LEFT)); code.add(new
-				 * JLabel("Codigo                  ")); code.add(codigo_);
-				 * 
-				 * 
-				 * //::>> Setup Armazem armazem_ = new JComboBox(new
-				 * String[]{"Escolha o Armazem"}); JPanel storage = new JPanel(new
-				 * FlowLayout(FlowLayout.LEFT)); storage.add(new
-				 * JLabel("Armazem             ")); storage.add(armazem_);
-				 * 
-				 * 
-				 * //::>> Setup Stock Minimo stockMinimo_ = new JTextField(20); JPanel stock =
-				 * new JPanel(new FlowLayout(FlowLayout.LEFT)); stock.add(new
-				 * JLabel("Stock Minimo      ")); stock.add(stockMinimo_);
-				 * 
-				 * 
-				 * //::>> Setup Quantidade qtd_ = new JTextField(20); JPanel qtd = new
-				 * JPanel(new FlowLayout(FlowLayout.LEFT)); qtd.add(new
-				 * JLabel("Quantidade:         ")); qtd.add(qtd_);
-				 * 
-				 * 
-				 * //::>> Setup NOme nome_ = new JTextField(20); JPanel name = new JPanel(new
-				 * FlowLayout(FlowLayout.LEFT)); name.add(new
-				 * JLabel("Nome:                   ")); name.add(nome_);
-				 * 
-				 * //::>> Setup Fornecedor JPanel provider = new JPanel(new
-				 * FlowLayout(FlowLayout.LEFT)); provider.add(new
-				 * JLabel("Fornecedor:         ")); provider.add(combo);
-				 * 
-				 * fillComboBox(); //::>> Setup Space JPanel space = new JPanel(); space.add(new
-				 * JLabel(" "));
-				 * 
-				 * upRight.add(code); upRight.add(storage); upRight.add(stock);
-				 * upRight.add(qtd); upRight.add(name); upRight.add(provider);
-				 * upRight.add(space);
-				 * 
-				 * upper.add(upRight);
-				 * 
-				 * upLeft = new JPanel(); upLeft.setLayout(new FlowLayout(FlowLayout.CENTER));
-				 * save = new JButton("Gravar  "); save.addActionListener(this); update = new
-				 * JButton("Actualizar"); update.addActionListener(this); upLeft.add(save);
-				 * upLeft.add(update);
-				 * 
-				 * setColumnSizes();
-				 * 
-				 * 
-				 * upper.add(upLeft);
-				 * 
-				 * add(upper); add(tablePanel);
-				 */
-	}
-	//
-	// public static void main(String[] args) {
-	// new ProductFrame().setVisible(true);
-	// }
-
 	public void build_ui() {
 
 		setLocation(0, 0);
@@ -558,6 +459,9 @@ public class ProductFrame extends JInternalFrame implements ActionListener, Mous
 					"" + combo.getSelectedItem().toString(), "" + preco_.getText()});
 		codigo_.setText(ID_Gen.nextId());
 		}
+
+		String s = new String(user+" Adicionou Produto: Código="+codigo_.getText()+" Nome="+nome_.getText());
+		cr.salvar_Relatorio(s);
 
 		Authentication.write();
 		clearAll();

@@ -22,8 +22,9 @@ public class ReportFrame extends JInternalFrame implements ActionListener{
         setTitle("Histórico");
         setSize(800, 300);
         setLayout(new BorderLayout());
+        report.setFont(new Font("Cambria", Font.PLAIN, 17));
         report.setEditable(false);
-        report.setEnabled(false);
+        report.setForeground(Color.black);
 
         JPanel pn = new JPanel();
 
