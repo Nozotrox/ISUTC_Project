@@ -26,6 +26,7 @@ import javax.swing.table.DefaultTableModel;
 import Main.Authentication;
 import Main.ID_Gen;
 import Main.UserUtility;
+import Main_Classes.Provider;
 import Main_Classes.Storage;
 
 /**
@@ -37,7 +38,7 @@ public class StorageFrame extends JInternalFrame implements ActionListener, Mous
 
 	JTextField getTxtNome, getTxtNr;
 
-	JButton btnPesquisar, btnActualizar, btnGravar, btnNovo;
+	JButton btnPesquisar, btnActualizar, btnGravar, btnNovo, remove;
 
 	DefaultTableModel model;
 
@@ -119,6 +120,8 @@ public class StorageFrame extends JInternalFrame implements ActionListener, Mous
 		getTxtNr = new JTextField(15);
 		getTxtNr.setEnabled(false);
 		btnPesquisar = new JButton("Procurar");
+		remove = new JButton("Remover");
+		remove.addActionListener(this);
 		btnPesquisar.addActionListener(this);
 
 		/* Layout */
@@ -139,6 +142,7 @@ public class StorageFrame extends JInternalFrame implements ActionListener, Mous
 		data_input.add(save_);
 		data_input.add(update_);
 		data_input.add(btnNovo);
+		data_input.add(remove);
 
 		searchPane.add(new JLabel("Codigo: "));
 		searchPane.add(this.getTxtNr);
@@ -321,6 +325,9 @@ public class StorageFrame extends JInternalFrame implements ActionListener, Mous
 		} else if (e.getSource() == this.btnNovo) {
 			dataSwitch();
 		}
+		else if(e.getSource() == this.remove){
+			remove();
+		}
 	}
 
 	public void dataSwitch() {
@@ -460,10 +467,21 @@ public class StorageFrame extends JInternalFrame implements ActionListener, Mous
 		}
 	}
 
+	public void remove() {
+		Storage store = UserUtility.active_user.findStorage_c(this.codigo_.getText());
+		int index = table.getSelectedRow();
+		model.removeRow(index);
+		UserUtility.active_user.remover_armazem(store);
+		update();
+		Authentication.write();
+	}
+
+
 	@Override
 	public void mouseClicked(MouseEvent arg0) {
 		if (arg0.getSource().equals(table)) {
 			Vector vector = model.getDataVector().elementAt(table.getSelectedRow());
+			this.codigo_.setText("" + vector.get(0));
 			tipo.setText("" + vector.get(1));
 		}
 

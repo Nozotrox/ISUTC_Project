@@ -32,8 +32,8 @@ public class MainMenu extends JFrame implements ActionListener {
 
 	// MAIN MENU
 	private JDesktopPane desktopPane;
-	private JMenu isistema, isair, ihelp;
-	private JMenuItem isairLogout, isairExit, isistemaReport, report;
+	private JMenu isistema, isair;
+	private JMenuItem isairLogout, isairExit, isistemaReport, report,ihelp;
 	private JInternalFrame saleFrame, providerFrame;
 
 	private JButton btnArmazem, btnProdutos, btnFornecedores, btnVendas;

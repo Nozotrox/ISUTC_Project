@@ -407,14 +407,18 @@ public class ProviderFrame extends JInternalFrame implements ActionListener, Mou
 				this.getTxtNome.setEnabled(true);
 			}
 		} else if (e.getSource().equals(this.remove)){
+				remove();
 
-			Provider prov = UserUtility.active_user.findProvider_c(this.codigo_.getText());
-			UserUtility.active_user.remover_fornecedor(prov);
-			int index = table.getSelectedRow();
-			model.removeRow(index);
-			update();
-			write();
 		}
+	}
+
+	public void remove(){
+		Provider prov = UserUtility.active_user.findProvider_c(this.codigo_.getText());
+		UserUtility.active_user.remover_fornecedor(prov);
+		int index = table.getSelectedRow();
+		model.removeRow(index);
+		update();
+		write();
 	}
 
 	public void write() {
