@@ -59,6 +59,10 @@ public class User implements Serializable {
         return name;
     }
 
+    public Vector<String[]> getVendas(){
+        return this.vendas;
+    }
+
     public void setName(String name) {
         this.name = name;
     }
@@ -77,10 +81,6 @@ public class User implements Serializable {
     //::>> CLOSURE
 
     //:::>> HELPER METHODS
-
-    public Vector<String[]> getVendas() {
-        return vendas;
-    }
 
     public void adicionar_venda(String[] venda){
         this.vendas.add(venda);

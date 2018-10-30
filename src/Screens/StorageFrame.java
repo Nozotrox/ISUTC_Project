@@ -301,7 +301,6 @@ public class StorageFrame extends JInternalFrame implements ActionListener, Mous
 				addToTable(store);
 				codigo_.setText(ID_Gen.nextStorageId());
 				clearAll();
-				Authentication.write();
 			}
 		}
 
@@ -379,15 +378,8 @@ public class StorageFrame extends JInternalFrame implements ActionListener, Mous
 		String nome = tipo.getText().trim();
 
 		if (nome.equals("") || nome.isEmpty()) {
-
 			JOptionPane.showMessageDialog(null, "Por favor preecher os campos com dados validos.");
 			return false;
-		}
-		for (Vector vector : model.getDataVector()) {
-			if (vector.get(1).equals(nome)) {
-				JOptionPane.showMessageDialog(null, "Existe um Armazem com esse Nome");
-				return false;
-			}
 		}
 
 		return true;
@@ -472,7 +464,6 @@ public class StorageFrame extends JInternalFrame implements ActionListener, Mous
 	public void mouseClicked(MouseEvent arg0) {
 		if (arg0.getSource().equals(table)) {
 			Vector vector = model.getDataVector().elementAt(table.getSelectedRow());
-			codigo_.setText("" +vector.get(0));
 			tipo.setText("" + vector.get(1));
 		}
 

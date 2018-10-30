@@ -4,10 +4,11 @@ import Main.Authentication;
 import Main_Classes.ClockTimer;
 
 import java.awt.*;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
+import java.awt.event.*;
 
 import javax.swing.*;
+import java.io.File;
+import java.security.Key;
 import java.text.SimpleDateFormat;
 import java.time.LocalDate;
 import java.util.Calendar;
@@ -15,16 +16,17 @@ import java.util.Calendar;
 import java.lang.Object;
 import java.time.Clock;
 
-/**
- * @author MSI
- *
- */
+///
 
-/**
- *
- * LEMBRETE URGENTE SENAO BUG LEMBREM-SE DE ADICIONAR UM BACKGROUND
- *
- */
+import java.io.File;
+import java.awt.BorderLayout;
+import java.awt.Button;
+import java.awt.Desktop;
+import java.awt.FlowLayout;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+import javax.swing.JFrame;
+import javax.swing.JPanel;
 
 public class MainMenu extends JFrame implements ActionListener {
 
@@ -160,35 +162,41 @@ public class MainMenu extends JFrame implements ActionListener {
 
 		isistema = new JMenu("Sistema");
 		    isistema.setFont(new Font("Century Gothic", Font.PLAIN, 15));
+		    isistema.setMnemonic(KeyEvent.VK_S);
 		isistemaReport = new JMenuItem("Histórico");
 		isistema.add(isistemaReport);
 		report = new JMenuItem("Relatorio");
 		isistema.add(report);
 		report.addActionListener(this);
 		isistemaReport.addActionListener(this);
+		isistema.add(isistemaReport);
 
-		isair = new JMenu("Sair");
-		    isair.setFont(new Font("Century Gothic", Font.PLAIN, 15));
-		isairLogout = new JMenuItem("Log Out");
-		    isairLogout.addActionListener(this);
-		isairExit = new JMenuItem("Fechar");
-		isairExit.addActionListener(this);
-		isair.add(isairLogout);
+			isair = new JMenu("Sair");
+			isairLogout = new JMenuItem("Log Out");
+				isairLogout.addActionListener(this);
+			isairExit = new JMenuItem("Fechar");
+			isairExit.setMnemonic(KeyEvent.VK_F);
+			isairExit.addActionListener(this);
+			isair.add(isairLogout);
+			isair.add(isairExit);
 
+			isairLogout.addActionListener(this);
+			isairExit.addActionListener(this);
 
-		isairLogout.addActionListener(this);
-		isairExit.addActionListener(this);
-
+		isistema.addSeparator();
+		isistema.add(isair);
 
 		isair.add(isairExit);
 
-		ihelp = new JMenu("HELP");
+
+		ihelp = new JMenuItem("Ajuda");
 		    ihelp.setFont(new Font("Century Gothic", Font.PLAIN, 15));
+		    ihelp.setMnemonic(KeyEvent.VK_A);
 		ihelp.addActionListener(this);
 
 		menuBar.add(isistema);
 		menuBar.add(ihelp);
-		menuBar.add(isair);
+
 
 		menuBar.setBackground(Color.white);
 
@@ -335,6 +343,16 @@ public class MainMenu extends JFrame implements ActionListener {
 		}
 		else if(arg0.getSource().equals(isistemaReport)){
 			buildReport();
+		}
+		else if(arg0.getSource().equals(ihelp)){
+			try{
+				File file = new File("ISUTC_Project\\src\\hi.html");
+				Desktop.getDesktop().browse(file.toURI());
+			}
+			catch(Exception ex){
+				ex.printStackTrace();
+			}
+
 		}
 		else if (arg0.getSource().equals(btnArmazem)) {
 			buildStorage();

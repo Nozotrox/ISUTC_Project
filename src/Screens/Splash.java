@@ -42,13 +42,13 @@ public class Splash extends JFrame {
 			@Override
 			public Dimension getPreferredSize() {
 				// BACKGROUND 2 VEZES
-				return new Dimension(new ImageIcon("img\\bg.jpg").getIconWidth(),
+				return new Dimension(new ImageIcon("ISUTC_Project\\img\\bg.jpg").getIconWidth(),
 						new ImageIcon("ISUTC_Project\\img\\bg.jpg").getIconHeight());
 			}
 		};
 		add("Center", aux);
 		add("South", progressBar);
-		setSize(new ImageIcon("img\\bg.jpg").getIconWidth() - 500, new ImageIcon("img\\bg.jpg").getIconHeight() - 500);
+		setSize(new ImageIcon("ISUTC_Project\\img\\bg.jpg").getIconWidth() - 500, new ImageIcon("ISUTC_Project\\img\\bg.jpg").getIconHeight() - 500);
 		setUndecorated(true);
 		setLocationRelativeTo(null);
 		setVisible(true);
@@ -77,7 +77,7 @@ public class Splash extends JFrame {
 	@Override
 	public Dimension getPreferredSize() {
 		// BACKGROUND 2 VEZES
-		return new Dimension(new ImageIcon("img\\bg.jpg").getIconWidth(),
+		return new Dimension(new ImageIcon("ISUTC_Project\\img\\bg.jpg").getIconWidth(),
 				new ImageIcon("ISUTC_Project\\img\\bg.jpg").getIconHeight());
 	}
 
